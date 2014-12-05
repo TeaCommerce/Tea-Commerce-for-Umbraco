@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EDE2CB42-B6C5-4D39-9B29-6B4D64529E35}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TeaCommerce.Umbraco.Install</RootNamespace>
+    <AssemblyName>TeaCommerce.Umbraco.Install</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>false</DebugSymbols>
+    <DocumentationFile>
+    </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="businesslogic">
+      <HintPath>..\Lib\Umbraco\businesslogic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="cms">
+      <HintPath>..\Lib\Umbraco\cms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="interfaces">
+      <HintPath>..\Lib\Umbraco\interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="TeaCommerce.Api, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Tea Commerce\TeaCommerce.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="Umbraco.Core, Version=1.0.5206.24609, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Umbraco\Umbraco.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.DataLayer">
+      <HintPath>..\Lib\Umbraco\umbraco.DataLayer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="package.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <EmbeddedResource Include="Content\Resources\da.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Resources\se.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Content\Razor\email-template-payment-inconsistency.cshtml.default" />
+    <None Include="Content\Razor\email-template-confirmation.cshtml.default" />
+    <None Include="Content\Razor\edit-order.cshtml.default" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PackageActions\AddCustomSection.cs" />
+    <Compile Include="PackageActions\AddTree.cs" />
+    <Compile Include="PackageActions\AMergeXmlFile.cs" />
+    <Compile Include="PackageActions\CreateDataTypeDefinition.cs" />
+    <Compile Include="PackageActions\GrantPermissions.cs" />
+    <Compile Include="PackageActions\MergeLanguageFile.cs" />
+    <Compile Include="PackageActions\MergeUIFile.cs" />
+    <Compile Include="PackageActions\MoveMergeXmlFile.cs" />
+    <Compile Include="PackageActions\TeaAddDashboardSection.cs" />
+    <Compile Include="PackageActions\TeaCommerceInstaller.cs" />
+    <Compile Include="PackageActions\TeaMoveFile.cs" />
+    <Compile Include="PackageActions\TeaRemoveOldInstallation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\XML\UI.xml" />
+    <EmbeddedResource Include="Content\Resources\en.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

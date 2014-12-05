@@ -1,0 +1,12 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="UmbracoTabView.master.cs"
+  Inherits="TeaCommerce.Umbraco.Application.Views.Shared.UmbracoTabView"
+  MasterPageFile="~/Umbraco/Masterpages/umbracoPage.Master" %>
+
+<%@ Register Assembly="controls" Namespace="umbraco.uicontrols" TagPrefix="umbUIControls" %>
+<asp:Content ContentPlaceHolderID="head" runat="server">
+  <asp:ContentPlaceHolder ID="CphHead" runat="server" />
+</asp:Content>
+<asp:Content ContentPlaceHolderID="body" runat="server">
+  <umbUIControls:TabView ID="TabViewControl" runat="server" Width="15px" />
+  <asp:ContentPlaceHolder ID="CphBody" runat="server" />
+</asp:Content>

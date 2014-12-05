@@ -1,0 +1,76 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="JavaScriptMinify">
+
+  <!-- IMPORTS -->
+  <PropertyGroup>
+    <MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\Tools\MSBuild community tasks</MSBuildCommunityTasksPath>
+	<JsCssMinificationTasksPath>$(MSBuildProjectDirectory)\Tools\MSBuild Minifier</JsCssMinificationTasksPath>
+  </PropertyGroup>
+  
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
+  <Import Project="$(JsCssMinificationTasksPath)\JsCssMinification.targets" />
+  
+  <!-- PROPERTIES -->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<SourceDir>..\Source</SourceDir>
+	<LibDir>..\Source\Lib</LibDir>
+	<PublishDir>Publish</PublishDir>
+  </PropertyGroup>
+  
+  <!-- COMPILE -->
+  <Target Name="Compile">
+    <ItemGroup>
+      <ProjectsToBuild Include="$(SourceDir)\TeaCommerce.Umbraco*\*proj" />
+    </ItemGroup>
+    <MSBuild Targets="Rebuild" Projects="@(ProjectsToBuild)" Properties="Configuration=$(Configuration);" />
+  </Target>
+  
+  <!-- CLEAN -->
+  <Target Name="Clean" DependsOnTargets="Compile">
+    <ItemGroup>
+      <FilesToRemove Include="$(PublishDir)\**\*.*" />
+	  <DirectoriesToRemove Include="$(PublishDir)\bin;$(PublishDir)\umbraco;$(PublishDir)\App_Plugins" />
+    </ItemGroup>
+    <RemoveDir Directories="@(DirectoriesToRemove)" />
+	<Delete Files="@(FilesToRemove)" />
+  </Target>
+  
+  <Target Name="CopyFiles" DependsOnTargets="Clean">
+    <ItemGroup>
+	  <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.Application\bin\$(Configuration)\TeaCommerce.Umbraco*.dll" />
+	  <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.Configuration\bin\$(Configuration)\TeaCommerce.Umbraco*.dll" />
+	  <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.Install\bin\$(Configuration)\TeaCommerce.Umbraco*.dll" />
+	  <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.Web\bin\$(Configuration)\TeaCommerce.Umbraco*.dll" />
+	  <BinFiles Include="$(LibDir)\Tea Commerce\*.dll" />
+	  <BinFiles Include="$(LibDir)\Tea Commerce payment providers\*.dll" />
+	  
+	  <Resources Include="$(SourceDir)\TeaCommerce.Umbraco.Application\bin\$(Configuration)\**\TeaCommerce.Umbraco.Application.resources.dll" />
+	  <Views Include="$(SourceDir)\TeaCommerce.Umbraco.Application\Views\**\*.ascx;$(SourceDir)\TeaCommerce.Umbraco.Application\Views\**\*.aspx;$(SourceDir)\TeaCommerce.Umbraco.Application\Views\**\*.Master" />
+	  <PropertyEditors Include="$(SourceDir)\TeaCommerce.Umbraco.Application\PropertyEditors\*" />
+	  <Marketing Include="$(SourceDir)\TeaCommerce.Umbraco.Application\Marketing\**\*.*" />
+	  <MacroScripts Include="$(SourceDir)\TeaCommerce.Umbraco.Install\Content\Razor\*.default" />
+    </ItemGroup>
+	
+	<Copy SourceFiles="@(BinFiles)" DestinationFolder="$(PublishDir)\bin\%(RecursiveDir)" />
+	<Copy SourceFiles="@(Resources)" DestinationFolder="$(PublishDir)\bin\%(RecursiveDir)" />
+	<Copy SourceFiles="@(Views)" DestinationFolder="$(PublishDir)\App_Plugins\TeaCommerce\Views\%(RecursiveDir)" />
+	<Copy SourceFiles="@(Marketing)" DestinationFolder="$(PublishDir)\App_Plugins\TeaCommerce\Marketing\%(RecursiveDir)" />
+	<Copy SourceFiles="$(LibDir)\Tea Commerce\tea-commerce.js" DestinationFolder="$(PublishDir)\App_Plugins\TeaCommerce\Assets\Scripts" />
+	<Copy SourceFiles="@(MacroScripts)" DestinationFolder="$(PublishDir)\MacroScripts\tea-commerce" />
+	<Copy SourceFiles="$(SourceDir)\TeaCommerce.Umbraco.Application\package.manifest" DestinationFolder="$(PublishDir)\App_Plugins\TeaCommerce" />
+	<Copy SourceFiles="@(PropertyEditors)" DestinationFolder="$(PublishDir)\App_Plugins\TeaCommerce\PropertyEditors" />
+  </Target>
+  
+  <Target Name="JavaScriptMinify" DependsOnTargets="CopyFiles">
+	<ItemGroup>
+	  <TeaCommerceJs Include="$(PublishDir)\App_Plugins\TeaCommerce\Assets\Scripts\tea-commerce.js" />
+	  <JavascriptInputs Include="@(TeaCommerceJs)" />
+	  <JavascriptOutputs Include="@(JavascriptInputs->'%(RelativeDir)%(Filename).min%(Extension)')" />
+	</ItemGroup>
+	
+	<FileUpdate Files="@(TeaCommerceJs)" Regex="\[formPostUrl\]" ReplacementText="/base/TC/FormPost.aspx" />
+	
+	<JsPack Inputs="@(JavascriptInputs)" Outputs="@(JavascriptOutputs)" />
+  </Target>
+  
+</Project>

@@ -1,0 +1,20 @@
+﻿<table ng-controller="OrderLineQuantityRuleController" style="width: 100%;" cellpadding="0" cellspacing="0">
+  <tr>
+    <td valign="top">
+      <select ng-model="rule.settings.compareMode" ng-disabled="!editMode" class="guiInputText">
+        <option value="0">=</option>
+        <option value="1">&gt;</option>
+        <option value="2">&gt;=</option>
+        <option value="3">&lt;</option>
+        <option value="4">&lt;=</option>
+      </select>
+      <input type="text" ng-model="rule.settings.quantity" ng-disabled="!editMode" placeholder="Quantity" class="guiInputText" />
+      <input type="checkbox" ng-model="rule.settings.accumulate" ng-disabled="!editMode" name="accumulate{{rule.id}}" /><label for="accumulate{{rule.id}}" title="Check to use the accumulated quantity of previously fulfilled order lines">Accumulate</label>
+    </td>
+    <td style="width: 100px;" valign="top" class="buttons">
+      <a href="#" ng-click="editMode=true" ng-show="!editMode" class="edit">Edit</a>
+      <a href="#" ng-click="deleteRule(rule)" ng-show="!editMode" class="delete">Delete</a>
+      <a href="#" ng-click="save()" ng-show="editMode" class="save">Save</a>
+    </td>
+  </tr>
+</table>

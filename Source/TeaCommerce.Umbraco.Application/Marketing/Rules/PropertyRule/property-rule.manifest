@@ -1,0 +1,10 @@
+﻿{
+  name: 'Property rule',
+  alias: 'PropertyRule',
+  editor: {
+    view: '/App_Plugins/TeaCommerce/Marketing/Rules/PropertyRule/property-rule.html'
+  },
+  javascripts: [
+    '/App_Plugins/TeaCommerce/Marketing/Rules/PropertyRule/property-rule.controller.js'
+  ]
+}

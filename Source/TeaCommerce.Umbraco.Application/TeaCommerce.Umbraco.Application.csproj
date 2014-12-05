@@ -1,0 +1,666 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A9F1E327-33D5-4BC6-9076-622B24584F1D}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TeaCommerce.Umbraco.Application</RootNamespace>
+    <AssemblyName>TeaCommerce.Umbraco.Application</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="businesslogic">
+      <HintPath>..\Lib\Umbraco\businesslogic.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ClientDependency.Core, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Umbraco\ClientDependency.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="cms">
+      <HintPath>..\Lib\Umbraco\cms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="controls, Version=1.0.4633.18693, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Umbraco\controls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="interfaces">
+      <HintPath>..\Lib\Umbraco\interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Umbraco\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.XML" />
+    <Reference Include="TeaCommerce.Api, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Tea Commerce\TeaCommerce.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="TeaCommerce.Api.Web, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Tea Commerce\TeaCommerce.Api.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco">
+      <HintPath>..\Lib\Umbraco\umbraco.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Umbraco.Core, Version=1.0.5206.24609, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Umbraco\Umbraco.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Images\EditorIcons\edit.gif" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\map-pin.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\lock.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\user.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\certificate.png" />
+    <EmbeddedResource Include="Content\Images\exclamation.png" />
+    <Content Include="Marketing\Assets\Scripts\campaign.controller.js" />
+    <Content Include="Marketing\Awards\OrderLineAmountAward\order-line-amount-award.controller.js" />
+    <Content Include="Marketing\Awards\OrderLineAmountAward\order-line-amount-award.html" />
+    <Content Include="Marketing\Awards\OrderAmountAward\order-amount-award.controller.js" />
+    <Content Include="Marketing\Awards\OrderAmountAward\order-amount-award.html" />
+    <Content Include="PropertyEditors\stock-management.controller.js" />
+    <Content Include="PropertyEditors\stock-management.html" />
+    <Content Include="Marketing\Rules\OrderLineAmountRule\order-line-amount-rule.controller.js" />
+    <Content Include="Marketing\Rules\OrderLineAmountRule\order-line-amount-rule.html" />
+    <Content Include="PropertyEditors\vat-group-picker.controller.js" />
+    <Content Include="PropertyEditors\vat-group-picker.html" />
+    <Content Include="PropertyEditors\store-picker.controller.js" />
+    <Content Include="PropertyEditors\store-picker.html" />
+    <Content Include="Marketing\Rules\ProductRule\product-rule.controller.js" />
+    <Content Include="Marketing\Rules\ProductRule\product-rule.html" />
+    <Content Include="Marketing\Rules\DiscountCodeRule\discount-code-rule.controller.js" />
+    <Content Include="Marketing\Rules\DiscountCodeRule\discount-code-rule.html" />
+    <Content Include="Marketing\Rules\PropertyRule\property-rule.controller.js" />
+    <Content Include="Marketing\Rules\PropertyRule\property-rule.html" />
+    <Content Include="Marketing\Rules\OrderLineQuantityRule\order-line-quantity-rule.manifest" />
+    <Content Include="Marketing\Rules\PropertyRule\property-rule.manifest" />
+    <Content Include="Marketing\Rules\DiscountCodeRule\discount-code-rule.manifest" />
+    <Content Include="Marketing\Rules\ProductRule\product-rule.manifest" />
+    <Content Include="Marketing\Awards\OrderAmountAward\order-amount-award.manifest" />
+    <Content Include="Marketing\Awards\OrderLineAmountAward\order-line-amount-award.manifest" />
+    <None Include="Marketing\Rules\OrderAmountRule\order-amount-rule.manifest" />
+    <Content Include="Marketing\Rules\OrderLineQuantityRule\order-line-quantity-rule.controller.js" />
+    <Content Include="Marketing\Rules\OrderLineQuantityRule\order-line-quantity-rule.html" />
+    <Content Include="Marketing\Rules\OrderAmountRule\order-amount-rule.controller.js" />
+    <Content Include="Marketing\Rules\OrderAmountRule\order-amount-rule.html" />
+    <Content Include="Views\Campaigns\CreateCampaign.ascx" />
+    <Content Include="Views\Campaigns\EditCampaign.aspx" />
+    <Content Include="Views\CountryRegions\CreateCountryRegion.ascx" />
+    <Content Include="Views\CountryRegions\EditCountryRegion.aspx" />
+    <Content Include="Views\GiftCards\CreateGiftCard.ascx" />
+    <Content Include="Views\GiftCards\EditGiftCard.aspx" />
+    <Content Include="Views\GiftCards\GiftCardOverview.aspx" />
+    <Content Include="Views\Install\Installer.ascx" />
+    <Content Include="Views\OrderStatuses\EditOrderStatus.aspx" />
+    <Content Include="Views\Shared\Partials\TemplateFileSelector.ascx" />
+    <Content Include="Views\Sort\Sort.aspx" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\box-label.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\building.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\clipboard-task.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\clipboard.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\credit-card.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\credit-cards.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\document-task.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\globe-model.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\license-key.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\lifebuoy.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\locale-alternate.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\mail.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\mails-stack.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\map.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\money-coin.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\money.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\store.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\tag-label.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\target.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\toolbox.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\truck-box-label.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\zone-money.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\zone.png" />
+    <EmbeddedResource Include="Content\Images\EditorIcons\printer.gif" />
+    <EmbeddedResource Include="Content\Images\EditorIcons\delete.gif" />
+    <Content Include="Views\Shared\Partials\CultureCodeSelector.ascx" />
+    <Content Include="Views\Shared\Partials\PaymentStatusSelector.ascx" />
+    <Content Include="Views\Shared\Partials\OrderStatusSelector.ascx" />
+    <Content Include="Views\EmailTemplates\CreateEmailTemplate.ascx" />
+    <Content Include="Views\EmailTemplates\EditEmailTemplate.aspx" />
+    <Content Include="Views\Shared\Partials\TemplateFileSelectionList.ascx" />
+    <Content Include="Views\Orders\EditOrder.aspx" />
+    <Content Include="Views\Orders\FinalizeOrder.aspx" />
+    <Content Include="Views\Orders\SearchOrders.aspx" />
+    <EmbeddedResource Include="Content\Scripts\default.js" />
+    <Content Include="Views\Developer\NeedHelp.aspx" />
+    <Content Include="Views\Developer\LicenseCheck.aspx" />
+    <Content Include="Views\Stores\CreateStore.ascx" />
+    <Content Include="Views\VatGroups\EditVatGroup.aspx" />
+    <Content Include="Views\VatGroups\CreateVatGroup.ascx" />
+    <Content Include="Views\ShippingMethods\EditShippingMethod.aspx" />
+    <Content Include="Views\ShippingMethods\CreateShippingMethod.ascx" />
+    <Content Include="Views\Security\EditUserPermissions.aspx" />
+    <Content Include="Views\OrderStatuses\CreateOrderStatus.ascx" />
+    <Content Include="Views\PaymentMethods\CreatePaymentMethod.ascx" />
+    <Content Include="Views\PaymentMethods\EditPaymentMethod.aspx" />
+    <Content Include="Views\Stores\EditStore.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="Views\Countries\EditCountry.aspx" />
+    <Content Include="Views\Countries\CreateCountry.ascx" />
+    <Content Include="Views\Currencies\CreateCurrency.ascx" />
+    <Content Include="Views\Currencies\EditCurrency.aspx" />
+    <EmbeddedResource Include="Resources\CommonTerms.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonTerms.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\CommonTerms.da.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonTerms.da.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\CommonTerms.sv.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonTerms.sv.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\DeveloperTerms.sv.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DeveloperTerms.sv.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\PaymentProviderTerms.sv.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PaymentProviderTerms.sv.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\StoreTerms.sv.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>StoreTerms.sv.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\DeveloperTerms.da.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DeveloperTerms.da.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\PaymentProviderTerms.da.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PaymentProviderTerms.da.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\StoreTerms.da.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>StoreTerms.da.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\DeveloperTerms.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DeveloperTerms.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\PaymentProviderTerms.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PaymentProviderTerms.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\StoreTerms.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>StoreTerms.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Content Include="package.manifest" />
+    <Content Include="Marketing\Rules\OrderLineAmountRule\order-line-amount-rule.manifest" />
+    <None Include="Umbraco\masterpages\umbracoDialog.Master" />
+    <None Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\ControlExtensions.cs" />
+    <Compile Include="Common\ListItemCollectionExtensions.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="ApplicationStartup.cs" />
+    <Compile Include="Controllers\DiscountCodesController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\VatGroupsController.cs" />
+    <Compile Include="Controllers\StoresController.cs" />
+    <Compile Include="Controllers\CampaignsController.cs" />
+    <Compile Include="Resources\CommonTerms.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonTerms.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\CommonTerms.da.Designer.cs">
+      <DependentUpon>CommonTerms.da.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\CommonTerms.sv.Designer.cs">
+      <DependentUpon>CommonTerms.sv.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\DeveloperTerms.sv.Designer.cs">
+      <DependentUpon>DeveloperTerms.sv.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\PaymentProviderTerms.sv.Designer.cs">
+      <DependentUpon>PaymentProviderTerms.sv.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\StoreTerms.sv.Designer.cs">
+      <DependentUpon>StoreTerms.sv.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\DeveloperTerms.da.Designer.cs">
+      <DependentUpon>DeveloperTerms.da.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\PaymentProviderTerms.da.Designer.cs">
+      <DependentUpon>PaymentProviderTerms.da.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\StoreTerms.da.Designer.cs">
+      <DependentUpon>StoreTerms.da.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resources\DeveloperTerms.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DeveloperTerms.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\PaymentProviderTerms.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PaymentProviderTerms.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\StoreTerms.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StoreTerms.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Trees\Actions\SortActions.cs" />
+    <Compile Include="Trees\SecurityTree.cs" />
+    <Compile Include="Trees\Tasks\ADeleteTask.cs" />
+    <Compile Include="Trees\Tasks\ATask.cs" />
+    <Compile Include="Trees\Tasks\CampaignTask.cs" />
+    <Compile Include="Trees\Tasks\CountryRegionTask.cs" />
+    <Compile Include="Trees\Tasks\StoreTask.cs" />
+    <Compile Include="Trees\Tasks\EmailTemplateTask.cs" />
+    <Compile Include="Trees\Tasks\VATGroupTask.cs" />
+    <Compile Include="Trees\Tasks\ShippingMethodTask.cs" />
+    <Compile Include="Trees\Tasks\OrderStatusTask.cs" />
+    <Compile Include="Trees\Tasks\PaymentMethodTask.cs" />
+    <Compile Include="Trees\Tasks\CountryTask.cs" />
+    <Compile Include="Trees\ABaseTree.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Trees\Tasks\CurrencyTask.cs" />
+    <Compile Include="Trees\StoreTree.cs" />
+    <Compile Include="Trees\NeedHelpTree.cs" />
+    <Compile Include="Trees\LicenseTree.cs" />
+    <Compile Include="UI\DataboundListView.cs" />
+    <Compile Include="UI\StoreSpecificUserControl.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\UmbracoUserControl.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\UmbracoProtectedPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Campaigns\CreateCampaign.ascx.cs">
+      <DependentUpon>CreateCampaign.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Campaigns\CreateCampaign.ascx.designer.cs">
+      <DependentUpon>CreateCampaign.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Campaigns\EditCampaign.aspx.cs">
+      <DependentUpon>EditCampaign.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Campaigns\EditCampaign.aspx.designer.cs">
+      <DependentUpon>EditCampaign.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmailTemplates\EditEmailTemplate.aspx.designer.cs">
+      <DependentUpon>EditEmailTemplate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CountryRegions\CreateCountryRegion.ascx.cs">
+      <DependentUpon>CreateCountryRegion.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\CountryRegions\CreateCountryRegion.ascx.designer.cs">
+      <DependentUpon>CreateCountryRegion.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CountryRegions\EditCountryRegion.aspx.cs">
+      <DependentUpon>EditCountryRegion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\CountryRegions\EditCountryRegion.aspx.designer.cs">
+      <DependentUpon>EditCountryRegion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GiftCards\CreateGiftCard.ascx.cs">
+      <DependentUpon>CreateGiftCard.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\GiftCards\CreateGiftCard.ascx.designer.cs">
+      <DependentUpon>CreateGiftCard.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GiftCards\EditGiftCard.aspx.cs">
+      <DependentUpon>EditGiftCard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\GiftCards\EditGiftCard.aspx.designer.cs">
+      <DependentUpon>EditGiftCard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GiftCards\GiftCardOverview.aspx.cs">
+      <DependentUpon>GiftCardOverview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\GiftCards\GiftCardOverview.aspx.designer.cs">
+      <DependentUpon>GiftCardOverview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Install\Installer.ascx.cs">
+      <DependentUpon>Installer.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Install\Installer.ascx.designer.cs">
+      <DependentUpon>Installer.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OrderStatuses\EditOrderStatus.aspx.cs">
+      <DependentUpon>EditOrderStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\OrderStatuses\EditOrderStatus.aspx.designer.cs">
+      <DependentUpon>EditOrderStatus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shared\Partials\TemplateFileSelector.ascx.cs">
+      <DependentUpon>TemplateFileSelector.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Shared\Partials\TemplateFileSelector.ascx.designer.cs">
+      <DependentUpon>TemplateFileSelector.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shared\Partials\CultureCodeSelector.ascx.cs">
+      <DependentUpon>CultureCodeSelector.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Shared\Partials\CultureCodeSelector.ascx.designer.cs">
+      <DependentUpon>CultureCodeSelector.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shared\Partials\PaymentStatusSelector.ascx.cs">
+      <DependentUpon>PaymentStatusSelector.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Shared\Partials\PaymentStatusSelector.ascx.designer.cs">
+      <DependentUpon>PaymentStatusSelector.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shared\Partials\OrderStatusSelector.ascx.cs">
+      <DependentUpon>OrderStatusSelector.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Shared\Partials\OrderStatusSelector.ascx.designer.cs">
+      <DependentUpon>OrderStatusSelector.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Orders\SearchOrders.aspx.designer.cs">
+      <DependentUpon>SearchOrders.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmailTemplates\CreateEmailTemplate.ascx.cs">
+      <DependentUpon>CreateEmailTemplate.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\EmailTemplates\CreateEmailTemplate.ascx.designer.cs">
+      <DependentUpon>CreateEmailTemplate.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmailTemplates\EditEmailTemplate.aspx.cs">
+      <DependentUpon>EditEmailTemplate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Currencies\EditCurrency.aspx.designer.cs">
+      <DependentUpon>EditCurrency.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Stores\CreateStore.ascx.cs">
+      <DependentUpon>CreateStore.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Stores\CreateStore.ascx.designer.cs">
+      <DependentUpon>CreateStore.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaymentMethods\EditPaymentMethod.aspx.designer.cs">
+      <DependentUpon>EditPaymentMethod.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shared\Partials\TemplateFileSelectionList.ascx.cs">
+      <DependentUpon>TemplateFileSelectionList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Shared\Partials\TemplateFileSelectionList.ascx.designer.cs">
+      <DependentUpon>TemplateFileSelectionList.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shared\UmbracoTabView.Master.cs">
+      <DependentUpon>UmbracoTabView.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Shared\UmbracoTabView.Master.designer.cs">
+      <DependentUpon>UmbracoTabView.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Orders\EditOrder.aspx.cs">
+      <DependentUpon>EditOrder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Orders\EditOrder.aspx.designer.cs">
+      <DependentUpon>EditOrder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Orders\FinalizeOrder.aspx.cs">
+      <DependentUpon>FinalizeOrder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Orders\FinalizeOrder.aspx.designer.cs">
+      <DependentUpon>FinalizeOrder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Orders\SearchOrders.aspx.cs">
+      <DependentUpon>SearchOrders.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Developer\NeedHelp.aspx.cs">
+      <DependentUpon>NeedHelp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Developer\NeedHelp.aspx.designer.cs">
+      <DependentUpon>NeedHelp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Developer\LicenseCheck.aspx.cs">
+      <DependentUpon>LicenseCheck.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Developer\LicenseCheck.aspx.designer.cs">
+      <DependentUpon>LicenseCheck.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Countries\EditCountry.aspx.designer.cs">
+      <DependentUpon>EditCountry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShippingMethods\EditShippingMethod.aspx.designer.cs">
+      <DependentUpon>EditShippingMethod.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Stores\EditStore.aspx.designer.cs">
+      <DependentUpon>EditStore.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VatGroups\EditVatGroup.aspx.cs">
+      <DependentUpon>EditVatGroup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\VatGroups\CreateVatGroup.ascx.cs">
+      <DependentUpon>CreateVatGroup.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\VatGroups\CreateVatGroup.ascx.designer.cs">
+      <DependentUpon>CreateVatGroup.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShippingMethods\EditShippingMethod.aspx.cs">
+      <DependentUpon>EditShippingMethod.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\ShippingMethods\CreateShippingMethod.ascx.cs">
+      <DependentUpon>CreateShippingMethod.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\ShippingMethods\CreateShippingMethod.ascx.designer.cs">
+      <DependentUpon>CreateShippingMethod.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Security\EditUserPermissions.aspx.cs">
+      <DependentUpon>EditUserPermissions.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\OrderStatuses\CreateOrderStatus.ascx.cs">
+      <DependentUpon>CreateOrderStatus.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\OrderStatuses\CreateOrderStatus.ascx.designer.cs">
+      <DependentUpon>CreateOrderStatus.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaymentMethods\CreatePaymentMethod.ascx.cs">
+      <DependentUpon>CreatePaymentMethod.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\PaymentMethods\CreatePaymentMethod.ascx.designer.cs">
+      <DependentUpon>CreatePaymentMethod.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Security\EditUserPermissions.aspx.designer.cs">
+      <DependentUpon>EditUserPermissions.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaymentMethods\EditPaymentMethod.aspx.cs">
+      <DependentUpon>EditPaymentMethod.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Stores\EditStore.aspx.cs">
+      <DependentUpon>EditStore.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Countries\EditCountry.aspx.cs">
+      <DependentUpon>EditCountry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Countries\CreateCountry.ascx.cs">
+      <DependentUpon>CreateCountry.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Countries\CreateCountry.ascx.designer.cs">
+      <DependentUpon>CreateCountry.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Currencies\CreateCurrency.ascx.cs">
+      <DependentUpon>CreateCurrency.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Currencies\CreateCurrency.ascx.designer.cs">
+      <DependentUpon>CreateCurrency.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Currencies\EditCurrency.aspx.cs">
+      <DependentUpon>EditCurrency.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\VatGroups\EditVatGroup.aspx.designer.cs">
+      <DependentUpon>EditVatGroup.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\WebUtils.cs" />
+    <Compile Include="Views\Sort\Sort.aspx.cs">
+      <DependentUpon>Sort.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Sort\Sort.aspx.designer.cs">
+      <DependentUpon>Sort.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\UmbracoTabView.Master" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Umbraco\masterpages\umbracoPage.Master" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TeaCommerce.Umbraco.Configuration\TeaCommerce.Umbraco.Configuration.csproj">
+      <Project>{3d4cc43d-f088-43bf-b86e-53ccde13b223}</Project>
+      <Name>TeaCommerce.Umbraco.Configuration</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>50269</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

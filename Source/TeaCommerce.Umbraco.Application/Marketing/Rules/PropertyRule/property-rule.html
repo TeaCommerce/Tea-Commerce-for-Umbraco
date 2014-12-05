@@ -1,0 +1,25 @@
+﻿<table ng-controller="PropertyRuleController" style="width: 100%;" cellpadding="0" cellspacing="0">
+  <tr>
+    <td valign="top">
+      <input type="text" ng-model="rule.settings.propertyAlias" ng-disabled="!editMode" placeholder="Property alias" class="guiInputText" />
+      <span>on</span>
+      <select ng-model="rule.settings.isOrderProperty" ng-disabled="!editMode" class="guiInputText">
+        <option value="true">order</option>
+        <option value="false">order line</option>
+      </select>
+      <select ng-model="rule.settings.compareMode" ng-disabled="!editMode" class="guiInputText">
+        <option value="0">=</option>
+        <option value="1">&gt;</option>
+        <option value="2">&gt;=</option>
+        <option value="3">&lt;</option>
+        <option value="4">&lt;=</option>
+      </select>
+      <input type="text" ng-model="rule.settings.value" ng-disabled="!editMode" placeholder="Value" class="guiInputText" />
+    </td>
+    <td style="width: 100px;" valign="top" class="buttons">
+      <a href="#" ng-click="editMode=true" ng-show="!editMode" class="edit">Edit</a>
+      <a href="#" ng-click="deleteRule(rule)" ng-show="!editMode" class="delete">Delete</a>
+      <a href="#" ng-click="save()" ng-show="editMode" class="save">Save</a>
+    </td>
+  </tr>
+</table>

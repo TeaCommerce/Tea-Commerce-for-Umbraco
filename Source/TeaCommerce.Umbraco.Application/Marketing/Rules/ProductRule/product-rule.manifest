@@ -1,0 +1,10 @@
+﻿{
+  name: 'Product rule',
+  alias: 'ProductRule',
+  editor: {
+    view: '/App_Plugins/TeaCommerce/Marketing/Rules/ProductRule/product-rule.html'
+  },
+  javascripts: [
+    '/App_Plugins/TeaCommerce/Marketing/Rules/ProductRule/product-rule.controller.js'
+  ]
+}

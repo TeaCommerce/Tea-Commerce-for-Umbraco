@@ -1,0 +1,69 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Zip">
+
+  <!-- IMPORTS -->
+  <PropertyGroup>
+    <MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\Tools\MSBuild community tasks</MSBuildCommunityTasksPath>
+	<MSBuildExtensionsPath>$(MSBuildProjectDirectory)\Tools\MSBuild extension pack</MSBuildExtensionsPath>
+	<MSBuildExtensionPackTasksPath>$(MSBuildExtensionsPath)\ExtensionPack\4.0\</MSBuildExtensionPackTasksPath>
+  </PropertyGroup>
+  
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
+  <Import Project="$(MSBuildExtensionPackTasksPath)\MSBuild.ExtensionPack.tasks"/>
+  
+  <!-- PROPERTIES -->
+  <PropertyGroup>
+    <SourceDir>..\Source</SourceDir>
+	<PublishDir>Publish</PublishDir>
+  </PropertyGroup>
+  
+  
+  
+  <!-- CLEAN -->
+  <Target Name="Clean">
+    <ItemGroup>
+      <FilesToRemove Include="$(PublishDir)\*.zip" />
+	  <FilesToRemove Include="$(PublishDir)\App_Plugins\TeaCommerce\Assets\Scripts\tea-commerce.js" />
+    </ItemGroup>
+	
+	<Delete Files="@(FilesToRemove)" />
+  </Target>
+  
+  <!-- MOVE RESOURCE FILES -->
+  <Target Name="MoveResourceFiles" DependsOnTargets="Clean">
+    <ItemGroup>
+	  <ResourcesDaInput Include="$(PublishDir)\bin\da\*.dll" />
+	  <ResourcesDaOutput Include="@(ResourcesDaInput->'$(PublishDir)\bin\da\%(Filename)-da%(Extension)')" />
+	  <ResourcesSvInput Include="$(PublishDir)\bin\sv\*.dll" />
+	  <ResourcesSvOutput Include="@(ResourcesSvInput->'$(PublishDir)\bin\sv\%(Filename)-sv%(Extension)')" />
+	  
+	  <ResourceFiles Include="@(ResourcesDaOutput);@(ResourcesSvOutput)" />
+    </ItemGroup>
+  
+	<Move SourceFiles="@(ResourcesDaInput)" DestinationFiles="@(ResourcesDaOutput)" />
+	<Move SourceFiles="@(ResourcesSvInput)" DestinationFiles="@(ResourcesSvOutput)" />
+  </Target>
+  
+  <!-- ADD FILES TO PACKAGEXML -->
+  <Target Name="UpdatePackageXml" DependsOnTargets="MoveResourceFiles">
+    <ItemGroup>
+      <FilesToXml Include="$(PublishDir)\**\*.*" Exclude="@(ResourceFiles)" />
+    </ItemGroup>
+  
+    <Copy SourceFiles="$(SourceDir)\TeaCommerce.Umbraco.Install\package.xml" DestinationFolder="$(PublishDir)" />
+    <XmlFile TaskAction="AddElement" File="$(PublishDir)\package.xml" Element="file" InnerXml="&lt;guid&gt;%(ResourcesDaInput.FileName)-da%(ResourcesDaInput.Extension)&lt;/guid&gt;&lt;orgPath&gt;@(ResourcesDaInput->'\bin\da\')&lt;/orgPath&gt;&lt;orgName&gt;%(ResourcesDaInput.FileName)%(ResourcesDaInput.Extension)&lt;/orgName&gt;" XPath="/umbPackage/files"/>
+	<XmlFile TaskAction="AddElement" File="$(PublishDir)\package.xml" Element="file" InnerXml="&lt;guid&gt;%(ResourcesSvInput.FileName)-sv%(ResourcesSvInput.Extension)&lt;/guid&gt;&lt;orgPath&gt;@(ResourcesSvInput->'\bin\sv\')&lt;/orgPath&gt;&lt;orgName&gt;%(ResourcesSvInput.FileName)%(ResourcesSvInput.Extension)&lt;/orgName&gt;" XPath="/umbPackage/files"/>
+	<XmlFile TaskAction="AddElement" File="$(PublishDir)\package.xml" Element="file" InnerXml="&lt;guid&gt;%(FilesToXml.FileName)%(FilesToXml.Extension)&lt;/guid&gt;&lt;orgPath&gt;@(FilesToXml->'\%(RecursiveDir)')&lt;/orgPath&gt;&lt;orgName&gt;%(FilesToXml.FileName)%(FilesToXml.Extension)&lt;/orgName&gt;" XPath="/umbPackage/files"/>
+  </Target>
+  
+  <!-- ZIP -->
+  <Target Name="Zip" DependsOnTargets="UpdatePackageXml">
+    <ItemGroup>
+	  <Files Include="$(PublishDir)\**\*.*" />
+    </ItemGroup>
+	<XmlRead XPath="umbPackage/info/package/version" XmlFileName="$(PublishDir)\package.xml">
+	  <Output TaskParameter="Value" PropertyName="Version" />
+	</XmlRead>
+	<Zip Files="@(Files)" ZipFileName="$(PublishDir)\Tea Commerce $(Version).zip" WorkingDirectory="$(PublishDir)" />
+  </Target>
+  
+</Project>

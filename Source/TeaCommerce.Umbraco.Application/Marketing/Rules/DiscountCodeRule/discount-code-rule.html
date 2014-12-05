@@ -1,0 +1,74 @@
+﻿<table ng-controller="DiscountCodeRuleController" style="width: 100%;" cellpadding="0" cellspacing="0">
+  <tr>
+    <td valign="top">
+      <div ng-show="!editMode">
+        Discount codes: {{numberOfDiscountCodes}}<br />
+        Unused discount codes: {{numberOfUnusedDiscountCodes}}
+      </div>
+      <div ng-show="editMode">
+        <input type="radio" value="manual" ng-model="view" />Manual
+        <input type="radio" value="generate" ng-model="view">Generate
+        <div ng-show="view == 'manual'">
+          <table class="table" style="width: 100%;" cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="width: 125px;">Max uses</td>
+              <td>
+                <input type="text" ng-model="manualSettings.maxUses" class="guiInputText" />
+              </td>
+            </tr>
+          </table>
+          <textarea ng-model="manualSettings.codes" class="umbEditorTextFieldMultiple" style="margin-top: 4px;" placeholder="Codes"></textarea><br />
+          <a href="#" ng-click="manual()">Add</a>
+        </div>
+        <div ng-show="view == 'generate'">
+          <table class="table" style="width: 100%;" cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="width: 125px;">Number to generate</td>
+              <td>
+                <input type="text" ng-model="generateSettings.numberToGenerate" class="guiInputText" />
+              </td>
+            </tr>
+            <tr>
+              <td>Max uses</td>
+              <td>
+                <input type="text" ng-model="generateSettings.maxUses" class="guiInputText" />
+              </td>
+            </tr>
+            <tr>
+              <td>Length of code</td>
+              <td>
+                <input type="text" ng-model="generateSettings.length" class="guiInputText" />
+              </td>
+            </tr>
+            <tr>
+              <td>Prefix</td>
+              <td>
+                <input type="text" ng-model="generateSettings.prefix" class="guiInputText" />
+              </td>
+            </tr>
+            <tr>
+              <td>Postfix</td>
+              <td>
+                <input type="text" ng-model="generateSettings.postfix" class="guiInputText" />
+              </td>
+            </tr>
+            <tr>
+              <td>Example</td>
+              <td>{{generateSettings.prefix}}<span ng-repeat="i in getNumber(generateSettings.length) track by $index">X</span>{{generateSettings.postfix}}</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td><a href="#" ng-click="generate()">Add</a></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </td>
+    <td style="width: 100px;" valign="top" class="buttons">
+      <a href="#" ng-click="editMode=true" ng-show="!editMode" class="edit">Edit</a>
+      <a href="#" ng-click="download()" ng-show="!editMode" class="download">Download</a>
+      <a href="#" ng-click="deleteRule(rule)" ng-show="!editMode" class="delete">Delete</a>
+      <a href="#" ng-click="editMode=false" ng-show="editMode" class="cancel">Cancel</a>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<umbPackage>
+  <files />
+  <info>
+    <package>
+      <name>Tea Commerce</name>
+      <version>3.0.0 for Umbraco 7</version>
+      <license url="http://www.teacommerce.net/en/cart/license-agreement.aspx">Commercial license</license>
+      <url>http://www.teacommerce.net</url>
+      <requirements>
+        <major>7</major>
+        <minor>1</minor>
+        <patch>0</patch>
+      </requirements>
+    </package>
+    <author>
+      <name>Tea Commerce</name>
+      <website>http://www.teacommerce.net</website>
+    </author>
+    <readme>
+      Thanks for choosing Tea Commerce.
+
+      We hope you will be pleased with our product and use it to create a fantastic e-commerce solution.
+
+      UPDATING
+      Always check the revision history before updating:
+      http://documentation.teacommerce.net/revision-history/
+
+      SUPPORT
+      The Umbraco/Tea Commerce community is always ready to help you!
+      http://our.umbraco.org/projects/website-utilities/tea-commerce/tea-commerce-support
+
+      Tea Commerce
+      info@teacommerce.net
+      +45 82 307 306
+    </readme>
+  </info>
+  <DocumentTypes />
+  <Templates />
+  <Stylesheets />
+  <Macros />
+  <DictionaryItems />
+  <Languages />
+  <DataTypes />
+  <Actions>
+    <Action runat="install" alias="AddCustomSection" appName="Tea Commerce" appAlias="teacommerce" appIcon="icon-shopping-basket-alt-2" />
+    <Action runat="install" alias="AddTree" silent="false" initialize="true" sortOrder="0" applicationAlias="teacommerce" treeAlias="tea-commerce-store-tree" treeTitle="Stores" iconOpened="folder_o.gif" iconClosed="folder.gif" assemblyName="TeaCommerce.Umbraco.Application" treeHandlerType="Trees.StoreTree" action="" />
+    <Action runat="install" alias="AddTree" silent="false" initialize="true" sortOrder="1" applicationAlias="teacommerce" treeAlias="tea-commerce-security-tree" treeTitle="Security" iconOpened="folder_o.gif" iconClosed="folder.gif" assemblyName="TeaCommerce.Umbraco.Application" treeHandlerType="Trees.SecurityTree" action="" />
+    <Action runat="install" alias="AddTree" silent="false" initialize="true" sortOrder="2" applicationAlias="teacommerce" treeAlias="tea-commerce-licenses-tree" treeTitle="Licenses" iconOpened="folder_o.gif" iconClosed="folder.gif" assemblyName="TeaCommerce.Umbraco.Application" treeHandlerType="Trees.LicenseTree" action="" />
+    <Action runat="install" alias="AddTree" silent="false" initialize="true" sortOrder="3" applicationAlias="teacommerce" treeAlias="tea-commerce-need-help-tree" treeTitle="Need help?" iconOpened="folder_o.gif" iconClosed="folder.gif" assemblyName="TeaCommerce.Umbraco.Application" treeHandlerType="Trees.NeedHelpTree" action="" />
+    <Action runat="install" alias="GrantPermissions" />
+    <Action runat="install" alias="MergeLanguageFile" sourceFile="TeaCommerce.Umbraco.Install.Content.Resources.da.xml" createIfTargetFileNotExists="false" targetFile="~/umbraco/config/lang/da.xml" overwriteValues="true" embeddedResource="true" />
+    <Action runat="install" alias="MergeLanguageFile" sourceFile="TeaCommerce.Umbraco.Install.Content.Resources.en.xml" createIfTargetFileNotExists="false" targetFile="~/umbraco/config/lang/en.xml" overwriteValues="true" embeddedResource="true" />
+    <Action runat="install" alias="MergeLanguageFile" sourceFile="TeaCommerce.Umbraco.Install.Content.Resources.se.xml" createIfTargetFileNotExists="false" targetFile="~/umbraco/config/lang/se.xml" overwriteValues="true" embeddedResource="true" />
+    <Action runat="install" alias="MergeUIFile" sourceFile="TeaCommerce.Umbraco.Install.Content.XML.UI.xml" targetFile="~/umbraco/config/create/UI.xml" overwriteValues="true" embeddedResource="true" />
+    <Action runat="install" alias="TeaMoveFile" sourceFile="~/macroScripts/tea-commerce/email-template-confirmation.cshtml.default" targetFile="~/macroScripts/tea-commerce/email-template-confirmation.cshtml" overwriteFile="false" />
+    <Action runat="install" alias="TeaMoveFile" sourceFile="~/macroScripts/tea-commerce/email-template-payment-inconsistency.cshtml.default" targetFile="~/macroScripts/tea-commerce/email-template-payment-inconsistency.cshtml" overwriteFile="false" />
+    <Action runat="install" alias="TeaMoveFile" sourceFile="~/macroScripts/tea-commerce/edit-order.cshtml.default" targetFile="~/macroScripts/tea-commerce/edit-order.cshtml" overwriteFile="false" />
+    <Action runat="install" alias="CreateDataTypeDefinition" dataTypeDefinitionAlias="TeaCommerce.StorePicker" name="Tea Commerce: Store picker" />
+    <Action runat="install" alias="CreateDataTypeDefinition" dataTypeDefinitionAlias="TeaCommerce.VatGroupPicker" name="Tea Commerce: VAT group picker" />
+    <Action runat="install" alias="CreateDataTypeDefinition" dataTypeDefinitionAlias="TeaCommerce.StockManagement" name="Tea Commerce: Stock management" />
+    <Action runat="install" alias="TeaCommerceInstaller" />
+    <Action runat="install" alias="TeaRemoveOldInstallation" />
+  </Actions>
+  <control>/App_Plugins/TeaCommerce/Views/Install/Installer.ascx</control>
+</umbPackage>

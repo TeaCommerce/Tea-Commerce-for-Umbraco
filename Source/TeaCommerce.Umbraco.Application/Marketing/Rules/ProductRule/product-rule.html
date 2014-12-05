@@ -1,0 +1,15 @@
+﻿<table ng-controller="ProductRuleController" style="width: 100%;" cellpadding="0" cellspacing="0">
+  <tr>
+    <td valign="top">
+      <span ng-show="!rule.settings.nodeId && !editMode">No product or product category selected</span>
+      <span title="{{contentBreadcrump}}" ng-show="rule.settings.nodeId" style="margin-right: 4px;">{{contentName}}</span>
+      <a href="#" ng-click="deleteValue()" ng-show="rule.settings.nodeId && editMode" style="color: red; margin-right: 4px;">Delete</a>
+      <a href="#" ng-click="openContentPicker()" ng-show="editMode">Choose...</a>
+    </td>
+    <td style="width: 100px;" valign="top" class="buttons">
+      <a href="#" ng-click="editMode=true" ng-show="!editMode" class="edit">Edit</a>
+      <a href="#" ng-click="deleteRule(rule)" ng-show="!editMode" class="delete">Delete</a>
+      <a href="#" ng-click="save()" ng-show="editMode" class="save">Save</a>
+    </td>
+  </tr>
+</table>
