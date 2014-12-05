@@ -1,0 +1,8 @@
+﻿<language>
+  <area alias="sections">
+    <key alias="teacommerce">Tea Commerce</key>
+  </area>
+  <area alias="actions">
+    <key alias="teaCommerceSort">Sortera</key>
+  </area>
+</language>

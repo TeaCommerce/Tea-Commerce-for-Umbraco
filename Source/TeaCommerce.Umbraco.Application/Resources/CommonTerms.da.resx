@@ -1,0 +1,501 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Alias" xml:space="preserve">
+    <value>Alias</value>
+  </data>
+  <data name="BCCAddresses" xml:space="preserve">
+    <value>BCC adresser</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuller</value>
+  </data>
+  <data name="CCAddresses" xml:space="preserve">
+    <value>CC adresser</value>
+  </data>
+  <data name="Common" xml:space="preserve">
+    <value>Egenskaber</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Opret</value>
+  </data>
+  <data name="DefaultSettings" xml:space="preserve">
+    <value>Standard indstillinger</value>
+  </data>
+  <data name="EmailTemplateSaved" xml:space="preserve">
+    <value>Email skabelon gemt</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Navn</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Eller</value>
+  </data>
+  <data name="SendEmailToCustomer" xml:space="preserve">
+    <value>Send email til kunden</value>
+  </data>
+  <data name="SenderAddress" xml:space="preserve">
+    <value>Afsender adresse</value>
+  </data>
+  <data name="SenderName" xml:space="preserve">
+    <value>Afsender navn</value>
+  </data>
+  <data name="SeparateBySemicolon" xml:space="preserve">
+    <value>Separer med semicolon</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Emne</value>
+  </data>
+  <data name="TemplateFile" xml:space="preserve">
+    <value>Skabelon fil</value>
+  </data>
+  <data name="CountrySpecificVat" xml:space="preserve">
+    <value>Lande specifik moms</value>
+  </data>
+  <data name="VatGroupSaved" xml:space="preserve">
+    <value>Momsgruppe gemt</value>
+  </data>
+  <data name="VatRate" xml:space="preserve">
+    <value>Momssats</value>
+  </data>
+  <data name="CultureName" xml:space="preserve">
+    <value>Kultur navn</value>
+  </data>
+  <data name="CurrencySaved" xml:space="preserve">
+    <value>Valuta gemt</value>
+  </data>
+  <data name="EG" xml:space="preserve">
+    <value>fx.</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Venstre</value>
+  </data>
+  <data name="PricePropertyAlias" xml:space="preserve">
+    <value>Pris property alias</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Højre</value>
+  </data>
+  <data name="Symbol" xml:space="preserve">
+    <value>Symbol</value>
+  </data>
+  <data name="SymbolPlacement" xml:space="preserve">
+    <value>Symbol placering</value>
+  </data>
+  <data name="USD" xml:space="preserve">
+    <value>USD</value>
+  </data>
+  <data name="UseSpecificSymbol" xml:space="preserve">
+    <value>Brug specifikt symbol</value>
+  </data>
+  <data name="OrderStatusSaved" xml:space="preserve">
+    <value>Ordrestatus gemt</value>
+  </data>
+  <data name="Countries" xml:space="preserve">
+    <value>Lande</value>
+  </data>
+  <data name="CountryRegionSaved" xml:space="preserve">
+    <value>Lande region gemt</value>
+  </data>
+  <data name="CountrySaved" xml:space="preserve">
+    <value>Land gemt</value>
+  </data>
+  <data name="DefaultCurrency" xml:space="preserve">
+    <value>Standard valuta</value>
+  </data>
+  <data name="DefaultPaymentMethod" xml:space="preserve">
+    <value>Standard betalingsmetode</value>
+  </data>
+  <data name="DefaultShippingMethod" xml:space="preserve">
+    <value>Standard leveringsmetode</value>
+  </data>
+  <data name="RegionCode" xml:space="preserve">
+    <value>Regionskode</value>
+  </data>
+  <data name="AvailableInTheseCountries" xml:space="preserve">
+    <value>Tilgængelig i disse lande</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Gem</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sortér</value>
+  </data>
+  <data name="SortHelp" xml:space="preserve">
+    <value>Træk de forskellige elementer op eller ned for at indstille hvordan de skal arrangeres, eller klik på kolonnehovederne for at sortere hele rækken af elementer</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Billede</value>
+  </data>
+  <data name="PaymentMethodSaved" xml:space="preserve">
+    <value>Betalingsmetode gemt</value>
+  </data>
+  <data name="ShippingMethodSaved" xml:space="preserve">
+    <value>Leveringsmetode gemt</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Valuta</value>
+  </data>
+  <data name="DefaultPrices" xml:space="preserve">
+    <value>Standard priser</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Pris</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Indstillinger</value>
+  </data>
+  <data name="Sku" xml:space="preserve">
+    <value>Varenummer</value>
+  </data>
+  <data name="VatGroup" xml:space="preserve">
+    <value>Momsgruppe</value>
+  </data>
+  <data name="CustomPrices" xml:space="preserve">
+    <value>Tilpassede priser</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Slet</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Rediger</value>
+  </data>
+  <data name="Currencies" xml:space="preserve">
+    <value>Valutaer</value>
+  </data>
+  <data name="EmailTemplates" xml:space="preserve">
+    <value>Email skabeloner</value>
+  </data>
+  <data name="Internationalization" xml:space="preserve">
+    <value>Internationalisering</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Ordrer</value>
+  </data>
+  <data name="OrderStatuses" xml:space="preserve">
+    <value>Ordrestatus</value>
+  </data>
+  <data name="PaymentMethods" xml:space="preserve">
+    <value>Betalingsmetoder</value>
+  </data>
+  <data name="ShippingMethods" xml:space="preserve">
+    <value>Leveringsmetoder</value>
+  </data>
+  <data name="Stores" xml:space="preserve">
+    <value>Butikker</value>
+  </data>
+  <data name="VatGroups" xml:space="preserve">
+    <value>Momsgrupper</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Alle</value>
+  </data>
+  <data name="CapturePayment" xml:space="preserve">
+    <value>Overfør betaling</value>
+  </data>
+  <data name="Cart" xml:space="preserve">
+    <value>Kurv</value>
+  </data>
+  <data name="ChangeOrderStatus" xml:space="preserve">
+    <value>Ændre ordre status</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Oprettet</value>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Kunde</value>
+  </data>
+  <data name="DeleteOrders" xml:space="preserve">
+    <value>Slet ordre</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>Slutdato</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Fornavn</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Efternavn</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Ordre</value>
+  </data>
+  <data name="OrdersPerPage" xml:space="preserve">
+    <value>Ordrer pr. side</value>
+  </data>
+  <data name="OrderStage" xml:space="preserve">
+    <value>Ordrestadie</value>
+  </data>
+  <data name="OrderStatus" xml:space="preserve">
+    <value>Ordrestatus</value>
+  </data>
+  <data name="PaymentMethod" xml:space="preserve">
+    <value>Betalingsmetode</value>
+  </data>
+  <data name="PaymentState" xml:space="preserve">
+    <value>Betalingsstadie</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Nulstil</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Søg</value>
+  </data>
+  <data name="SearchCriteria" xml:space="preserve">
+    <value>Søgekriterier</value>
+  </data>
+  <data name="SearchResult" xml:space="preserve">
+    <value>Søgeresultat</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Startdato</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Værktøjer</value>
+  </data>
+  <data name="OrderSaved" xml:space="preserve">
+    <value>Ordre gemt</value>
+  </data>
+  <data name="Authorized" xml:space="preserve">
+    <value>Godkendt</value>
+  </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Annulleret</value>
+  </data>
+  <data name="Captured" xml:space="preserve">
+    <value>Overført</value>
+  </data>
+  <data name="Initialized" xml:space="preserve">
+    <value>Indledt</value>
+  </data>
+  <data name="Refunded" xml:space="preserve">
+    <value>Refunderet</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Beløb</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Er du sikker på du vil slette dette?</value>
+  </data>
+  <data name="EmailSent" xml:space="preserve">
+    <value>Email afsendt</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Fejl</value>
+  </data>
+  <data name="ReferenceId" xml:space="preserve">
+    <value>Reference id</value>
+  </data>
+  <data name="SendEmail" xml:space="preserve">
+    <value>Send email</value>
+  </data>
+  <data name="Transaction" xml:space="preserve">
+    <value>Transaktion</value>
+  </data>
+  <data name="TransactionId" xml:space="preserve">
+    <value>Transaktionsid</value>
+  </data>
+  <data name="IsoCode" xml:space="preserve">
+    <value>ISO kode</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="OneMomentPlease" xml:space="preserve">
+    <value>Vent venligst...</value>
+  </data>
+  <data name="UserPermissionsSaved" xml:space="preserve">
+    <value>Brugertilladelser gemt</value>
+  </data>
+  <data name="CreateAndDeleteStore" xml:space="preserve">
+    <value>Opret/Slet butik</value>
+  </data>
+  <data name="StoreSpecificPermissions" xml:space="preserve">
+    <value>Butiksspecifik rettighed</value>
+  </data>
+  <data name="OrderNumer" xml:space="preserve">
+    <value>Ordrenummer</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Vælg/Fravælg alle</value>
+  </data>
+  <data name="ToAddresses" xml:space="preserve">
+    <value>Til adresser</value>
+  </data>
+  <data name="Marketing" xml:space="preserve">
+    <value>Marketing</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Aktiv</value>
+  </data>
+  <data name="CampaignSave" xml:space="preserve">
+    <value>Kampagne saved</value>
+  </data>
+  <data name="ConfirmDeleteOrder" xml:space="preserve">
+    <value>Er du sikker på du vil slette dette?\nHvis ordren er færdigjort vil produkterne blive tilskrevet lageret, gavekort vil blive refunderet og rabatkoder krediteres.</value>
+  </data>
+  <data name="GiftCards" xml:space="preserve">
+    <value>Gavekort</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Kode</value>
+  </data>
+  <data name="OriginalAmount" xml:space="preserve">
+    <value>Oprindeligt beløb</value>
+  </data>
+  <data name="RemainingAmount" xml:space="preserve">
+    <value>Resterende beløb</value>
+  </data>
+  <data name="ValidTo" xml:space="preserve">
+    <value>Gyldigt til</value>
+  </data>
+  <data name="GiftCardSaved" xml:space="preserve">
+    <value>Gavekort gemt</value>
+  </data>
+  <data name="UsedAmount" xml:space="preserve">
+    <value>Brugt beløb</value>
+  </data>
+  <data name="DaysRemaining" xml:space="preserve">
+    <value>Dage tilbage</value>
+  </data>
+  <data name="RevertFinalize" xml:space="preserve">
+    <value>Tilbagefør færdiggørelse</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="InconsistentPayment" xml:space="preserve">
+    <value>Inkonsistent betaling</value>
+  </data>
+  <data name="TrialMode" xml:space="preserve">
+    <value>Tea Commerce kører i demo tilstand - ordrenumre større end 20 vil ikke blive gemt.</value>
+  </data>
+  <data name="TrialModeBuy" xml:space="preserve">
+    <value>Bestil den fulde version i dag.</value>
+  </data>
+  <data name="TrialModeMarketing" xml:space="preserve">
+    <value>Tea Commerce Marketing kører i demo tilstand - rabatter vil ikke blive anvendt på ordrenumre større end 20.</value>
+  </data>
+  <data name="EmailError" xml:space="preserve">
+    <value>Fejl ved afsendelse af e-mail</value>
+  </data>
+</root>

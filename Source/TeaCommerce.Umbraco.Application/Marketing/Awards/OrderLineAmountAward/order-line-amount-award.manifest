@@ -1,0 +1,10 @@
+﻿{
+  name: 'Order line amount award',
+  alias: 'OrderLineAmountAward',
+  editor: {
+    view: '/App_Plugins/TeaCommerce/Marketing/Awards/OrderLineAmountAward/order-line-amount-award.html'
+  },
+  javascripts: [
+    '/App_Plugins/TeaCommerce/Marketing/Awards/OrderLineAmountAward/order-line-amount-award.controller.js'
+  ]
+}

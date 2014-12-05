@@ -1,0 +1,10 @@
+﻿{
+  name: 'Order amount rule',
+  alias: 'OrderAmountRule',
+  editor: {
+    view: '/App_Plugins/TeaCommerce/Marketing/Rules/OrderAmountRule/order-amount-rule.html'
+  },
+  javascripts: [
+    '/App_Plugins/TeaCommerce/Marketing/Rules/OrderAmountRule/order-amount-rule.controller.js'
+  ]
+}

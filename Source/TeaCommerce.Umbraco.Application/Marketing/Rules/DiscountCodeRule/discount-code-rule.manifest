@@ -1,0 +1,10 @@
+﻿{
+  name: 'Discount code rule',
+  alias: 'DiscountCodeRule',
+  editor: {
+    view: '/App_Plugins/TeaCommerce/Marketing/Rules/DiscountCodeRule/discount-code-rule.html'
+  },
+  javascripts: [
+    '/App_Plugins/TeaCommerce/Marketing/Rules/DiscountCodeRule/discount-code-rule.controller.js'
+  ]
+}

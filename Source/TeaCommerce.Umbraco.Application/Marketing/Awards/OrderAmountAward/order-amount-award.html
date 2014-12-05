@@ -1,0 +1,32 @@
+﻿<table ng-controller="OrderAmountAwardController" style="width: 100%;" cellpadding="0" cellspacing="0">
+  <tr>
+    <td valign="top">
+      <select ng-model="award.settings.type" ng-disabled="!editMode" class="guiInputText">
+        <option value="0">Subtotal price</option>
+        <option value="1">Shipment price</option>
+        <option value="2">Payment price</option>
+        <option value="3">Total price</option>
+      </select>
+      <div style="padding-top: 4px;">
+        <input type="radio" value="true" ng-model="award.settings.usePercentage" ng-disabled="!editMode" />Percentage
+        <input type="radio" value="false" ng-model="award.settings.usePercentage" ng-disabled="!editMode" />Amount
+      </div>
+      <div ng-show="award.settings.usePercentage == 'true'" style="padding-top:4px;">
+        <input type="text" ng-model="award.settings.percentage" ng-disabled="!editMode" placeholder="Percentage" class="guiInputText" />&nbsp;%
+      </div>
+      <table ng-show="award.settings.usePercentage != 'true'" class="table" style="width: 100%;" cellpadding="0" cellspacing="0">
+        <tr ng-repeat="currency in currencies">
+          <td style="width: 25px;">{{currency.name}}</td>
+          <td>
+            <input type="text" ng-model="currency.amount" ng-disabled="!editMode" placeholder="Price" class="guiInputText" />
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td style="width: 100px;" valign="top" class="buttons">
+      <a href="#" ng-click="editMode=true" ng-show="!editMode" class="edit">Edit</a>
+      <a href="#" ng-click="deleteAward(award)" ng-show="!editMode" class="delete">Delete</a>
+      <a href="#" ng-click="save()" ng-show="editMode" class="save">Save</a>
+    </td>
+  </tr>
+</table>

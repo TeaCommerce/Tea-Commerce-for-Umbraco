@@ -1,0 +1,21 @@
+﻿@using TeaCommerce.Umbraco.Web;
+@inherits TemplateContext<Order>
+@if ( Model != null ) {
+
+  <table>
+    <tr>
+      <td>
+        <p>
+          Hi @Model.PaymentInformation.FirstName @Model.PaymentInformation.LastName,
+        </p>
+        <p>
+          There is a problem with your payment for order @Model.OrderNumber. Please contact us at your earliest convenience.
+        </p>
+        <p>
+          Your order will not be shipped until we have resolved this problem.
+        </p>
+      </td>
+    </tr>
+  </table>
+ 
+}

@@ -1,0 +1,10 @@
+﻿{
+  name: 'Order line quantity rule',
+  alias: 'OrderLineQuantityRule',
+  editor: {
+    view: '/App_Plugins/TeaCommerce/Marketing/Rules/OrderLineQuantityRule/order-line-quantity-rule.html'
+  },
+  javascripts: [
+    '/App_Plugins/TeaCommerce/Marketing/Rules/OrderLineQuantityRule/order-line-quantity-rule.controller.js'
+  ]
+}

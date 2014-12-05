@@ -1,0 +1,32 @@
+﻿{
+  propertyEditors: [{
+    alias: 'TeaCommerce.StorePicker',
+	  name: 'Tea Commerce: Store picker',
+	  editor: {
+  	  view: '~/App_Plugins/TeaCommerce/PropertyEditors/store-picker.html',
+	    hideLabel: false,
+	    valueType: 'INT'
+	  }
+  },{
+    alias: 'TeaCommerce.VatGroupPicker',
+	  name: 'Tea Commerce: VAT group picker',
+	  editor: {
+	    view: '~/App_Plugins/TeaCommerce/PropertyEditors/vat-group-picker.html',
+	    hideLabel: false,
+	    valueType: 'INT'
+	  }
+  },{
+    alias: 'TeaCommerce.StockManagement',
+	  name: 'Tea Commerce: Stock management',
+	  editor: {
+	    view: '~/App_Plugins/TeaCommerce/PropertyEditors/stock-management.html',
+	    hideLabel: false,
+	    valueType: 'STRING'
+	  }
+  }],
+  javascript: [
+    '~/App_Plugins/TeaCommerce/PropertyEditors/store-picker.controller.js',
+	  '~/App_Plugins/TeaCommerce/PropertyEditors/vat-group-picker.controller.js',
+	  '~/App_Plugins/TeaCommerce/PropertyEditors/stock-management.controller.js'
+  ]
+}
