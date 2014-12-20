@@ -9,15 +9,12 @@
         <option value="4">&lt;=</option>
       </select>
       <input type="text" ng-model="rule.settings.quantity" ng-disabled="!editMode" placeholder="Quantity" class="guiInputText" />
-      <span class="accumulate">
-          <input type="checkbox" ng-model="rule.settings.accumulate" ng-disabled="!editMode" id="accumulate{{rule.id}}" name="accumulate{{rule.id}}" />
-          <label for="accumulate{{rule.id}}" title="Check to use the accumulated quantity of previously fulfilled order lines">Accumulate</label>
-      </span>
+      <input type="checkbox" ng-model="rule.settings.accumulate" ng-disabled="!editMode" name="accumulate{{rule.id}}" /><label for="accumulate{{rule.id}}" title="Check to use the accumulated quantity of previously fulfilled order lines">Accumulate</label>
     </td>
     <td style="width: 100px;" valign="top" class="buttons">
-      <a href="#" ng-click="editMode=true" ng-show="!editMode" class="edit"><i class="icon-edit"></i>Edit</a>
-      <a href="#" ng-click="deleteRule(rule)" ng-show="!editMode" class="delete"><i class="icon-delete"></i>Delete</a>
-      <a href="#" ng-click="save()" ng-show="editMode" class="save"><i class="icon-hard-drive"></i>Save</a>
+      <a href="#" ng-click="editMode=true" ng-show="!editMode" class="edit">Edit</a>
+      <a href="#" ng-click="deleteRule(rule)" ng-show="!editMode" class="delete">Delete</a>
+      <a href="#" ng-click="save()" ng-show="editMode" class="save">Save</a>
     </td>
   </tr>
 </table>

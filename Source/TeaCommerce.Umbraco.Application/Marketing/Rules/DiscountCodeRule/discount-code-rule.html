@@ -6,69 +6,69 @@
         Unused discount codes: {{numberOfUnusedDiscountCodes}}
       </div>
       <div ng-show="editMode">
-        <input type="radio" value="manual" id="manual{{rule.id}}" ng-model="view" /><label for="manual{{rule.id}}">Manual</label>
-        <input type="radio" value="generate" id="generate{{rule.id}}" ng-model="view"><label for="generate{{rule.id}}">Generate</label>
+        <input type="radio" value="manual" ng-model="view" />Manual
+        <input type="radio" value="generate" ng-model="view">Generate
         <div ng-show="view == 'manual'">
           <table class="table" style="width: 100%;" cellpadding="0" cellspacing="0">
             <tr>
-              <td style="width: 125px;"><label for="manual{{rule.id}}-1">Max uses</label></td>
+              <td style="width: 125px;">Max uses</td>
               <td>
-                <input type="text" ng-model="manualSettings.maxUses" id="manual{{rule.id}}-1" class="guiInputText" />
+                <input type="text" ng-model="manualSettings.maxUses" class="guiInputText" />
               </td>
             </tr>
           </table>
           <textarea ng-model="manualSettings.codes" class="umbEditorTextFieldMultiple" style="margin-top: 4px;" placeholder="Codes"></textarea><br />
-          <a href="#" ng-click="manual()" class="add-discount-code-rule"><i class="icon-add"></i>Add</a>
+          <a href="#" ng-click="manual()">Add</a>
         </div>
         <div ng-show="view == 'generate'">
           <table class="table" style="width: 100%;" cellpadding="0" cellspacing="0">
             <tr>
-              <td style="width: 125px;"><label for="generate{{rule.id}}-1">Number to generate</label></td>
+              <td style="width: 125px;">Number to generate</td>
               <td>
-                <input type="text" ng-model="generateSettings.numberToGenerate" id="generate{{rule.id}}-1" class="guiInputText" />
+                <input type="text" ng-model="generateSettings.numberToGenerate" class="guiInputText" />
               </td>
             </tr>
             <tr>
-              <td><label for="generate{{rule.id}}-2">Max uses</label></td>
+              <td>Max uses</td>
               <td>
-                <input type="text" ng-model="generateSettings.maxUses" id="generate{{rule.id}}-2" class="guiInputText" />
+                <input type="text" ng-model="generateSettings.maxUses" class="guiInputText" />
               </td>
             </tr>
             <tr>
-              <td><label for="generate{{rule.id}}-3">Length of code</label></td>
+              <td>Length of code</td>
               <td>
-                <input type="text" ng-model="generateSettings.length" id="generate{{rule.id}}-3" class="guiInputText" />
+                <input type="text" ng-model="generateSettings.length" class="guiInputText" />
               </td>
             </tr>
             <tr>
-              <td><label for="generate{{rule.id}}-4">Prefix</label></td>
+              <td>Prefix</td>
               <td>
-                <input type="text" ng-model="generateSettings.prefix" id="generate{{rule.id}}-4" class="guiInputText" />
+                <input type="text" ng-model="generateSettings.prefix" class="guiInputText" />
               </td>
             </tr>
             <tr>
-              <td><label for="generate{{rule.id}}-5">Postfix</label></td>
+              <td>Postfix</td>
               <td>
-                <input type="text" ng-model="generateSettings.postfix" id="generate{{rule.id}}-5" class="guiInputText" />
+                <input type="text" ng-model="generateSettings.postfix" class="guiInputText" />
               </td>
             </tr>
             <tr>
-              <td><label class="no-edit">Example</label></td>
+              <td>Example</td>
               <td>{{generateSettings.prefix}}<span ng-repeat="i in getNumber(generateSettings.length) track by $index">X</span>{{generateSettings.postfix}}</td>
             </tr>
             <tr>
               <td></td>
-              <td><a href="#" ng-click="generate()" class="add-discount-code-rule"><i class="icon-add"></i>Add</a></td>
+              <td><a href="#" ng-click="generate()">Add</a></td>
             </tr>
           </table>
         </div>
       </div>
     </td>
     <td style="width: 100px;" valign="top" class="buttons">
-      <a href="#" ng-click="editMode=true" ng-show="!editMode" class="edit"><i class="icon-edit"></i>Edit</a>
-      <a href="#" ng-click="download()" ng-show="!editMode" class="download"><i class="icon-download-alt"></i>Download</a>
-      <a href="#" ng-click="deleteRule(rule)" ng-show="!editMode" class="delete"><i class="icon-delete"></i>Delete</a>
-      <a href="#" ng-click="editMode=false" ng-show="editMode" class="cancel"><i class="icon-reply-arrow"></i>Cancel</a>
+      <a href="#" ng-click="editMode=true" ng-show="!editMode" class="edit">Edit</a>
+      <a href="#" ng-click="download()" ng-show="!editMode" class="download">Download</a>
+      <a href="#" ng-click="deleteRule(rule)" ng-show="!editMode" class="delete">Delete</a>
+      <a href="#" ng-click="editMode=false" ng-show="editMode" class="cancel">Cancel</a>
     </td>
   </tr>
 </table>

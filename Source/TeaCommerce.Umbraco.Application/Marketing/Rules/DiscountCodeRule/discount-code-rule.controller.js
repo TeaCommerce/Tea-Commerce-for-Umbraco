@@ -1,7 +1,5 @@
 ﻿angular.module('TeaCommerce').controller('DiscountCodeRuleController', function ($scope, $http) {
   $scope.editMode = false;
-  $scope.numberOfDiscountCodes = 0;
-  $scope.numberOfUnusedDiscountCodes = 0;
 
   $scope.resetManual = function () {
     $scope.manualSettings = { codes: '', maxUses: 1 };
