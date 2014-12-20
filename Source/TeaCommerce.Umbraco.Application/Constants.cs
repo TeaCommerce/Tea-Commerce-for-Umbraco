@@ -33,7 +33,8 @@
       public const string MoneyCoin = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.money-coin.png";
       public const string Money = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.money.png";
       public const string Store = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.store.png";
-      public const string TagLabel = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.tag-label.png";
+      public const string TagLabelBlue = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.tag-label-blue.png";
+      public const string TagLabelRed = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.tag-label-red.png";
       public const string Target = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.target.png";
       public const string Toolbox = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.toolbox.png";
       public const string TruckBoxLabel = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.truck-box-label.png";

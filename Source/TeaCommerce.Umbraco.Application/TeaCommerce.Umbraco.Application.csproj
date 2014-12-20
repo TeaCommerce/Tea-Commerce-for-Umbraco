@@ -104,6 +104,7 @@
     <EmbeddedResource Include="Content\Images\TreeIcons\user.png" />
     <EmbeddedResource Include="Content\Images\TreeIcons\certificate.png" />
     <EmbeddedResource Include="Content\Images\exclamation.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\tag-label-red.png" />
     <Content Include="Marketing\Assets\Scripts\campaign.controller.js" />
     <Content Include="Marketing\Awards\OrderLineAmountAward\order-line-amount-award.controller.js" />
     <Content Include="Marketing\Awards\OrderLineAmountAward\order-line-amount-award.html" />
@@ -162,7 +163,7 @@
     <EmbeddedResource Include="Content\Images\TreeIcons\money-coin.png" />
     <EmbeddedResource Include="Content\Images\TreeIcons\money.png" />
     <EmbeddedResource Include="Content\Images\TreeIcons\store.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\tag-label.png" />
+    <EmbeddedResource Include="Content\Images\TreeIcons\tag-label-blue.png" />
     <EmbeddedResource Include="Content\Images\TreeIcons\target.png" />
     <EmbeddedResource Include="Content\Images\TreeIcons\toolbox.png" />
     <EmbeddedResource Include="Content\Images\TreeIcons\truck-box-label.png" />
