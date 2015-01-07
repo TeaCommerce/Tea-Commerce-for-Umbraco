@@ -779,6 +779,20 @@ if (typeof TC === 'undefined') { var TC = {}; }
       var defaultSettings = {};
       return jQuery.extend({}, defaultSettings, settings);
     };
+    
+    /*************************************************************
+    - UTILS
+    *************************************************************/
+    //Returns true if the array contains the object
+    TCService.arrayContains = function (array, obj) {
+        var i = this.length;
+        while (i--) {
+            if (this[i] === obj) {
+                return i;
+            }
+        }
+        return -1;
+    };
 
     /*
     ** EVENT HANDLING
@@ -861,12 +875,12 @@ if (typeof TC === 'undefined') { var TC = {}; }
           for (i = 0; i < formData.length; i++) {
             var item = formData[i],
                 name = item.name,
-                methodIndex = TCService.allMethods.contains(name);
+                methodIndex = TCService.arrayContains(TCService.allMethods, name);
 
             //Make sure the filed is a valid method
             if (methodIndex > -1) {
               //Make sure that the method has not yet been called
-              if (calledMethods.contains(name) < 0) {
+              if (TCService.arrayContains(calledMethods, name) < 0) {
                 TCService.fireBeforeEvent(name, formData, jQForm);
                 calledMethods.push(name);
               }
@@ -895,20 +909,3 @@ if (typeof TC === 'undefined') { var TC = {}; }
 
   var tcs = new TCService();
 })();
-
-
-
-
-/*************************************************************
-- UTILS
-*************************************************************/
-//Returns true if the array contains the object
-Array.prototype.contains = function (obj) {
-  var i = this.length;
-  while (i--) {
-    if (this[i] === obj) {
-      return i;
-    }
-  }
-  return -1;
-};
