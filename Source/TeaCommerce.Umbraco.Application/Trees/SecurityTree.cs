@@ -35,22 +35,20 @@ namespace TeaCommerce.Umbraco.Application.Trees {
           bool showAllUsers = currentUser != null && ( currentUser.IsRoot() || currentUser.Applications.Any( a => a.alias == "users" ) );
 
           foreach ( User user in User.getAll() ) {
+            if ( user.IsRoot() || user.Applications.All( a => a.alias != "teacommerce" ) ) continue; //Don't ever show admin user
 
-            if ( !user.IsRoot() ) { //Don't ever show admin user
+            bool showUser = showAllUsers || user.Id.ToString( CultureInfo.InvariantCulture ) == permissions.UserId;
 
-              bool showUser = showAllUsers || user.Id.ToString( CultureInfo.InvariantCulture ) == permissions.UserId;
+            //If user still doesn't have access - then only show users that has access to the same store as current user
+            if ( !showUser ) {
+              Permissions userPermissions = PermissionService.Instance.Get( user.Id.ToString( CultureInfo.InvariantCulture ) );
+              showUser = userPermissions != null && permissions.StoreSpecificPermissions.Any( p => p.Value.HasFlag( StoreSpecificPermissionType.AccessStore ) && userPermissions.HasPermission( StoreSpecificPermissionType.AccessStore, p.Key ) );
+            }
 
-              //If user still doesn't have access - then only show users that has access to the same store as current user
-              if ( !showUser ) {
-                Permissions userPermissions = PermissionService.Instance.Get( user.Id.ToString( CultureInfo.InvariantCulture ) );
-                showUser = userPermissions != null && permissions.StoreSpecificPermissions.Any( p => p.Value.HasFlag( StoreSpecificPermissionType.AccessStore ) && userPermissions.HasPermission( StoreSpecificPermissionType.AccessStore, p.Key ) );
-              }
-
-              if ( showUser ) {
-                XmlTreeNode node = CreateNode( GetNodeIdentifier( SecurityTreeNodeType.User, user.Id ), user.Name, Constants.TreeIcons.User, "user" );
-                node.Action = "javascript:(function(){" + ClientTools.Scripts.ChangeContentFrameUrl( WebUtils.GetPageUrl( Constants.Pages.EditUserPermissions ) + "?id=" + user.Id ) + "})";
-                tree.Add( node );
-              }
+            if ( showUser ) {
+              XmlTreeNode node = CreateNode( GetNodeIdentifier( SecurityTreeNodeType.User, user.Id ), user.Name, Constants.TreeIcons.User, "user" );
+              node.Action = "javascript:(function(){" + ClientTools.Scripts.ChangeContentFrameUrl( WebUtils.GetPageUrl( Constants.Pages.EditUserPermissions ) + "?id=" + user.Id ) + "})";
+              tree.Add( node );
             }
           }
           break;
