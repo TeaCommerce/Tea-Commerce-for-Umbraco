@@ -108,7 +108,7 @@ namespace TeaCommerce.Umbraco.Application.Views.Orders {
 
     protected void BtnDelete_Click( object sender, EventArgs e ) {
       if ( _order.Delete() ) {
-        Response.Redirect( WebUtils.GetPageUrl( Constants.Pages.SearchOrders ) + "?storeId=" + _order.StoreId + "&orderStatusId=" + _order.OrderStatusId );
+        Response.Redirect( WebUtils.GetPageUrl( Constants.Pages.SearchOrders, false ) + "?storeId=" + _order.StoreId + "&orderStatusId=" + _order.OrderStatusId );
       }
     }
 
