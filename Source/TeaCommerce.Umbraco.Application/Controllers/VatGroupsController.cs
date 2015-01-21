@@ -1,9 +1,7 @@
-﻿using System.Net;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Xml.XPath;
-using TeaCommerce.Api.Infrastructure.Security;
 using TeaCommerce.Api.Serialization;
 using TeaCommerce.Api.Services;
 using TeaCommerce.Umbraco.Configuration.InformationExtractors;
@@ -23,10 +21,6 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
 
       long storeId = productInformationExtractor.GetStoreId( xPathNavigator, false );
 
-      if ( !productInformationExtractor.HasAccess( storeId, xPathNavigator, false ) ) {
-        throw new HttpResponseException( HttpStatusCode.Forbidden );
-      }
-
       HttpResponseMessage response = new HttpResponseMessage {
         Content = new StringContent( VatGroupService.Instance.GetAll( storeId ).ToJson() )
       };
@@ -41,10 +35,6 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
       IXmlNodeProductInformationExtractor productInformationExtractor = XmlNodeProductInformationExtractor.Instance;
 
       long storeId = productInformationExtractor.GetStoreId( xPathNavigator, false );
-
-      if ( !productInformationExtractor.HasAccess( storeId, xPathNavigator, false ) ) {
-        throw new HttpResponseException( HttpStatusCode.Forbidden );
-      }
 
       HttpResponseMessage response = new HttpResponseMessage {
         Content = new StringContent( VatGroupService.Instance.Get( storeId, vatGroupId ).ToJson() )
