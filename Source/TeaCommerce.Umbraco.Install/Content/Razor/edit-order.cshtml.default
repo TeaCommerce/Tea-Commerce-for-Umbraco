@@ -355,7 +355,7 @@
     </table>
   </div>
   
-  if ( Model.DiscountCodes.Count > 0 || Model.GiftCards.Count > 0 ) {
+  @if ( Model.DiscountCodes.Count > 0 || Model.GiftCards.Count > 0 ) {
   
   <h3 class="propertypaneTitel">Discount codes and gift cards</h3>
   
