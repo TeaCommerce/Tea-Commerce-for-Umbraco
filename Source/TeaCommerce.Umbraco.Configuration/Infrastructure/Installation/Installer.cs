@@ -34,7 +34,7 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Installation {
       Database database = _databaseFactory.Get();
 
       int currentVersion = database.ExecuteScalar<int>( "SELECT SpecialActionsVersion FROM TeaCommerce_Version" );
-      int newVersion = 5;
+      int newVersion = 6;
 
       while ( currentVersion < newVersion ) {
         try {
@@ -112,7 +112,7 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Installation {
           #endregion
 
           #region 3.0.0
-          
+
           if ( currentVersion + 1 == 4 ) {
             #region Remove old javascript API file
             string javaScriptApiFile = HostingEnvironment.MapPath( "~/scripts/tea-commerce.min.js" );
@@ -140,6 +140,21 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Installation {
               store.Save();
             }
 
+            #endregion
+          }
+
+          #endregion
+
+          #region 3.0.1
+
+          if ( currentVersion + 1 == 5 ) {
+            #region Set default gift card settings for stores
+
+            foreach ( Store store in _storeService.GetAll().Where( store => store.GiftCardSettings.Length == 0 && store.GiftCardSettings.DaysValid == 0 ) ) {
+              store.GiftCardSettings.Length = 10;
+              store.GiftCardSettings.DaysValid = 1095;
+              store.Save();
+            }
             #endregion
           }
 
