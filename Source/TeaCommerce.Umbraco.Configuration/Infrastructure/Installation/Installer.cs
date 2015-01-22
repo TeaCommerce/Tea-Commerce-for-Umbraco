@@ -34,7 +34,7 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Installation {
       Database database = _databaseFactory.Get();
 
       int currentVersion = database.ExecuteScalar<int>( "SELECT SpecialActionsVersion FROM TeaCommerce_Version" );
-      int newVersion = 6;
+      int newVersion = 5;
 
       while ( currentVersion < newVersion ) {
         try {
@@ -134,7 +134,7 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Installation {
 
             #region Create default gift card settings
 
-            foreach ( Store store in _storeService.GetAll().Where( store => store.GiftCardSettings.Length == 0 && store.GiftCardSettings.DaysValid == 0 ) ) {
+            foreach ( Store store in _storeService.GetAll() ) {
               store.GiftCardSettings.Length = 10;
               store.GiftCardSettings.DaysValid = 1095;
               store.Save();
