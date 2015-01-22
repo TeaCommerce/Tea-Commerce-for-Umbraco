@@ -134,27 +134,12 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Installation {
 
             #region Create default gift card settings
 
-            foreach ( Store store in _storeService.GetAll() ) {
-              store.GiftCardSettings.Length = 10;
-              store.GiftCardSettings.DaysValid = 1095;
-              store.Save();
-            }
-
-            #endregion
-          }
-
-          #endregion
-
-          #region 3.0.1
-
-          if ( currentVersion + 1 == 5 ) {
-            #region Set default gift card settings for stores
-
             foreach ( Store store in _storeService.GetAll().Where( store => store.GiftCardSettings.Length == 0 && store.GiftCardSettings.DaysValid == 0 ) ) {
               store.GiftCardSettings.Length = 10;
               store.GiftCardSettings.DaysValid = 1095;
               store.Save();
             }
+
             #endregion
           }
 
