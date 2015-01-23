@@ -871,7 +871,7 @@ if (typeof TC === 'undefined') { var TC = {}; }
           for (i = 0; i < formData.length; i++) {
             var item = formData[i],
                 name = item.name,
-                methodIndex = TCService.arrayContains(allMethods,name);
+                methodIndex = TCService.arrayContains(TCService.allMethods, name);
 
             //Make sure the filed is a valid method
             if (methodIndex > -1) {
