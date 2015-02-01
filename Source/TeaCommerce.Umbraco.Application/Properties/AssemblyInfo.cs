@@ -64,6 +64,7 @@ using TeaCommerce.Umbraco.Application;
 [assembly: WebResource( Constants.TreeIcons.Money, Constants.MimeTypes.PNG )]
 [assembly: WebResource( Constants.TreeIcons.Store, Constants.MimeTypes.PNG )]
 [assembly: WebResource( Constants.TreeIcons.TagLabel, Constants.MimeTypes.PNG )]
+[assembly: WebResource( Constants.TreeIcons.TagLabelRed, Constants.MimeTypes.PNG )]
 [assembly: WebResource( Constants.TreeIcons.Target, Constants.MimeTypes.PNG )]
 [assembly: WebResource( Constants.TreeIcons.Toolbox, Constants.MimeTypes.PNG )]
 [assembly: WebResource( Constants.TreeIcons.TruckBoxLabel, Constants.MimeTypes.PNG )]
