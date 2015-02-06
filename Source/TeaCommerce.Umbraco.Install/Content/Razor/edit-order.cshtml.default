@@ -12,7 +12,7 @@
 
   <div class="umb-pane">
   
-  @if ( Model.TransactionInformation.InconsistentPayment ) {
+  if ( Model.TransactionInformation.InconsistentPayment ) {
   <div style="background: #FBE3E4; margin: 10px 0; padding: 20px; color: #982927; text-align: center;">
     <strong>Warning: </strong>A total of <strong>@Model.TransactionInformation.AmountAuthorized</strong> has been authorized. The order total is <strong>@Model.TotalPrice.Value</strong><br />
   </div>
