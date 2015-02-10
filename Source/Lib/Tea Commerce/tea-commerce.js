@@ -77,7 +77,7 @@ if (typeof TC === 'undefined') { var TC = {}; }
     }
     return tcs.postToServer(method, formData, settings);
   };
-  
+
   TC.getFinalizedOrdersForCustomer = function (settings) {
     settings = tcs.fixSettings(settings);
     var method = 'GetFinalizedOrdersForCustomer',
@@ -669,7 +669,7 @@ if (typeof TC === 'undefined') { var TC = {}; }
   TC.bind = function (event, fn) {
     tcs.bind(event, fn);
   };
-  
+
   /***************************************************
   - POST FORM USING AJAX
   ***************************************************/
@@ -703,12 +703,12 @@ if (typeof TC === 'undefined') { var TC = {}; }
       if (typeof dataType === 'undefined') {
         dataType = 'json';
       }
-      
+
       if (async) {
         TCService.fireBeforeEvent(method, formData);
         TCService.fireBeforeEvent('CartUpdated', formData);
       }
-      
+
       jQuery.ajax({
         type: 'POST',
         url: '[formPostUrl]',
@@ -791,6 +791,16 @@ if (typeof TC === 'undefined') { var TC = {}; }
       return jQuery.extend({}, defaultSettings, settings);
     };
 
+    TCService.arrayContains = function (array, obj) {
+      var i = array.length;
+      while (i--) {
+        if (array[i] === obj) {
+          return i;
+        }
+      }
+      return -1;
+    };
+
     /*
     ** EVENT HANDLING
     */
@@ -859,7 +869,7 @@ if (typeof TC === 'undefined') { var TC = {}; }
       'FormatPrice',
       'RenderTemplateFile'
     ];
-    
+
     TCService.postForm = function (form, settings) {
       settings = settings ? settings : {};
 
@@ -922,20 +932,3 @@ if (typeof TC === 'undefined') { var TC = {}; }
 
   var tcs = new TCService();
 })();
-
-
-
-
-/*************************************************************
-- UTILS
-*************************************************************/
-//Returns true if the array contains the object
-Array.prototype.contains = function (obj) {
-  var i = this.length;
-  while (i--) {
-    if (this[i] === obj) {
-      return i;
-    }
-  }
-  return -1;
-};
