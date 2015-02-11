@@ -70,7 +70,7 @@ namespace TeaCommerce.Umbraco.Application.Views.Stores {
           }
         }
 
-        Redirect( WebUtils.GetPageUrl( Constants.Pages.EditStore ) + "?id=" + store.Id );
+        Redirect( WebUtils.GetPageUrl( Constants.Pages.EditStore ) + "?id=" + store.Id, StoreService.Instance.GetAll().Count() > 1 );
       }
 
     }

@@ -31,7 +31,7 @@ namespace TeaCommerce.Umbraco.Application.Views.GiftCards {
       if ( Page.IsValid ) {
         GiftCard giftCard = GiftCardService.Instance.Generate( StoreId, long.Parse( DrpCurrencies.SelectedValue ), TxtAmount.Text.ParseToDecimal() ?? 0M );
 
-        Redirect( WebUtils.GetPageUrl( Constants.Pages.EditGiftCard ) + "?id=" + giftCard.Id + "&storeId=" + giftCard.StoreId );
+        Redirect( WebUtils.GetPageUrl( Constants.Pages.EditGiftCard ) + "?id=" + giftCard.Id + "&storeId=" + giftCard.StoreId, false );
       }
     }
 
