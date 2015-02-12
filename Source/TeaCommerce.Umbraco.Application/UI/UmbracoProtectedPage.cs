@@ -12,10 +12,16 @@ namespace TeaCommerce.Umbraco.Application.UI {
 
     protected override void OnInit( EventArgs e ) {
       base.OnInit( e );
-      CommonTerms.Culture = new CultureInfo( UmbracoUser.Language );
-      DeveloperTerms.Culture = new CultureInfo( UmbracoUser.Language );
-      PaymentProviderTerms.Culture = new CultureInfo( UmbracoUser.Language );
-      StoreTerms.Culture = new CultureInfo( UmbracoUser.Language );
+
+      string cultureName = UmbracoUser.Language;
+      if ( cultureName == "en_us" ) {
+        cultureName = "en-us";
+      }
+
+      CommonTerms.Culture = new CultureInfo( cultureName );
+      DeveloperTerms.Culture = new CultureInfo( cultureName );
+      PaymentProviderTerms.Culture = new CultureInfo( cultureName );
+      StoreTerms.Culture = new CultureInfo( cultureName );
     }
 
     public TabView CurrentTabView { get { return ( Master as UmbracoTabView ).CurrentTabView; } }
