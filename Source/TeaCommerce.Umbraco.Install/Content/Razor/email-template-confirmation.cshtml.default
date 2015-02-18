@@ -1,15 +1,16 @@
-﻿@using TeaCommerce.Api.Models
+﻿@using TeaCommerce.Api.Services
+@using TeaCommerce.Api.Models
 @using TeaCommerce.Umbraco.Web
 @inherits TemplateContext<Order>
 @if ( Model.Id != null ) {
 
-  Country paymentCountry = TC.GetCountry( Model.StoreId, Model.PaymentInformation.CountryId );
-  CountryRegion paymentCountryRegion = Model.PaymentInformation.CountryRegionId != null ? TC.GetCountryRegion( Model.StoreId, Model.PaymentInformation.CountryRegionId.Value ) : null;
-  Country shippingCountry = Model.ShipmentInformation.CountryId != null ? TC.GetCountry( Model.StoreId, Model.ShipmentInformation.CountryId.Value ) : null;
-  CountryRegion shippingCountryRegion = Model.ShipmentInformation.CountryRegionId != null ? TC.GetCountryRegion( Model.StoreId, Model.ShipmentInformation.CountryRegionId.Value ) : null;
+  Country paymentCountry = CountryService.Instance.Get( Model.StoreId, Model.PaymentInformation.CountryId );
+  CountryRegion paymentCountryRegion = Model.PaymentInformation.CountryRegionId != null ? CountryRegionService.Instance.Get( Model.StoreId, Model.PaymentInformation.CountryRegionId.Value ) : null;
+  Country shippingCountry = Model.ShipmentInformation.CountryId != null ? CountryService.Instance.Get( Model.StoreId, Model.ShipmentInformation.CountryId.Value ) : null;
+  CountryRegion shippingCountryRegion = Model.ShipmentInformation.CountryRegionId != null ? CountryRegionService.Instance.Get( Model.StoreId, Model.ShipmentInformation.CountryRegionId.Value ) : null;
 
-  PaymentMethod paymentMethod = Model.PaymentInformation.PaymentMethodId != null ? TC.GetPaymentMethod( Model.StoreId, Model.PaymentInformation.PaymentMethodId.Value ) : null;
-  ShippingMethod shippingMethod = Model.ShipmentInformation.ShippingMethodId != null ? TC.GetShippingMethod( Model.StoreId, Model.ShipmentInformation.ShippingMethodId.Value ) : null;
+  PaymentMethod paymentMethod = Model.PaymentInformation.PaymentMethodId != null ? PaymentMethodService.Instance.Get( Model.StoreId, Model.PaymentInformation.PaymentMethodId.Value ) : null;
+  ShippingMethod shippingMethod = Model.ShipmentInformation.ShippingMethodId != null ? ShippingMethodService.Instance.Get( Model.StoreId, Model.ShipmentInformation.ShippingMethodId.Value ) : null;
   
   <h2>Your order @Model.OrderNumber
     @if ( Model.DateFinalized != null ) {
