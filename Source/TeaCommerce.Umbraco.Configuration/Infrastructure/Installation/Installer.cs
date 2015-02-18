@@ -112,7 +112,7 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Installation {
           #endregion
 
           #region 3.0.0
-          
+
           if ( currentVersion + 1 == 4 ) {
             #region Remove old javascript API file
             string javaScriptApiFile = HostingEnvironment.MapPath( "~/scripts/tea-commerce.min.js" );

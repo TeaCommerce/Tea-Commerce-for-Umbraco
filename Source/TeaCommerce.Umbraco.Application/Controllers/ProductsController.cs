@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Xml.XPath;
 using TeaCommerce.Api.Common;
 using TeaCommerce.Api.Services;
@@ -27,10 +26,6 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
 
       long storeId = productInformationExtractor.GetStoreId( xPathNavigator, false );
 
-      if ( !productInformationExtractor.HasAccess( storeId, xPathNavigator, false ) ) {
-        throw new HttpResponseException( HttpStatusCode.Forbidden );
-      }
-
       stock.Sku = productInformationExtractor.GetSku( xPathNavigator, false );
       decimal? stockValue = ProductService.Instance.GetStock( storeId, stock.Sku );
       stock.Value = stockValue != null ? stockValue.Value.ToString( "0.####" ) : "";
@@ -46,11 +41,7 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
       long storeId = productInformationExtractor.GetStoreId( xPathNavigator, false );
       stock.Sku = !string.IsNullOrEmpty( stock.Sku ) ? stock.Sku : productInformationExtractor.GetSku( xPathNavigator, false );
 
-      if ( productInformationExtractor.HasAccess( storeId, xPathNavigator, false ) ) {
-        ProductService.Instance.SetStock( storeId, stock.Sku, !string.IsNullOrEmpty( stock.Value ) ? stock.Value.ParseToDecimal() : null );
-      } else {
-        throw new HttpResponseException( HttpStatusCode.Forbidden );
-      }
+      ProductService.Instance.SetStock( storeId, stock.Sku, !string.IsNullOrEmpty( stock.Value ) ? stock.Value.ParseToDecimal() : null );
     }
 
   }

@@ -1,14 +1,17 @@
-﻿@using TeaCommerce.Api.Models
-@using TeaCommerce.Umbraco.Web;
+﻿@using TeaCommerce.Api.Services
+@using TeaCommerce.Api.Models
+@using TeaCommerce.Umbraco.Web
 @inherits TemplateContext<Order>
 @if ( Model != null ) {
-  Country paymentCountry = TC.GetCountry( Model.StoreId, Model.PaymentInformation.CountryId );
-  CountryRegion paymentCountryRegion = Model.PaymentInformation.CountryRegionId != null ? TC.GetCountryRegion( Model.StoreId, Model.PaymentInformation.CountryRegionId.Value ) : null;
-  Country shippingCountry = Model.ShipmentInformation.CountryId != null ? TC.GetCountry( Model.StoreId, Model.ShipmentInformation.CountryId.Value ) : null;
-  CountryRegion shippingCountryRegion = Model.ShipmentInformation.CountryRegionId != null ? TC.GetCountryRegion( Model.StoreId, Model.ShipmentInformation.CountryRegionId.Value ) : null;
+  OrderStatus orderStatus = OrderStatusService.Instance.Get( Model.StoreId, Model.OrderStatusId );
 
-  PaymentMethod paymentMethod = Model.PaymentInformation.PaymentMethodId != null ? TC.GetPaymentMethod( Model.StoreId, Model.PaymentInformation.PaymentMethodId.Value ) : null;
-  ShippingMethod shippingMethod = Model.ShipmentInformation.ShippingMethodId != null ? TC.GetShippingMethod( Model.StoreId, Model.ShipmentInformation.ShippingMethodId.Value ) : null;
+  Country paymentCountry = CountryService.Instance.Get( Model.StoreId, Model.PaymentInformation.CountryId );
+  CountryRegion paymentCountryRegion = Model.PaymentInformation.CountryRegionId != null ? CountryRegionService.Instance.Get( Model.StoreId, Model.PaymentInformation.CountryRegionId.Value ) : null;
+  Country shippingCountry = Model.ShipmentInformation.CountryId != null ? CountryService.Instance.Get( Model.StoreId, Model.ShipmentInformation.CountryId.Value ) : null;
+  CountryRegion shippingCountryRegion = Model.ShipmentInformation.CountryRegionId != null ? CountryRegionService.Instance.Get( Model.StoreId, Model.ShipmentInformation.CountryRegionId.Value ) : null;
+
+  PaymentMethod paymentMethod = Model.PaymentInformation.PaymentMethodId != null ? PaymentMethodService.Instance.Get( Model.StoreId, Model.PaymentInformation.PaymentMethodId.Value ) : null;
+  ShippingMethod shippingMethod = Model.ShipmentInformation.ShippingMethodId != null ? ShippingMethodService.Instance.Get( Model.StoreId, Model.ShipmentInformation.ShippingMethodId.Value ) : null;
 
   <div class="umb-pane">
   
@@ -232,11 +235,13 @@
             <td style="vertical-align: top;">@orderLine.Sku</td>
             <td style="vertical-align: top;">@orderLine.Name</td>
             <td align="center" style="vertical-align: top;">
-              <button class="orderLinePlus dontPrint">
-                +</button>
-              <input type="text" class="orderLineQuantity" orderlineid="@orderLine.Id" value="@orderLine.Quantity.ToString( "0.####" )" originalquantity="@orderLine.Quantity.ToString( "0.####" )" />
-              <button class="orderLineMinus dontPrint">
-                -</button>
+              @if( !Model.IsFinalized || orderStatus.RecalculateFinalizedOrder ){
+                <button class="orderLinePlus dontPrint">+</button>
+                <input type="text" class="orderLineQuantity" orderlineid="@orderLine.Id" value="@orderLine.Quantity.ToString( "0.####" )" originalquantity="@orderLine.Quantity.ToString( "0.####" )" />
+                <button class="orderLineMinus dontPrint">-</button>
+              } else {
+                <text>@orderLine.Quantity.ToString( "0.####" )</text>
+              }
             </td>
             <td align="right" style="vertical-align: top;">
               @orderLine.UnitPrice
@@ -251,8 +256,9 @@
               }
             </td>
             <td align="right" style="vertical-align: top;">
-              <button class="orderLineDelete dontPrint">
-                x</button>
+              @if( !Model.IsFinalized || orderStatus.RecalculateFinalizedOrder ){
+                <button class="orderLineDelete dontPrint">x</button>
+              }
             </td>
           </tr>
         }
@@ -355,7 +361,7 @@
     </table>
   </div>
   
-  if ( Model.DiscountCodes.Count > 0 || Model.GiftCards.Count > 0 ) {
+  @if ( Model.DiscountCodes.Count > 0 || Model.GiftCards.Count > 0 ) {
   
   <h3 class="propertypaneTitel">Discount codes and gift cards</h3>
   

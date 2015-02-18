@@ -16,8 +16,8 @@ namespace TeaCommerce.Umbraco.Application.UI {
       StoreTerms.Culture = new CultureInfo( UmbracoContext.Current.UmbracoUser.Language );
     }
 
-    protected void Redirect( string url ) {
-      new ClientTools( Page ).ChangeContentFrameUrl( url ).CloseModalWindow().ReloadActionNode( true, true );
+    protected void Redirect( string url) {
+      new ClientTools( Page ).CloseModalWindow().ChangeContentFrameUrl( url );
     }
 
   }

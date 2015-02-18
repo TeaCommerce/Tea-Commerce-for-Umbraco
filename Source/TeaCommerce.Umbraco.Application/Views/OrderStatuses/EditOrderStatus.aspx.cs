@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Security;
 using System.Web;
-using System.Web.UI;
 using TeaCommerce.Api.Infrastructure.Security;
 using TeaCommerce.Api.Models;
 using TeaCommerce.Api.Services;
 using TeaCommerce.Umbraco.Application.Resources;
 using TeaCommerce.Umbraco.Application.UI;
 using Umbraco.Web.UI;
-using umbraco.BasePages;
 
 namespace TeaCommerce.Umbraco.Application.Views.OrderStatuses {
   public partial class EditOrderStatus : UmbracoProtectedPage {
@@ -29,6 +27,7 @@ namespace TeaCommerce.Umbraco.Application.Views.OrderStatuses {
 
       PPnlName.Text = CommonTerms.Name;
       PPnlDictionaryItemName.Text = CommonTerms.Alias;
+      PPnlRecalculateFinalizedOrder.Text = CommonTerms.RecalculateFinalizedOrder;
     }
 
     protected override void OnLoad( EventArgs e ) {
@@ -37,6 +36,7 @@ namespace TeaCommerce.Umbraco.Application.Views.OrderStatuses {
       if ( !IsPostBack ) {
         TxtName.Text = orderStatus.Name;
         TxtDictionaryItemName.Text = orderStatus.Alias;
+        ChkRecalculateFinalizedOrder.Checked = orderStatus.RecalculateFinalizedOrder;
       }
     }
 
@@ -44,6 +44,7 @@ namespace TeaCommerce.Umbraco.Application.Views.OrderStatuses {
       if ( Page.IsValid ) {
         orderStatus.Name = TxtName.Text;
         orderStatus.Alias = TxtDictionaryItemName.Text.Trim();
+        orderStatus.RecalculateFinalizedOrder = ChkRecalculateFinalizedOrder.Checked;
         orderStatus.Save();
         ClientTools.ShowSpeechBubble( SpeechBubbleIcon.Save, CommonTerms.OrderStatusSaved, string.Empty );
       }

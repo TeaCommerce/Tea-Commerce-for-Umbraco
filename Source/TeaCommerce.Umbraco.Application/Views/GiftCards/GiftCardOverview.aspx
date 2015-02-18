@@ -57,7 +57,7 @@
         </LayoutTemplate>
         <ItemTemplate>
           <tr>
-            <td><asp:HyperLink runat="server" Text='<%# Eval( "Code" ) %>' NavigateUrl='<%# WebUtils.GetPageUrl( Constants.Pages.EditGiftCard, false ) + "?storeId=" + StoreId + "&id=" + Eval("Id") %>' /></td>
+            <td><asp:HyperLink runat="server" Text='<%# Eval( "Code" ) %>' NavigateUrl='<%# WebUtils.GetPageUrl( TeaCommerce.Umbraco.Application.Constants.Pages.EditGiftCard, false ) + "?storeId=" + StoreId + "&id=" + Eval("Id") %>' /></td>
             <td><%# ((decimal)Eval( "OriginalAmount" )).ToString("0.####") %></td>
             <td><%# ((decimal)Eval( "UsedAmount" )).ToString("0.####") %></td>
             <td><%# ((decimal)Eval( "RemainingAmount" )).ToString("0.####") %></td>
