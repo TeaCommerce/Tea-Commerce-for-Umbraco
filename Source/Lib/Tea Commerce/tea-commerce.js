@@ -877,7 +877,7 @@ if (typeof TC === 'undefined') { var TC = {}; }
       // prepare Options Object 
       var settingsLocal = {
         success: function (json, success, response, jQForm) {
-          if (settings.dataType === 'json') {
+          if (!settings.dataType || settings.dataType === 'json') {
             TCService.success(json, success, response, jQForm, null);
           }
           if (settings.successfn) {
