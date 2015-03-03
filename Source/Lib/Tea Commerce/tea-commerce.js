@@ -898,12 +898,12 @@ if (typeof TC === 'undefined') { var TC = {}; }
           for (i = 0; i < formData.length; i++) {
             var item = formData[i],
                 name = item.name,
-                methodIndex = TCService.allMethods.contains(name);
+                methodIndex = TCService.arrayContains(TCService.allMethods, name);
 
             //Make sure the filed is a valid method
             if (methodIndex > -1) {
               //Make sure that the method has not yet been called
-              if (calledMethods.contains(name) < 0) {
+              if (TCService.arrayContains(calledMethods, name) < 0) {
                 TCService.fireBeforeEvent(name, formData, jQForm);
                 calledMethods.push(name);
               }
