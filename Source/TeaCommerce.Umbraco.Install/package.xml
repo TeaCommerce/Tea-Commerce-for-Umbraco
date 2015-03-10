@@ -5,8 +5,8 @@
     <package>
       <name>Tea Commerce</name>
       <version>3.0.2 for Umbraco 7</version>
-      <license url="http://www.teacommerce.net/en/cart/license-agreement.aspx">Commercial license</license>
-      <url>http://www.teacommerce.net</url>
+      <license url="http://teacommerce.net/license-agreement/">Commercial license</license>
+      <url>http://teacommerce.net</url>
       <requirements>
         <major>7</major>
         <minor>1</minor>
@@ -15,7 +15,7 @@
     </package>
     <author>
       <name>Tea Commerce</name>
-      <website>http://www.teacommerce.net</website>
+      <website>http://teacommerce.net</website>
     </author>
     <readme>
       Thanks for choosing Tea Commerce.
@@ -27,8 +27,8 @@
       http://documentation.teacommerce.net/revision-history/
 
       SUPPORT
-      The Umbraco/Tea Commerce community is always ready to help you!
-      http://our.umbraco.org/projects/website-utilities/tea-commerce/tea-commerce-support
+      The Tea Commerce team is always ready to help you!
+      http://teacommerce.net/ressources/support/
 
       Tea Commerce
       info@teacommerce.net
