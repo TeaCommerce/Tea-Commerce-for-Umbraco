@@ -39,14 +39,14 @@
     <asp:Literal ID="LitUsefulLinks" runat="server" /></h2>
   <p>
     <ul class="links">
-      <li><a href="http://www.teacommerce.net/en/support/how-to-buy-a-license.aspx" target="_blank">
+      <li><a href="http://teacommerce.net/products/tea-commerce/" target="_blank">
         <asp:Literal ID="LitBuyALicense" runat="server" /></a></li>
       <li><a href="http://documentation.teacommerce.net" target="_blank">
         <asp:Literal ID="LitDocumentation" runat="server" /></a></li>
       <li><a href="http://our.umbraco.org/projects/website-utilities/tea-commerce/tea-commerce-support"
         target="_blank">
         <asp:Literal ID="LitSupportForum" runat="server" /></a></li>
-      <li><a href="http://www.teacommerce.net/en/products/tea-commerce-starter-kit.aspx"
+      <li><a href="http://teacommerce.net"
         target="_blank">
         <asp:Literal ID="LitStarterKit" runat="server" /></a></li>
       <li><a href="http://documentation.teacommerce.net/revision-history/" target="_blank">
