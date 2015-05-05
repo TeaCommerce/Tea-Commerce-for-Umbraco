@@ -501,4 +501,7 @@
   <data name="RecalculateFinalizedOrder" xml:space="preserve">
     <value>Omberäkna färdigställda order</value>
   </data>
+  <data name="AllowAdditionalCampaigns" xml:space="preserve">
+    <value>Tillåt Ytterligare kampanjer</value>
+  </data>
 </root>
