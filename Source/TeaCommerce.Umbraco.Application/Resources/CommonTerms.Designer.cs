@@ -88,6 +88,15 @@ namespace TeaCommerce.Umbraco.Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allow Additional Campaigns.
+        /// </summary>
+        public static string AllowAdditionalCampaigns {
+            get {
+                return ResourceManager.GetString("AllowAdditionalCampaigns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Amount.
         /// </summary>
         public static string Amount {
