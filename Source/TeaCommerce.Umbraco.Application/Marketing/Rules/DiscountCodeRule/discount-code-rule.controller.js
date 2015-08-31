@@ -6,7 +6,7 @@
   };
 
   $scope.resetGenerate = function () {
-    $scope.generateSettings = { numberToGenerate: 1000, maxUses: 1, length: 6, prefix: '', postfix: '' };
+    $scope.generateSettings = { numberToGenerate: 1, maxUses: 1, length: 6, prefix: '', postfix: '' };
   };
 
   $scope.getNumber = function (number) {
