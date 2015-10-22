@@ -176,6 +176,26 @@ namespace TeaCommerce.Umbraco.Web {
 
     #endregion
 
+    #region Vat groups
+
+    public static VatGroup GetVatGroup( long storeId, long vatGroupId ) {
+      return TeaCommerceHelper.GetVatGroup( storeId, vatGroupId );
+    }
+
+    public static IEnumerable<VatGroup> GetVatGroups( long storeId ) {
+      return TeaCommerceHelper.GetVatGroups( storeId );
+    }
+
+    public static VatGroup GetCurrentVatGroup( long storeId ) {
+      return TeaCommerceHelper.GetCurrentVatGroup( storeId );
+    }
+
+    public static VatGroup SetCurrentVatGroup( long storeId, long vatGroupId ) {
+      return TeaCommerceHelper.SetCurrentVatGroup( storeId, vatGroupId );
+    }
+
+    #endregion
+
     #region Currencies
 
     /// <summary>
