@@ -497,6 +497,14 @@
     input.orderLineQuantity { width: 30px; text-align: center; }
 
     .onlyPrint { display: none; }
+
+    @@media print {
+      .onlyPrint { display: block !important; }
+      .umb-panel-header,
+      .dontPrint { display: none !important; }
+      .umb-panel-body { top: 0; }
+      .umb-scrollable, .umb-auto-overflow { overflow: visible !important; }
+    }
   </style>
   
 }
