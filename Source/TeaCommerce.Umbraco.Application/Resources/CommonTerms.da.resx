@@ -504,4 +504,7 @@
   <data name="AllowAdditionalCampaigns" xml:space="preserve">
     <value>Tillad yderligere kampagner</value>
   </data>
+  <data name="AllowWithPreviousCampaigns" xml:space="preserve">
+    <value>Tillad med forrige kampagner</value>
+  </data>
 </root>

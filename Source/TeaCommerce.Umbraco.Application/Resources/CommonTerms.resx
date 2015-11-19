@@ -504,4 +504,7 @@
   <data name="AllowAdditionalCampaigns" xml:space="preserve">
     <value>Allow Additional Campaigns</value>
   </data>
+  <data name="AllowWithPreviousCampaigns" xml:space="preserve">
+    <value>Allow with previous Campaigns</value>
+  </data>
 </root>

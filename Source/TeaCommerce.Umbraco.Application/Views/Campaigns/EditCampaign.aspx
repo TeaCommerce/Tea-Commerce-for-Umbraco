@@ -26,6 +26,9 @@
       <umbUIControls:PropertyPanel ID="PPnlAllowAdditionalCampaigns" runat="server">
         <asp:CheckBox ID="ChkAllowAdditionalCampaigns" runat="server" />
       </umbUIControls:PropertyPanel>
+      <umbUIControls:PropertyPanel ID="PPnlAllowWithPreviousCampaigns" runat="server">
+        <asp:CheckBox ID="ChkAllowWithPreviousCampaigns" runat="server" />
+      </umbUIControls:PropertyPanel>
     </umbUIControls:Pane>
     <div ng-app="TeaCommerce" id="marketing" class="umb-pane">
       <div ng-controller="CampaignController">
