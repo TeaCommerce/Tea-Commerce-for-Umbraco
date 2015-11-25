@@ -34,6 +34,8 @@ namespace TeaCommerce.Umbraco.Application.Views.Campaigns {
       PPnlStartDate.Text = CommonTerms.StartDate;
       PPnlEndDate.Text = CommonTerms.EndDate;
       PPnlIsActive.Text = CommonTerms.Active;
+      PPnlAllowAdditionalCampaigns.Text = CommonTerms.AllowAdditionalCampaigns;
+      PPnlAllowWithPreviousCampaigns.Text = CommonTerms.AllowWithPreviousCampaigns;
     }
 
     protected override void OnLoad( EventArgs e ) {
@@ -48,6 +50,8 @@ namespace TeaCommerce.Umbraco.Application.Views.Campaigns {
         DPStartDate.DateTime = campaign.StartDate ?? DateTime.MinValue;
         DPEndDate.DateTime = campaign.EndDate != null ? campaign.EndDate.Value : DateTime.MinValue;
         ChkIsActive.Checked = campaign.IsActive;
+        ChkAllowAdditionalCampaigns.Checked = campaign.AllowAdditionalCampaigns;
+        ChkAllowWithPreviousCampaigns.Checked = campaign.AllowWithPreviousCampaigns;
       }
     }
 
@@ -57,6 +61,8 @@ namespace TeaCommerce.Umbraco.Application.Views.Campaigns {
         campaign.StartDate = DPStartDate.DateTime != DateTime.MinValue ? (DateTime?)DPStartDate.DateTime : null;
         campaign.EndDate = DPEndDate.DateTime != DateTime.MinValue ? (DateTime?)DPEndDate.DateTime : null;
         campaign.IsActive = ChkIsActive.Checked;
+        campaign.AllowAdditionalCampaigns = ChkAllowAdditionalCampaigns.Checked;
+        campaign.AllowWithPreviousCampaigns = ChkAllowWithPreviousCampaigns.Checked;
         campaign.Save();
         ClientTools.ShowSpeechBubble( SpeechBubbleIcon.Save, CommonTerms.CampaignSave, string.Empty );
       }

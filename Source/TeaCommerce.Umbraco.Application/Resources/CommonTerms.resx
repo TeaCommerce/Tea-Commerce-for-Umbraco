@@ -501,4 +501,10 @@
   <data name="RecalculateFinalizedOrder" xml:space="preserve">
     <value>Recalculate finalized order</value>
   </data>
+  <data name="AllowAdditionalCampaigns" xml:space="preserve">
+    <value>Allow Additional Campaigns</value>
+  </data>
+  <data name="AllowWithPreviousCampaigns" xml:space="preserve">
+    <value>Allow with previous Campaigns</value>
+  </data>
 </root>

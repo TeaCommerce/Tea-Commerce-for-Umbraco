@@ -18,12 +18,13 @@ namespace TeaCommerce.Umbraco.Application.Views.Stores {
   public partial class EditStore : UmbracoProtectedPage {
 
     private Store store = StoreService.Instance.Get( long.Parse( HttpContext.Current.Request.QueryString[ "id" ] ) );
-    private Permissions currentLoggedInUserPermissions = PermissionService.Instance.GetCurrentLoggedInUserPermissions();
+    private Permissions currentLoggedInUserPermissions;
 
     protected override void OnInit( EventArgs e ) {
       base.OnInit( e );
 
       #region Security check
+      currentLoggedInUserPermissions = PermissionService.Instance.GetCurrentLoggedInUserPermissions();
       if ( currentLoggedInUserPermissions == null || !currentLoggedInUserPermissions.HasPermission( StoreSpecificPermissionType.AccessSettings, store.Id ) ) {
         throw new SecurityException();
       }

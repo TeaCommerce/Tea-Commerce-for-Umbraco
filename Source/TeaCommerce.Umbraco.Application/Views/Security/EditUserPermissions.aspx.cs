@@ -16,7 +16,7 @@ namespace TeaCommerce.Umbraco.Application.Views.Security {
   public partial class EditUserPermissions : UmbracoProtectedPage {
 
     private Permissions permissions = PermissionService.Instance.Get( HttpContext.Current.Request.QueryString[ "id" ] );
-    private Permissions currentUserPermissions = PermissionService.Instance.GetCurrentLoggedInUserPermissions();
+    private Permissions currentUserPermissions;
 
     protected override void OnInit( EventArgs e ) {
       base.OnInit( e );
@@ -24,6 +24,7 @@ namespace TeaCommerce.Umbraco.Application.Views.Security {
       umbraco.BusinessLogic.User currentUser = umbraco.helper.GetCurrentUmbracoUser();
 
       #region Security check
+      currentUserPermissions = PermissionService.Instance.GetCurrentLoggedInUserPermissions();
       if ( currentUserPermissions == null || !currentUserPermissions.HasPermission( GeneralPermissionType.AccessSecurity ) ) {
         throw new SecurityException();
       } else {

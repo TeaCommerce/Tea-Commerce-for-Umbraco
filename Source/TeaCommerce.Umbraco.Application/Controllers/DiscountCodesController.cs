@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using TeaCommerce.Api.Marketing.Models;
 using TeaCommerce.Api.Marketing.Serialization;
 using TeaCommerce.Api.Marketing.Services;
@@ -48,25 +49,44 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
     }
 
     public class AddPostData {
+      public long StoreId { get; set; }
       public long RuleId { get; set; }
       public int? MaxUses { get; set; }
       public string Codes { get; set; }
     }
 
+    public class DiscountCodeLists {
+      public List<DiscountCode> DiscountCodes { get; set; }
+      public List<DiscountCode> DiscountCodesAlreadyExists { get; set; }
+    }
+
     [HttpPost]
     public HttpResponseMessage Add( AddPostData postData ) {
+      DiscountCodeLists discountCodeLists = new DiscountCodeLists();
       List<DiscountCode> discountCodes = new List<DiscountCode>();
+      List<DiscountCode> discountCodesAlreadyExists = new List<DiscountCode>();
 
       foreach ( string code in postData.Codes.Split( new[] { "\n" }, StringSplitOptions.None ) ) {
-        DiscountCode discountCode = new DiscountCode( postData.RuleId, code ) {
-          MaxUses = postData.MaxUses
-        };
-        discountCode.Save();
-        discountCodes.Add( discountCode );
+
+        DiscountCode doesDiscountCodeAlreadyExist = DiscountCodeService.Instance.Get( postData.StoreId, code );
+        if ( doesDiscountCodeAlreadyExist == null ) {
+          DiscountCode discountCode = new DiscountCode( postData.RuleId, code ) {
+            MaxUses = postData.MaxUses
+          };
+          discountCode.Save();
+          discountCodes.Add( discountCode );
+        } else {
+          discountCodesAlreadyExists.Add( doesDiscountCodeAlreadyExist );
+        }
       }
 
+      discountCodeLists.DiscountCodes = discountCodes;
+      discountCodeLists.DiscountCodesAlreadyExists = discountCodesAlreadyExists;
+
+      string discountCodeListsJson = new JavaScriptSerializer().Serialize( discountCodeLists );
+
       HttpResponseMessage response = Request.CreateResponse( HttpStatusCode.OK );
-      response.Content = new StringContent( discountCodes.ToJson(), Encoding.UTF8, "application/json" );
+      response.Content = new StringContent( discountCodeListsJson, Encoding.UTF8, "application/json" );
       return response;
     }
 
