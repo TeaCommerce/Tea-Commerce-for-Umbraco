@@ -1,0 +1,14 @@
+﻿<table ng-controller="ShippingMethodRuleController" style="width: 100%;" cellpadding="0" cellspacing="0">
+  <tr>
+    <td valign="top">
+      <select ng-model="rule.settings.shippingMethodId" ng-options="shippingMethod.id as shippingMethod.name for shippingMethod in shippingMethods" ng-disabled="!editMode" class="guiInputText">
+        <option value="">Choose shipping method</option>
+      </select>
+    </td>
+    <td style="width: 100px;" valign="top" class="buttons">
+      <a href="#" ng-click="editMode=true" ng-show="!editMode" class="edit">Edit</a>
+      <a href="#" ng-click="deleteRule(rule)" ng-show="!editMode" class="delete">Delete</a>
+      <a href="#" ng-click="save()" ng-show="editMode" class="save">Save</a>
+    </td>
+  </tr>
+</table>

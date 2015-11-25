@@ -109,6 +109,10 @@
     <Content Include="Marketing\Awards\OrderLineAmountAward\order-line-amount-award.html" />
     <Content Include="Marketing\Awards\OrderAmountAward\order-amount-award.controller.js" />
     <Content Include="Marketing\Awards\OrderAmountAward\order-amount-award.html" />
+    <Content Include="Marketing\Rules\PaymentMethodRule\payment-method-rule.controller.js" />
+    <Content Include="Marketing\Rules\PaymentMethodRule\payment-method-rule.html" />
+    <Content Include="Marketing\Rules\ShippingMethodRule\shipping-method-rule.controller.js" />
+    <Content Include="Marketing\Rules\ShippingMethodRule\shipping-method-rule.html" />
     <Content Include="PropertyEditors\stock-management.controller.js" />
     <Content Include="PropertyEditors\stock-management.html" />
     <Content Include="Marketing\Rules\OrderLineAmountRule\order-line-amount-rule.controller.js" />
@@ -254,6 +258,8 @@
     </EmbeddedResource>
     <Content Include="package.manifest" />
     <Content Include="Marketing\Rules\OrderLineAmountRule\order-line-amount-rule.manifest" />
+    <Content Include="Marketing\Rules\PaymentMethodRule\payment-method-rule.manifest" />
+    <Content Include="Marketing\Rules\ShippingMethodRule\shipping-method-rule.manifest" />
     <None Include="Umbraco\masterpages\umbracoDialog.Master" />
     <None Include="Web.config" />
   </ItemGroup>
@@ -263,7 +269,9 @@
     <Compile Include="Constants.cs" />
     <Compile Include="ApplicationStartup.cs" />
     <Compile Include="Controllers\DiscountCodesController.cs" />
+    <Compile Include="Controllers\PaymentMethodsController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\ShippingMethodsController.cs" />
     <Compile Include="Controllers\VatGroupsController.cs" />
     <Compile Include="Controllers\StoresController.cs" />
     <Compile Include="Controllers\CampaignsController.cs" />

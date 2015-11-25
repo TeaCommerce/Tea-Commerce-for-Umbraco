@@ -1,0 +1,10 @@
+﻿{
+  name: 'Payment method rule',
+  alias: 'PaymentMethodRule',
+  editor: {
+    view: '/App_Plugins/TeaCommerce/Marketing/Rules/PaymentMethodRule/payment-method-rule.html'
+  },
+  javascripts: [
+    '/App_Plugins/TeaCommerce/Marketing/Rules/PaymentMethodRule/payment-method-rule.controller.js'
+  ]
+}

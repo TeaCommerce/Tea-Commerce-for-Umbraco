@@ -42,7 +42,9 @@
               <div ng-repeat="ruleGroup in campaign.ruleGroups">
                 <div class="andSplit" ng-show="$index > 0">And</div>
                 <div class="ruleGroupContent">
-                  <select ng-model="ruleGroup.selectedRuleManifest" ng-options="v.name for (k,v) in ruleManifests"></select>
+                  <select ng-model="ruleGroup.selectedRuleManifest" ng-options="v.name for (k,v) in ruleManifests">
+                    <option value="">Choose a rule</option>
+                  </select>
                   <a href="" ng-click="addRule(ruleGroup)">Add rule</a>
                   <div class="orSplit"></div>
                   <div ng-repeat="rule in ruleGroup.rules">
@@ -59,7 +61,9 @@
             </td>
             <td valign="top">
               <div class="ruleGroupContent">
-                <select ng-model="selectedAwardManifest" ng-options="v.name for (k,v) in awardManifests"></select>
+                <select ng-model="selectedAwardManifest" ng-options="v.name for (k,v) in awardManifests">
+                  <option value="">Choose an award</option>
+                </select>
                 <a href="" ng-click="addAward()">Add award</a>
                 <div class="orSplit"></div>
                 <div ng-repeat="award in campaign.awards">
