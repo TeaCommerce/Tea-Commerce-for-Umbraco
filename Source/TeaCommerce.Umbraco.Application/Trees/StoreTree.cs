@@ -103,6 +103,10 @@ namespace TeaCommerce.Umbraco.Application.Trees {
           #region Render tree
           foreach ( Campaign campaign in CampaignService.Instance.GetAll( CurrentStoreId ) ) {
             node = CreateNode( GetNodeIdentifier( StoreTreeNodeType.Campaign, CurrentStoreId, campaign.Id ), campaign.Name, Constants.TreeIcons.TagLabel, "campaign" );
+
+              if (!campaign.IsActive || (campaign.StartDate.HasValue && campaign.StartDate > DateTime.Now) || (campaign.EndDate.HasValue && campaign.EndDate < DateTime.Now))
+                node.Icon = WebUtils.GetWebResourceUrl(Constants.TreeIcons.TagLabelRed);
+
             node.Action = "javascript:(function(){" + ClientTools.Scripts.ChangeContentFrameUrl( WebUtils.GetPageUrl( Constants.Pages.EditCampaign ) + "?id=" + campaign.Id + "&storeId=" + campaign.StoreId ) + "})";
             node.Menu.Add( ActionDelete.Instance );
             tree.Add( node );
