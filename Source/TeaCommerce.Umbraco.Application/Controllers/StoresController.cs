@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
@@ -28,12 +27,6 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
 
     [HttpGet]
     public HttpResponseMessage Get( long storeId ) {
-      Permissions permissions = PermissionService.Instance.GetCurrentLoggedInUserPermissions();
-
-      if ( permissions == null || !permissions.HasPermission( StoreSpecificPermissionType.AccessStore, storeId ) ) {
-        throw new HttpResponseException( HttpStatusCode.Forbidden );
-      }
-
       HttpResponseMessage response = new HttpResponseMessage {
         Content = new StringContent( StoreService.Instance.Get( storeId ).ToJson() )
       };

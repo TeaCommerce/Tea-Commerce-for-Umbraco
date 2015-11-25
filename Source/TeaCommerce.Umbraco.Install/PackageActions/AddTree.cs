@@ -1,39 +1,24 @@
 ﻿using System.Linq;
 using System.Xml;
+using Umbraco.Core;
+using Umbraco.Core.Models;
 using umbraco.cms.businesslogic.packager.standardPackageActions;
 using umbraco.interfaces;
 
 namespace TeaCommerce.Umbraco.Install.PackageActions {
   public class AddTree : IPackageAction {
 
-    private bool silent;
-    private bool initialize;
-    private byte sortOrder;
+    private byte _sortOrder;
+    private string _treeAlias;
+    private string _treeTitle;
+    private string _type;
 
-    private string applicationAlias;
-    private string treeAlias;
-    private string treeTitle;
-    private string iconOpened;
-    private string iconClosed;
-
-    private string assemblyName;
-    private string type;
-    private string action;
-
-    public void Initialize( XmlNode xmlData ) {
-      silent = bool.Parse( xmlData.Attributes[ "silent" ].Value );
-      initialize = bool.Parse( xmlData.Attributes[ "initialize" ].Value );
-      sortOrder = byte.Parse( xmlData.Attributes[ "sortOrder" ].Value );
-
-      applicationAlias = xmlData.Attributes[ "applicationAlias" ].Value;
-      treeAlias = xmlData.Attributes[ "treeAlias" ].Value;
-      treeTitle = xmlData.Attributes[ "treeTitle" ].Value;
-      iconOpened = xmlData.Attributes[ "iconOpened" ].Value;
-      iconClosed = xmlData.Attributes[ "iconClosed" ].Value;
-
-      assemblyName = xmlData.Attributes[ "assemblyName" ].Value;
-      type = xmlData.Attributes[ "treeHandlerType" ].Value;
-      action = xmlData.Attributes[ "action" ].Value;
+    private void Initialize( XmlNode xmlData ) {
+      if ( xmlData.Attributes == null ) return;
+      _sortOrder = byte.Parse( xmlData.Attributes[ "sortOrder" ].Value );
+      _treeAlias = xmlData.Attributes[ "treeAlias" ].Value;
+      _treeTitle = xmlData.Attributes[ "treeTitle" ].Value;
+      _type = xmlData.Attributes[ "type" ].Value;
     }
 
     #region IPackageAction Members
@@ -44,19 +29,19 @@ namespace TeaCommerce.Umbraco.Install.PackageActions {
 
     public bool Execute( string packageName, XmlNode xmlData ) {
       Initialize( xmlData );
-      if ( !umbraco.BusinessLogic.ApplicationTree.getAll().Any( t => t.Alias == treeAlias ) ) {
-        umbraco.BusinessLogic.ApplicationTree.MakeNew( silent, initialize, sortOrder, applicationAlias, treeAlias, treeTitle, iconClosed, iconOpened, assemblyName, type, action );
+      if ( ApplicationContext.Current.Services.ApplicationTreeService.GetByAlias( _treeAlias ) == null ) {
+        ApplicationContext.Current.Services.ApplicationTreeService.MakeNew( true, _sortOrder, "teacommerce", _treeAlias, _treeTitle, "folder_o.gif", "folder.gif", _type );
       }
       return true;
     }
 
     public XmlNode SampleXml() {
-      return helper.parseStringToXmlNode( string.Format( @"<Action runat=""install"" alias=""addApplicationTree"" silent=""true/false""  initialize=""true/false"" sortOrder=""1"" applicationAlias=""appAlias"" treeAlias=""myTree"" treeTitle=""My Tree"" iconOpened=""folder_o.gif"" iconClosed=""folder.gif"" assemblyName=""umbraco"" treeHandlerType=""treeClass"" action=""alert('you clicked my tree')""/>", this.Alias() ) );
+      return helper.parseStringToXmlNode( @"<Action runat=""install"" alias=""AddTree"" sortOrder=""1"" applicationAlias=""appAlias"" treeAlias=""myTree"" treeTitle=""My Tree"" type=""TeaCommerce.Umbraco.Application.Trees.StoreTree"" />" );
     }
 
     public bool Undo( string packageName, XmlNode xmlData ) {
       Initialize( xmlData );
-      umbraco.BusinessLogic.ApplicationTree.getByAlias( treeAlias ).Delete();
+      ApplicationContext.Current.Services.ApplicationTreeService.DeleteTree( ApplicationContext.Current.Services.ApplicationTreeService.GetByAlias( _treeAlias ) );
       return true;
     }
 

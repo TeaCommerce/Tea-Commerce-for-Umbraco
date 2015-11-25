@@ -77,7 +77,7 @@ if (typeof TC === 'undefined') { var TC = {}; }
     }
     return tcs.postToServer(method, formData, settings);
   };
-  
+
   TC.getFinalizedOrdersForCustomer = function (settings) {
     settings = tcs.fixSettings(settings);
     var method = 'GetFinalizedOrdersForCustomer',
@@ -508,7 +508,18 @@ if (typeof TC === 'undefined') { var TC = {}; }
     if (rtnData.submitJavascriptFunction) {
       eval(rtnData.data.submitJavascriptFunction);
     } else {
-      form[0].submit();
+      if (settings.postFormWithAjax) {
+        var paymentFormSettings = {
+          dataType: settings.dataType ? settings.dataType : 'text',
+          type: settings.type ? settings.type : 'GET',
+          errorfn: settings.paymentErrorfn,
+          successfn: settings.paymentSuccessfn
+        };
+
+        tcs.postForm(jQuery(form), paymentFormSettings);
+      } else {
+        form[0].submit();
+      }
     }
   };
 
@@ -658,7 +669,7 @@ if (typeof TC === 'undefined') { var TC = {}; }
   TC.bind = function (event, fn) {
     tcs.bind(event, fn);
   };
-  
+
   /***************************************************
   - POST FORM USING AJAX
   ***************************************************/
@@ -692,12 +703,12 @@ if (typeof TC === 'undefined') { var TC = {}; }
       if (typeof dataType === 'undefined') {
         dataType = 'json';
       }
-      
+
       if (async) {
         TCService.fireBeforeEvent(method, formData);
         TCService.fireBeforeEvent('CartUpdated', formData);
       }
-      
+
       jQuery.ajax({
         type: 'POST',
         url: '[formPostUrl]',
@@ -780,6 +791,16 @@ if (typeof TC === 'undefined') { var TC = {}; }
       return jQuery.extend({}, defaultSettings, settings);
     };
 
+    TCService.arrayContains = function (array, obj) {
+      var i = array.length;
+      while (i--) {
+        if (array[i] === obj) {
+          return i;
+        }
+      }
+      return -1;
+    };
+
     /*
     ** EVENT HANDLING
     */
@@ -848,25 +869,41 @@ if (typeof TC === 'undefined') { var TC = {}; }
       'FormatPrice',
       'RenderTemplateFile'
     ];
-    
-    TCService.postForm = function (form) {
+
+    TCService.postForm = function (form, settings) {
+      settings = settings ? settings : {};
+
       // submit the form 
       // prepare Options Object 
-      var settings = {
-        success: function (json, success, response, jQForm) { TCService.success(json, success, response, jQForm, null); },
-        error: function (json) { TCService.error(json, null); },
-        beforeSubmit: function (formData, jQForm, settings) {
+      var settingsLocal = {
+        success: function (json, success, response, jQForm) {
+          if (!settings.dataType || settings.dataType === 'json') {
+            TCService.success(json, success, response, jQForm, null);
+          }
+          if (settings.successfn) {
+            settings.successfn(json, success, response, jQForm);
+          }
+        },
+        error: function (json) {
+          if (settings.dataType === 'json') {
+            TCService.error(json, null);
+          }
+          if (settings.errorfn) {
+            settings.errorfn(json);
+          }
+        },
+        beforeSubmit: function (formData, jQForm, settingsLocal) {
           var calledMethods = [],
               i = 0;
           for (i = 0; i < formData.length; i++) {
             var item = formData[i],
                 name = item.name,
-                methodIndex = TCService.allMethods.contains(name);
+                methodIndex = TCService.arrayContains(TCService.allMethods, name);
 
             //Make sure the filed is a valid method
             if (methodIndex > -1) {
               //Make sure that the method has not yet been called
-              if (calledMethods.contains(name) < 0) {
+              if (TCService.arrayContains(calledMethods, name) < 0) {
                 TCService.fireBeforeEvent(name, formData, jQForm);
                 calledMethods.push(name);
               }
@@ -875,12 +912,12 @@ if (typeof TC === 'undefined') { var TC = {}; }
 
           TCService.fireBeforeEvent('CartUpdated', formData, jQForm);
         },
-        dataType: 'json',
-        type: 'POST',
+        dataType: settings.dataType ? settings.dataType : 'json',
+        type: settings.type ? settings.type : 'POST',
         data: { isJavaScript: true }
       };
 
-      jQuery(form).ajaxSubmit(settings);
+      jQuery(form).ajaxSubmit(settingsLocal);
     };
 
     jQuery(function () {
@@ -895,20 +932,3 @@ if (typeof TC === 'undefined') { var TC = {}; }
 
   var tcs = new TCService();
 })();
-
-
-
-
-/*************************************************************
-- UTILS
-*************************************************************/
-//Returns true if the array contains the object
-Array.prototype.contains = function (obj) {
-  var i = this.length;
-  while (i--) {
-    if (this[i] === obj) {
-      return i;
-    }
-  }
-  return -1;
-};

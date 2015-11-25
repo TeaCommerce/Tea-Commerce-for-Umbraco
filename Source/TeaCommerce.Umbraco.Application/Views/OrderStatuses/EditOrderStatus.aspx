@@ -11,5 +11,8 @@
     <umbUIControls:PropertyPanel ID="PPnlDictionaryItemName" runat="server">
       <asp:TextBox ID="TxtDictionaryItemName" runat="server" CssClass="guiInputText guiInputStandardSize" />
     </umbUIControls:PropertyPanel>
+    <umbUIControls:PropertyPanel ID="PPnlRecalculateFinalizedOrder" runat="server">
+      <asp:CheckBox ID="ChkRecalculateFinalizedOrder" runat="server" />
+    </umbUIControls:PropertyPanel>
   </umbUIControls:Pane>
 </asp:Content>

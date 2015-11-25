@@ -498,4 +498,7 @@
   <data name="EmailError" xml:space="preserve">
     <value>Fel att skicka e-post</value>
   </data>
+  <data name="RecalculateFinalizedOrder" xml:space="preserve">
+    <value>Omberäkna färdigställda order</value>
+  </data>
 </root>

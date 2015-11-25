@@ -158,7 +158,7 @@ namespace TeaCommerce.Umbraco.Application.Views.Stores {
         }
 
         store.GiftCardSettings.Length = TxtGiftCardLength.Text.TryParse<int>() ?? 0;
-        store.GiftCardSettings.DaysValid = TxtGiftCardLength.Text.TryParse<int>() ?? 0;
+        store.GiftCardSettings.DaysValid = TxtGiftCardDaysValid.Text.TryParse<int>() ?? 0;
         store.GiftCardSettings.Prefix = TxtGiftCardPrefix.Text;
         store.GiftCardSettings.Suffix = TxtGiftCardSuffix.Text;
 

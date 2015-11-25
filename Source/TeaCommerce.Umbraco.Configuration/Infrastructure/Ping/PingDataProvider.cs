@@ -24,7 +24,7 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Ping {
       string domain = "";
 
       if ( HttpContext.Current != null ) {
-        domain = HttpContext.Current.Request.Url.Host + ( !HttpContext.Current.Request.Url.IsDefaultPort ? HttpContext.Current.Request.Url.Port.ToString( CultureInfo.InvariantCulture ) : "" );
+        domain = HttpContext.Current.Request.Url.Host + ( !HttpContext.Current.Request.Url.IsDefaultPort ? ":" + HttpContext.Current.Request.Url.Port.ToString( CultureInfo.InvariantCulture ) : "" );
       }
       return domain;
     }

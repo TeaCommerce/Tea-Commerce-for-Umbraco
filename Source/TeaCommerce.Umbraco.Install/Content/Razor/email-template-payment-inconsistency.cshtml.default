@@ -1,4 +1,5 @@
-﻿@using TeaCommerce.Umbraco.Web;
+﻿@using TeaCommerce.Api.Models
+@using TeaCommerce.Umbraco.Web
 @inherits TemplateContext<Order>
 @if ( Model != null ) {
 

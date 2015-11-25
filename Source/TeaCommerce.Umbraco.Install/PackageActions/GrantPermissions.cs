@@ -2,22 +2,14 @@
 using System.Xml;
 using TeaCommerce.Api.Infrastructure.Security;
 using TeaCommerce.Api.Services;
-using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.packager.standardPackageActions;
 using umbraco.interfaces;
+using Umbraco.Core;
+using Umbraco.Core.Models.Membership;
+using Umbraco.Web;
 
 namespace TeaCommerce.Umbraco.Install.PackageActions {
   public class GrantPermissions : IPackageAction {
-
-    private const string UNINSTALL_SQL = "DELETE FROM umbracoUser2app WHERE umbracoUser2App.app = 'teacommerce'";
-    private const string REVOKE_SQL = "DELETE FROM umbracoUser2app WHERE umbracoUser2App.app = 'teacommerce' AND [user] IN ( SELECT umbracoUser.id FROM umbracoUser WHERE umbracoUser.userLogin = '{0}' )";
-    private const string GRANT_SQL = "INSERT INTO umbracoUser2app ([user], app) SELECT id, 'teacommerce' FROM umbracoUser WHERE userLogin = '{0}'";
-
-    private string userLogin;
-
-    public void Initialize( XmlNode xmlData ) {
-      userLogin = User.GetCurrent().LoginName;
-    }
 
     #region IPackageAction Members
 
@@ -26,10 +18,23 @@ namespace TeaCommerce.Umbraco.Install.PackageActions {
     }
 
     public bool Execute( string packageName, XmlNode xmlData ) {
-      Initialize( xmlData );
+      //Give access if no stores is created
       if ( !StoreService.Instance.GetAll().Any() ) {
-        Revoke();
-        Grant();
+        IUser user = ApplicationContext.Current.Services.UserService.GetUserById( UmbracoContext.Current.Security.GetUserId() );
+        if ( !user.AllowedSections.Contains( "teacommerce" ) ) {
+          user.AddAllowedSection( "teacommerce" );
+          ApplicationContext.Current.Services.UserService.Save( user );
+        }
+
+        //If your not the super admin - give access to the Tea Commerce default features
+        Permissions permissions = PermissionService.Instance.GetCurrentLoggedInUserPermissions();
+        if ( permissions != null && !permissions.IsUserSuperAdmin ) {
+          permissions.GeneralPermissions |= GeneralPermissionType.AccessSecurity;
+          permissions.GeneralPermissions |= GeneralPermissionType.AccessLicenses;
+          permissions.GeneralPermissions |= GeneralPermissionType.CreateAndDeleteStore;
+
+          permissions.Save();
+        }
       }
       return true;
     }
@@ -39,30 +44,18 @@ namespace TeaCommerce.Umbraco.Install.PackageActions {
     }
 
     public bool Undo( string packageName, XmlNode xmlData ) {
-      Initialize( xmlData );
-      Application.SqlHelper.ExecuteNonQuery( UNINSTALL_SQL );
+      int totalRecords;
+      foreach ( IUser user in ApplicationContext.Current.Services.UserService.GetAll( 0, 10000, out totalRecords ) ) {
+        if ( user.AllowedSections.Contains( "teacommerce" ) ) {
+          user.RemoveAllowedSection( "teacommerce" );
+          ApplicationContext.Current.Services.UserService.Save( user );
+        }
+      }
+
       return true;
     }
 
     #endregion
-
-    private void Grant() {
-      Application.SqlHelper.ExecuteNonQuery( string.Format( GRANT_SQL, userLogin ) );
-
-      Permissions permissions = PermissionService.Instance.GetCurrentLoggedInUserPermissions();
-      if ( permissions != null && !permissions.IsUserSuperAdmin ) {
-        permissions.GeneralPermissions |= GeneralPermissionType.AccessSecurity;
-        permissions.GeneralPermissions |= GeneralPermissionType.AccessLicenses;
-        permissions.GeneralPermissions |= GeneralPermissionType.CreateAndDeleteStore;
-
-        permissions.Save();
-      }
-
-    }
-
-    private void Revoke() {
-      Application.SqlHelper.ExecuteNonQuery( string.Format( REVOKE_SQL, userLogin ) );
-    }
 
   }
 }
