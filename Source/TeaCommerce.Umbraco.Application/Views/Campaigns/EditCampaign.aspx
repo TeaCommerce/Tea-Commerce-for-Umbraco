@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="True" CodeBehind="EditCampaign.aspx.cs"
+<%@ Page Language="C#" AutoEventWireup="True" CodeBehind="EditCampaign.aspx.cs"
   Inherits="TeaCommerce.Umbraco.Application.Views.Campaigns.EditCampaign"
   MasterPageFile="../Shared/UmbracoTabView.Master" %>
 
@@ -23,6 +23,12 @@
       <umbUIControls:PropertyPanel ID="PPnlIsActive" runat="server">
         <asp:CheckBox ID="ChkIsActive" runat="server" />
       </umbUIControls:PropertyPanel>
+      <umbUIControls:PropertyPanel ID="PPnlAllowAdditionalCampaigns" runat="server">
+        <asp:CheckBox ID="ChkAllowAdditionalCampaigns" runat="server" />
+      </umbUIControls:PropertyPanel>
+      <umbUIControls:PropertyPanel ID="PPnlAllowWithPreviousCampaigns" runat="server">
+        <asp:CheckBox ID="ChkAllowWithPreviousCampaigns" runat="server" />
+      </umbUIControls:PropertyPanel>
     </umbUIControls:Pane>
     <div ng-app="TeaCommerce" id="marketing" class="umb-pane">
       <div ng-controller="CampaignController">
@@ -36,7 +42,9 @@
               <div ng-repeat="ruleGroup in campaign.ruleGroups">
                 <div class="andSplit" ng-show="$index > 0">And</div>
                 <div class="ruleGroupContent">
-                  <select ng-model="ruleGroup.selectedRuleManifest" ng-options="v.name for (k,v) in ruleManifests"><option value=""></option></select>
+                  <select ng-model="ruleGroup.selectedRuleManifest" ng-options="v.name for (k,v) in ruleManifests">
+                    <option value="">Choose a rule</option>
+                  </select>
                   <a href="" ng-click="addRule(ruleGroup)" class="add-rule"><i class="icon-add"></i>Add rule</a>
                   <div class="orSplit"></div>
                   <div ng-repeat="rule in ruleGroup.rules">
@@ -53,7 +61,9 @@
             </td>
             <td valign="top">
               <div class="ruleGroupContent">
-                <select ng-model="selectedAwardManifest" ng-options="v.name for (k,v) in awardManifests"></select>
+                <select ng-model="selectedAwardManifest" ng-options="v.name for (k,v) in awardManifests">
+                  <option value="">Choose an award</option>
+                </select>
                 <a href="" ng-click="addAward()" class="add-award"><i class="icon-add"></i>Add award</a>
                 <div class="orSplit"></div>
                 <div ng-repeat="award in campaign.awards">
@@ -129,7 +139,7 @@
     table.table.currencies td { padding-left: 0; }
     td.properties input, td.properties select { margin-bottom: 6px; }
     td.properties span.divider { display: inline-block; padding: 3px 0px; }
-    td.buttons { padding-top: 4px; }
+    table.table td { padding-top: 4px; }
     td.buttons a { float: left; clear: both; }
     td.buttons a i[class^="icon-"], td.buttons a i[class*=" icon-"], 
     a.add-rule-group i[class^="icon-"], a.add-rule i[class^="icon-"], a.add-award i[class^="icon-"], 
