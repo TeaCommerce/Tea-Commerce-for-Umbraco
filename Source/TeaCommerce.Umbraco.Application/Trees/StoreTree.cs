@@ -68,7 +68,7 @@ namespace TeaCommerce.Umbraco.Application.Trees {
 
           node = CreateNode( GetNodeIdentifier( StoreTreeNodeType.Orders, CurrentStoreId ), CommonTerms.Orders, Constants.TreeIcons.Clipboard, "orders", true /*There is always a default order status*/ );
           tree.Add( node );
-          
+
           if ( permissions != null && permissions.HasPermission( StoreSpecificPermissionType.AccessMarketing, CurrentStoreId ) ) {
             node = CreateNode( GetNodeIdentifier( StoreTreeNodeType.Campaigns, CurrentStoreId ), CommonTerms.Marketing, Constants.TreeIcons.Target, "campaigns", CampaignService.Instance.GetAll( CurrentStoreId ).Any() );
             node.Menu.Add( ActionNew.Instance );
@@ -104,8 +104,9 @@ namespace TeaCommerce.Umbraco.Application.Trees {
           foreach ( Campaign campaign in CampaignService.Instance.GetAll( CurrentStoreId ) ) {
             node = CreateNode( GetNodeIdentifier( StoreTreeNodeType.Campaign, CurrentStoreId, campaign.Id ), campaign.Name, Constants.TreeIcons.TagLabel, "campaign" );
 
-              if (!campaign.IsActive || (campaign.StartDate.HasValue && campaign.StartDate > DateTime.Now) || (campaign.EndDate.HasValue && campaign.EndDate < DateTime.Now))
-                node.Icon = WebUtils.GetWebResourceUrl(Constants.TreeIcons.TagLabelRed);
+            if ( !campaign.IsActive || ( campaign.StartDate != null && campaign.StartDate > DateTime.Now ) || ( campaign.EndDate != null && campaign.EndDate < DateTime.Now ) ) {
+              node.Icon = WebUtils.GetWebResourceUrl( Constants.TreeIcons.TagLabelRed );
+            }
 
             node.Action = "javascript:(function(){" + ClientTools.Scripts.ChangeContentFrameUrl( WebUtils.GetPageUrl( Constants.Pages.EditCampaign ) + "?id=" + campaign.Id + "&storeId=" + campaign.StoreId ) + "})";
             node.Menu.Add( ActionDelete.Instance );
