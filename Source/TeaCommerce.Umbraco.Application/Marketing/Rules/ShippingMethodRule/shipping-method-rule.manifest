@@ -1,0 +1,10 @@
+﻿{
+  name: 'Shipping method rule',
+  alias: 'ShippingMethodRule',
+  editor: {
+    view: '/App_Plugins/TeaCommerce/Marketing/Rules/ShippingMethodRule/shipping-method-rule.html'
+  },
+  javascripts: [
+    '/App_Plugins/TeaCommerce/Marketing/Rules/ShippingMethodRule/shipping-method-rule.controller.js'
+  ]
+}

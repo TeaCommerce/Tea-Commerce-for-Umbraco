@@ -4,12 +4,12 @@
       <span ng-show="!rule.settings.nodeId && !editMode">No product or product category selected</span>
       <span title="{{contentBreadcrump}}" ng-show="rule.settings.nodeId" style="margin-right: 4px;">{{contentName}}</span>
       <a href="#" ng-click="deleteValue()" ng-show="rule.settings.nodeId && editMode" style="color: red; margin-right: 4px;">Delete</a>
-      <a href="#" ng-click="openContentPicker()" ng-show="editMode">Choose...</a>
+      <a href="#" ng-click="openContentPicker()" class="choose-product" ng-show="editMode"><i class="icon icon-add blue"></i>Choose...</a>
     </td>
     <td style="width: 100px;" valign="top" class="buttons">
-      <a href="#" ng-click="editMode=true" ng-show="!editMode" class="edit">Edit</a>
-      <a href="#" ng-click="deleteRule(rule)" ng-show="!editMode" class="delete">Delete</a>
-      <a href="#" ng-click="save()" ng-show="editMode" class="save">Save</a>
+      <a href="#" ng-click="editMode=true" ng-show="!editMode" class="edit"><i class="icon-edit"></i>Edit</a>
+      <a href="#" ng-click="deleteRule(rule)" ng-show="!editMode" class="delete"><i class="icon-delete"></i>Delete</a>
+      <a href="#" ng-click="save()" ng-show="editMode" class="save"><i class="icon-hard-drive"></i>Save</a>
     </td>
   </tr>
 </table>
