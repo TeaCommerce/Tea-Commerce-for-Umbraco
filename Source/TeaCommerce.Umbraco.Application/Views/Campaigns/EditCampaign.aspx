@@ -87,12 +87,12 @@
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
   <script src="/App_Plugins/TeaCommerce/Assets/Scripts/tea-commerce.min.js"></script>
   <script src="/App_Plugins/TeaCommerce/Marketing/Assets/Scripts/campaign.controller.js"></script>
-  
+
   <script type="text/javascript">
     function openContentPicker(fn) {
       parent.UmbClientMgr.openModalWindow('<%: TreeUrlGenerator.GetPickerUrl( "content", "content" ) %>', 'Choose Content', true, 300, 400, 60, null, null, function (args) {
         if (fn && args && args.outVal) {
-          findContentName(args.outVal, function(name, breadcrump) {
+          findContentName(args.outVal, function (name, breadcrump) {
             fn(args.outVal, name, breadcrump);
           });
         }
@@ -107,7 +107,7 @@
           data: '{ "nodeId": ' + nodeId + ' }',
           contentType: "application/json; charset=utf-8",
           dataType: "json",
-          success: function(msg) {
+          success: function (msg) {
             var a = msg.d;
             var name = a[a.length - 1];
             var breadcrumb = a.join(" > ");
@@ -141,8 +141,8 @@
     td.properties span.divider { display: inline-block; padding: 3px 0px; }
     table.table td { padding-top: 4px; }
     td.buttons a { float: left; clear: both; }
-    td.buttons a i[class^="icon-"], td.buttons a i[class*=" icon-"], 
-    a.add-rule-group i[class^="icon-"], a.add-rule i[class^="icon-"], a.add-award i[class^="icon-"], 
+    td.buttons a i[class^="icon-"], td.buttons a i[class*=" icon-"],
+    a.add-rule-group i[class^="icon-"], a.add-rule i[class^="icon-"], a.add-award i[class^="icon-"],
     a.add-discount-code-rule i[class^="icon-"], a.choose-product i[class^="icon-"],
     a.add-rule-group i[class*=" icon-"], a.add-rule i[class*=" icon-"], a.add-award i[class*=" icon-"],
     a.add-discount-code-rule i[class*=" icon-"], a.choose-product i[class*=" icon-"] { text-decoration: none; padding-right: 3px; }

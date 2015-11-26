@@ -25,7 +25,7 @@ namespace TeaCommerce.Umbraco.Application.Views.Campaigns {
         throw new SecurityException();
       }
       #endregion
-      
+
       AddTab( CommonTerms.Common, PnlCommon, SaveButton_Clicked );
 
       LitTrialMode.Text = CommonTerms.TrialModeMarketing;
