@@ -2,8 +2,7 @@
 Tea Commerce is a powerful e-commerce platform for Umbraco CMS. It's fast to implement, easy to use and flexible for growth. Learn more about this [umbraco ecommerce](https://teacommerce.net/) project at the Tea Commerce website.
 
 ## What Tea Commerce does for you
-Tea Commerce gives you the tools as a developer to implement an e-commerce site using Umbraco CMS. The DX experience has been a major factor in the development of the API you use to implement the shop.
-Tea Commerce processes orders, manages VAT/taxes, handles shipping, sends out order confirmation emails to the customers etc. While this is handles by Tea Commerce, Umbraco is used to handle product categories, products, variants, related products etc. The combination of Tea Commerce and Umbraco gives you the flexibility to build a store in any imagineable way on a robust platform, capable of handling small and large store sizes.
+Tea Commerce gives you the tools as a developer to implement an e-commerce site using Umbraco CMS. The DX experience has been a major factor in the development of the API you use to implement the shop. Tea Commerce processes orders, manages VAT/taxes, handles shipping, sends out order confirmation emails to the customers etc. While this is handles by Tea Commerce, Umbraco is used to handle product categories, products, variants, related products etc. The combination of Tea Commerce and Umbraco gives you the flexibility to build a store in any imagineable way on a robust platform, capable of handling small and large store sizes.
 
 ## Features
 Tea Commerce comes with all the basic features you need to run a successfull e-commerce business, but it's built so developers can expand on it. Here's what you get out of the box:
