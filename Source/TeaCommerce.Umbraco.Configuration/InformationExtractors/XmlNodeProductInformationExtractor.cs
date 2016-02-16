@@ -30,30 +30,47 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       VatGroupService = vatGroupService;
     }
 
-    public virtual string GetPropertyValue( XPathNavigator model, string propertyAlias, string selector = null, bool useCachedInformation = true ) {
+    public virtual string GetPropertyValue( XPathNavigator model, string variantGuid, string propertyAlias, string selector = null, bool useCachedInformation = true ) {
       string propertyValue = "";
 
-      XPathNavigator xmlProperty = GetXmlPropertyValue( model, propertyAlias, selector, useCachedInformation );
-      if ( xmlProperty != null ) {
-        propertyValue = xmlProperty.Value;
+      if ( !string.IsNullOrEmpty( variantGuid ) ) {
+        long storeId = GetStoreId( model, useCachedInformation );
+        if ( storeId > 0 ) {
+          Store store = StoreService.Get( storeId );
+          if ( store != null ) {
+            string json = GetPropertyValue( model, null, store.ProductSettings.ProductVariantPropertyAlias );
+          }
+        }
+        var test = "test";
+        /*
+      1.   GetPropertyValue() og få json blob med setting fra Store -> DONE
+      2. Parse json blob
+      3. løb igennem varianter og find variant på guid
+      4. tag property value ud fra propertyAlias
+      */
+      } else {
+        XPathNavigator xmlProperty = GetXmlPropertyValue( model, variantGuid, propertyAlias, selector, useCachedInformation );
+        if ( xmlProperty != null ) {
+          propertyValue = xmlProperty.Value;
+        }
       }
 
       return propertyValue;
     }
 
-    public virtual XPathNavigator GetXmlPropertyValue( XPathNavigator model, string propertyAlias, string selector = null, bool useCachedInformation = true ) {
+    public virtual XPathNavigator GetXmlPropertyValue( XPathNavigator model, string variantGuid, string propertyAlias, string selector = null, bool useCachedInformation = true ) {
       //Check if this node or ancestor has it
-      XPathNavigator xmlProperty = GetXmlPropertyValueInternal( model, propertyAlias, selector, useCachedInformation );
+      XPathNavigator xmlProperty = GetXmlPropertyValueInternal( model, variantGuid, propertyAlias, selector, useCachedInformation );
 
       //Check if we found the value
       if ( xmlProperty == null ) {
 
         //Check if we can find a master relation
-        XPathNavigator masterRelationNodeId = GetXmlPropertyValueInternal( model, Constants.ProductPropertyAliases.MasterRelationPropertyAlias, useCachedInformation: useCachedInformation );
+        XPathNavigator masterRelationNodeId = GetXmlPropertyValueInternal( model, null, Constants.ProductPropertyAliases.MasterRelationPropertyAlias, useCachedInformation: useCachedInformation );
         if ( masterRelationNodeId != null ) {
           XPathNodeIterator masterRelation = library.GetXmlNodeById( masterRelationNodeId.Value );
           if ( masterRelation != null ) {
-            xmlProperty = GetXmlPropertyValue( masterRelation.Current, propertyAlias, selector, useCachedInformation );
+            xmlProperty = GetXmlPropertyValue( masterRelation.Current, variantGuid, propertyAlias, selector, useCachedInformation );
           }
         }
 
@@ -62,7 +79,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       return xmlProperty;
     }
 
-    protected virtual XPathNavigator GetXmlPropertyValueInternal( XPathNavigator model, string propertyAlias, string selector = null, bool useCachedInformation = true ) {
+    protected virtual XPathNavigator GetXmlPropertyValueInternal( XPathNavigator model, string variantGuid, string propertyAlias, string selector = null, bool useCachedInformation = true ) {
       XPathNavigator navigator = null;
 
       if ( model != null && !string.IsNullOrEmpty( propertyAlias ) ) {
@@ -97,7 +114,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
             }
 
             if ( navigator == null && content.ParentId != -1 ) {
-              navigator = GetXmlPropertyValueInternal( library.GetXmlNodeById( content.ParentId.ToString( CultureInfo.InvariantCulture ) ).Current, propertyAlias, selector, useCachedInformation );
+              navigator = GetXmlPropertyValueInternal( library.GetXmlNodeById( content.ParentId.ToString( CultureInfo.InvariantCulture ) ).Current, variantGuid, propertyAlias, selector, useCachedInformation );
             }
           } catch ( Exception ) {
           }
@@ -108,7 +125,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
     }
 
     public virtual long GetStoreId( XPathNavigator model, bool useCachedInformation = true ) {
-      long? storeId = GetPropertyValue( model, Constants.ProductPropertyAliases.StorePropertyAlias, useCachedInformation: useCachedInformation ).TryParse<long>();
+      long? storeId = GetPropertyValue( model, null, Constants.ProductPropertyAliases.StorePropertyAlias, useCachedInformation: useCachedInformation ).TryParse<long>();
       if ( storeId == null ) {
         throw new ArgumentException( "The model doesn't have a store id associated with it - remember to add the Tea Commerce store picker to your Umbraco content tree" );
       }
@@ -116,31 +133,31 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       return storeId.Value;
     }
 
-    public virtual string GetSku( XPathNavigator model, bool useCachedInformation = true ) {
-      string sku = GetPropertyValue( model, Constants.ProductPropertyAliases.SkuPropertyAlias, useCachedInformation: useCachedInformation );
+    public virtual string GetSku( XPathNavigator model, string variantGuid, bool useCachedInformation = true ) {
+      string sku = GetPropertyValue( model, variantGuid, Constants.ProductPropertyAliases.SkuPropertyAlias, useCachedInformation: useCachedInformation );
 
       //If no sku is found - default to umbraco node id
       if ( string.IsNullOrEmpty( sku ) ) {
-        sku = GetPropertyValue( model, "@id", useCachedInformation: useCachedInformation );
+        sku = GetPropertyValue( model, variantGuid, "@id", useCachedInformation: useCachedInformation );
       }
 
       return sku;
     }
 
-    public virtual string GetName( XPathNavigator model, bool useCachedInformation = true ) {
-      string name = GetPropertyValue( model, Constants.ProductPropertyAliases.NamePropertyAlias, useCachedInformation: useCachedInformation );
+    public virtual string GetName( XPathNavigator model, string variantGuid, bool useCachedInformation = true ) {
+      string name = GetPropertyValue( model, variantGuid, Constants.ProductPropertyAliases.NamePropertyAlias, useCachedInformation: useCachedInformation );
 
       //If no name is found - default to the umbraco node name
       if ( string.IsNullOrEmpty( name ) ) {
-        name = GetPropertyValue( model, "@nodeName", useCachedInformation: useCachedInformation );
+        name = GetPropertyValue( model, variantGuid, "@nodeName", useCachedInformation: useCachedInformation );
       }
 
       return name;
     }
 
-    public virtual long? GetVatGroupId( XPathNavigator model, bool useCachedInformation = true ) {
+    public virtual long? GetVatGroupId( XPathNavigator model, string variantGuid, bool useCachedInformation = true ) {
       long storeId = GetStoreId( model, useCachedInformation );
-      long? vatGroupId = GetPropertyValue( model, Constants.ProductPropertyAliases.VatGroupPropertyAlias, useCachedInformation: useCachedInformation ).TryParse<long>();
+      long? vatGroupId = GetPropertyValue( model, variantGuid, Constants.ProductPropertyAliases.VatGroupPropertyAlias, useCachedInformation: useCachedInformation ).TryParse<long>();
 
       //In umbraco a product can have a relation to a delete marked vat group
       if ( vatGroupId != null ) {
@@ -154,45 +171,45 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
     }
 
     public virtual long? GetLanguageId( XPathNavigator model, bool useCachedInformation = true ) {
-      return LanguageService.Instance.GetLanguageIdByNodePath( GetPropertyValue( model, "@path", useCachedInformation: useCachedInformation ) );
+      return LanguageService.Instance.GetLanguageIdByNodePath( GetPropertyValue( model, null, "@path", useCachedInformation: useCachedInformation ) );
     }
 
-    public virtual OriginalUnitPriceCollection GetOriginalUnitPrices( XPathNavigator model, bool useCachedInformation = true ) {
+    public virtual OriginalUnitPriceCollection GetOriginalUnitPrices( XPathNavigator model, string variantGuid, bool useCachedInformation = true ) {
       OriginalUnitPriceCollection prices = new OriginalUnitPriceCollection();
 
       foreach ( Currency currency in CurrencyService.GetAll( GetStoreId( model, useCachedInformation ) ) ) {
-        prices.Add( new OriginalUnitPrice( GetPropertyValue( model, currency.PricePropertyAlias, useCachedInformation: useCachedInformation ).ParseToDecimal() ?? 0M, currency.Id ) );
+        prices.Add( new OriginalUnitPrice( GetPropertyValue( model, variantGuid, currency.PricePropertyAlias, useCachedInformation: useCachedInformation ).ParseToDecimal() ?? 0M, currency.Id ) );
       }
 
       return prices;
     }
 
-    public virtual CustomPropertyCollection GetProperties( XPathNavigator model, bool useCachedInformation = true ) {
+    public virtual CustomPropertyCollection GetProperties( XPathNavigator model, string variantGuid, bool useCachedInformation = true ) {
       CustomPropertyCollection properties = new CustomPropertyCollection();
 
       foreach ( string productPropertyAlias in StoreService.Get( GetStoreId( model, useCachedInformation ) ).ProductSettings.ProductPropertyAliases ) {
-        properties.Add( new CustomProperty( productPropertyAlias, GetPropertyValue( model, productPropertyAlias, useCachedInformation: useCachedInformation ) ) { IsReadOnly = true } );
+        properties.Add( new CustomProperty( productPropertyAlias, GetPropertyValue( model, variantGuid, productPropertyAlias, useCachedInformation: useCachedInformation ) ) { IsReadOnly = true } );
       }
 
       return properties;
     }
 
-    public virtual ProductSnapshot GetSnapshot( XPathNavigator model, string productIdentifier, bool useCachedInformation = true ) {
+    public virtual ProductSnapshot GetSnapshot( XPathNavigator model, string variantGuid, string productIdentifier, bool useCachedInformation = true ) {
       //We use Clone() because each method should have it's own instance of the navigator - so if they traverse it doesn't affect other methods
       ProductSnapshot snapshot = new ProductSnapshot( GetStoreId( model.Clone(), useCachedInformation ), productIdentifier ) {
-        Sku = GetSku( model.Clone(), useCachedInformation ),
-        Name = GetName( model.Clone(), useCachedInformation ),
-        VatGroupId = GetVatGroupId( model.Clone(), useCachedInformation ),
+        Sku = GetSku( model.Clone(), variantGuid, useCachedInformation ),
+        Name = GetName( model.Clone(), variantGuid, useCachedInformation ),
+        VatGroupId = GetVatGroupId( model.Clone(), variantGuid, useCachedInformation ),
         LanguageId = GetLanguageId( model.Clone(), useCachedInformation ),
-        OriginalUnitPrices = GetOriginalUnitPrices( model.Clone(), useCachedInformation ),
-        Properties = GetProperties( model.Clone(), useCachedInformation )
+        OriginalUnitPrices = GetOriginalUnitPrices( model.Clone(), variantGuid, useCachedInformation ),
+        Properties = GetProperties( model.Clone(), variantGuid, useCachedInformation )
       };
 
       return snapshot;
     }
 
     public virtual bool HasAccess( long storeId, XPathNavigator model, bool useCachedInformation = true ) {
-      return storeId == GetStoreId( model ) && library.HasAccess( int.Parse( GetPropertyValue( model, "@id", useCachedInformation: useCachedInformation ) ), GetPropertyValue( model, "@path", useCachedInformation: useCachedInformation ) );
+      return storeId == GetStoreId( model ) && library.HasAccess( int.Parse( GetPropertyValue( model, null, "@id", useCachedInformation: useCachedInformation ) ), GetPropertyValue( model, null, "@path", useCachedInformation: useCachedInformation ) );
     }
   }
 }
