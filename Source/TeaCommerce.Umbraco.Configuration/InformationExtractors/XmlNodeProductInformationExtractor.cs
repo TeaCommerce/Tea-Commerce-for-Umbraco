@@ -1,5 +1,7 @@
 using Autofac;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -13,6 +15,7 @@ using TeaCommerce.Umbraco.Configuration.Services;
 using umbraco;
 using Umbraco.Core;
 using Umbraco.Core.Models;
+using Umbraco.Web;
 using Constants = TeaCommerce.Api.Constants;
 
 namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
@@ -38,18 +41,21 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
         if ( storeId > 0 ) {
           Store store = StoreService.Get( storeId );
           if ( store != null ) {
-            string json = GetPropertyValue( model, null, store.ProductSettings.ProductVariantPropertyAlias );
+            string nodeIdStr = GetPropertyValue( model, null, "@id" );
+            int nodeId = 0;
+            if ( !string.IsNullOrEmpty( nodeIdStr ) && int.TryParse( nodeIdStr, out nodeId ) ) {
+              IPublishedContent variant = VariantService.Instance.GetVariants( nodeId, variantGuid );
+              if ( variant != null ) {
+                //TODO: Hvad sker der hvis det er en avanceret type
+                propertyValue = variant.GetPropertyValue( propertyAlias ).ToString();
+              }
+            }
           }
         }
-        var test = "test";
-        /*
-      1.   GetPropertyValue() og få json blob med setting fra Store -> DONE
-      2. Parse json blob
-      3. løb igennem varianter og find variant på guid
-      4. tag property value ud fra propertyAlias
-      */
-      } else {
-        XPathNavigator xmlProperty = GetXmlPropertyValue( model, variantGuid, propertyAlias, selector, useCachedInformation );
+      }
+
+      if ( !string.IsNullOrEmpty( propertyValue ) ) {
+        XPathNavigator xmlProperty = GetXmlPropertyValue( model, propertyAlias, selector, useCachedInformation );
         if ( xmlProperty != null ) {
           propertyValue = xmlProperty.Value;
         }
@@ -58,9 +64,9 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       return propertyValue;
     }
 
-    public virtual XPathNavigator GetXmlPropertyValue( XPathNavigator model, string variantGuid, string propertyAlias, string selector = null, bool useCachedInformation = true ) {
+    public virtual XPathNavigator GetXmlPropertyValue( XPathNavigator model, string propertyAlias, string selector = null, bool useCachedInformation = true ) {
       //Check if this node or ancestor has it
-      XPathNavigator xmlProperty = GetXmlPropertyValueInternal( model, variantGuid, propertyAlias, selector, useCachedInformation );
+      XPathNavigator xmlProperty = GetXmlPropertyValueInternal( model, propertyAlias, selector, useCachedInformation );
 
       //Check if we found the value
       if ( xmlProperty == null ) {
@@ -70,7 +76,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
         if ( masterRelationNodeId != null ) {
           XPathNodeIterator masterRelation = library.GetXmlNodeById( masterRelationNodeId.Value );
           if ( masterRelation != null ) {
-            xmlProperty = GetXmlPropertyValue( masterRelation.Current, variantGuid, propertyAlias, selector, useCachedInformation );
+            xmlProperty = GetXmlPropertyValue( masterRelation.Current, propertyAlias, selector, useCachedInformation );
           }
         }
 
@@ -79,7 +85,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       return xmlProperty;
     }
 
-    protected virtual XPathNavigator GetXmlPropertyValueInternal( XPathNavigator model, string variantGuid, string propertyAlias, string selector = null, bool useCachedInformation = true ) {
+    protected virtual XPathNavigator GetXmlPropertyValueInternal( XPathNavigator model, string propertyAlias, string selector = null, bool useCachedInformation = true ) {
       XPathNavigator navigator = null;
 
       if ( model != null && !string.IsNullOrEmpty( propertyAlias ) ) {
@@ -114,7 +120,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
             }
 
             if ( navigator == null && content.ParentId != -1 ) {
-              navigator = GetXmlPropertyValueInternal( library.GetXmlNodeById( content.ParentId.ToString( CultureInfo.InvariantCulture ) ).Current, variantGuid, propertyAlias, selector, useCachedInformation );
+              navigator = GetXmlPropertyValueInternal( library.GetXmlNodeById( content.ParentId.ToString( CultureInfo.InvariantCulture ) ).Current, propertyAlias, selector, useCachedInformation );
             }
           } catch ( Exception ) {
           }
@@ -138,7 +144,8 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
       //If no sku is found - default to umbraco node id
       if ( string.IsNullOrEmpty( sku ) ) {
-        sku = GetPropertyValue( model, variantGuid, "@id", useCachedInformation: useCachedInformation );
+        string variantId = !string.IsNullOrEmpty( variantGuid ) ? "_" + variantGuid : "";
+        sku = GetPropertyValue( model, null, "@id", useCachedInformation: useCachedInformation ) + variantId;
       }
 
       return sku;
@@ -149,7 +156,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
       //If no name is found - default to the umbraco node name
       if ( string.IsNullOrEmpty( name ) ) {
-        name = GetPropertyValue( model, variantGuid, "@nodeName", useCachedInformation: useCachedInformation );
+        name = GetPropertyValue( model, null, "@nodeName", useCachedInformation: useCachedInformation );
       }
 
       return name;

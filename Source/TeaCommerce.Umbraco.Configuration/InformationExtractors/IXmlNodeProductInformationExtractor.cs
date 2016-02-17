@@ -5,7 +5,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
   public interface IXmlNodeProductInformationExtractor {
 
     string GetPropertyValue( XPathNavigator model, string variantGuid, string propertyAlias, string selector = null, bool useCachedInformation = true );
-    XPathNavigator GetXmlPropertyValue( XPathNavigator model, string variantGuid, string propertyAlias, string selector = null, bool useCachedInformation = true );
+    XPathNavigator GetXmlPropertyValue( XPathNavigator model, string propertyAlias, string selector = null, bool useCachedInformation = true );
     long GetStoreId( XPathNavigator model, bool useCachedInformation = true );
     string GetSku( XPathNavigator model, string variantGuid, bool useCachedInformation = true );
     string GetName( XPathNavigator model, string variantGuid, bool useCachedInformation = true );

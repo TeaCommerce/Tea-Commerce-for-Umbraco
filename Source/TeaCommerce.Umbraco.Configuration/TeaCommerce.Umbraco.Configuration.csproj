@@ -51,6 +51,7 @@
       <HintPath>..\Lib\Umbraco\interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Tea Commerce\Newtonsoft.Json.dll</HintPath>
@@ -130,6 +131,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ILanguageService.cs" />
     <Compile Include="Services\LanguageService.cs" />
+    <Compile Include="Services\VariantService.cs" />
+    <Compile Include="Variant\Product\Combination.cs" />
+    <Compile Include="Variant\Product\Variant.cs" />
+    <Compile Include="Variant\Product\VariantAttribute.cs" />
+    <Compile Include="Variant\Product\VariantAttributeGroup.cs" />
+    <Compile Include="Variant\VariantPublishedContent.cs" />
+    <Compile Include="Variant\VariantPublishedProperty.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

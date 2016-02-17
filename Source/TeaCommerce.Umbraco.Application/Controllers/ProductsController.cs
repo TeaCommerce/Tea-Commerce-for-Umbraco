@@ -20,15 +20,15 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
     }
 
     public class ProductIdentifier {
-      public string PageId { get; set; }
+      public string NodeId { get; set; }
       public string VariantGuid { get; set; }
 
       public ProductIdentifier( string productIdentifier ) {
         if ( productIdentifier.Contains( "_" ) ) {
-          PageId = productIdentifier.Split( '_' )[0];
+          NodeId = productIdentifier.Split( '_' )[0];
           VariantGuid = productIdentifier.Split( '_' )[1];
         } else {
-          PageId = productIdentifier;
+          NodeId = productIdentifier;
         }
       }
     }
@@ -38,7 +38,7 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
       Stock stock = new Stock();
       ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
 
-      XPathNavigator xPathNavigator = library.GetXmlNodeById( productIdentifierObj.PageId ).Current;
+      XPathNavigator xPathNavigator = library.GetXmlNodeById( productIdentifierObj.NodeId ).Current;
       IXmlNodeProductInformationExtractor productInformationExtractor = XmlNodeProductInformationExtractor.Instance;
 
       long storeId = productInformationExtractor.GetStoreId( xPathNavigator, false );
@@ -54,10 +54,11 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
     public void PostStock( string productIdentifier, Stock stock ) {
       ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
 
-      XPathNavigator xPathNavigator = library.GetXmlNodeById( productIdentifierObj.PageId ).Current;
+      XPathNavigator xPathNavigator = library.GetXmlNodeById( productIdentifierObj.NodeId ).Current;
       IXmlNodeProductInformationExtractor productInformationExtractor = XmlNodeProductInformationExtractor.Instance;
 
       long storeId = productInformationExtractor.GetStoreId( xPathNavigator, false );
+
       stock.Sku = !string.IsNullOrEmpty( stock.Sku ) ? stock.Sku : productInformationExtractor.GetSku( xPathNavigator, productIdentifierObj.VariantGuid, false );
 
       ProductService.Instance.SetStock( storeId, stock.Sku, !string.IsNullOrEmpty( stock.Value ) ? stock.Value.ParseToDecimal() : null );
