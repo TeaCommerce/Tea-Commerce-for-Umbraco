@@ -54,7 +54,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
         }
       }
 
-      if ( !string.IsNullOrEmpty( propertyValue ) ) {
+      if ( string.IsNullOrEmpty( propertyValue ) ) {
         XPathNavigator xmlProperty = GetXmlPropertyValue( model, propertyAlias, selector, useCachedInformation );
         if ( xmlProperty != null ) {
           propertyValue = xmlProperty.Value;
