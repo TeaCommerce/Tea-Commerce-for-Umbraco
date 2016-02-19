@@ -5,7 +5,10 @@ using TeaCommerce.Api.Marketing.Models;
 using TeaCommerce.Api.Models;
 using TeaCommerce.Api.Web;
 using TeaCommerce.Umbraco.Configuration.InformationExtractors;
+using TeaCommerce.Umbraco.Configuration.Variant.Product;
+using Umbraco.Core.Models;
 using umbraco.MacroEngines;
+using Umbraco.Web;
 using DynamicXml = Umbraco.Core.Dynamics.DynamicXml;
 
 namespace TeaCommerce.Umbraco.Web {
@@ -481,7 +484,7 @@ namespace TeaCommerce.Umbraco.Web {
     }
 
     #endregion
-    
+
     #region Discount codes
 
     /// <summary>
@@ -576,33 +579,28 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="storeId">Id of the store.</param>
     /// <param name="productIdentifier">A unique identifier of the product. E.g. the node id from Umbraco.</param>
     /// <param name="propertyAlias">Alias of the property to find.</param>
+    /// <param name="func">A function to filter the result.</param>
     /// <returns>The text value of the property.</returns>
-    public static string GetPropertyValue( long storeId, string productIdentifier, string propertyAlias ) {
-      return TeaCommerceHelper.GetPropertyValue( storeId, productIdentifier, propertyAlias );
+    public static T GetPropertyValue<T>( long storeId, string productIdentifier, string propertyAlias, Func<IPublishedContent, bool> func = null ) {
+      ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
+      //TODO: Skal vi finde et andet sted at gemme denne her, så den ikke skal laves hver gang?
+      UmbracoHelper umbracoHelper = new UmbracoHelper( UmbracoContext.Current );
+
+      return IPublishedContentProductInformationExtractor.Instance.GetPropertyValue<T>( umbracoHelper.TypedContent( productIdentifierObj.NodeId ), propertyAlias, productIdentifierObj.VariantId, func );
     }
 
+    //TODO: Slettes sammen med extractor og xml extractor
     /// <summary>
     /// Returns the value of a property on the product. Will traverse the content tree recursively to find the value. Will also use the master relation property of the product to search master products.
     /// </summary>
     /// <param name="storeId">Id of the store.</param>
     /// <param name="model">The product as a DynamicNode.</param>
     /// <param name="propertyAlias">Alias of the property to find.</param>
+    /// <param name="variantId">The id of a specific product variant</param>
     /// <param name="func">A function to filter the result.</param>
     /// <returns>The text value of the property.</returns>
-    public static string GetPropertyValue( long storeId, DynamicNode model, string propertyAlias, Func<DynamicNode, bool> func = null ) {
-      return DynamicNodeProductInformationExtractor.Instance.GetPropertyValue( model, propertyAlias, func );
-    }
-
-    /// <summary>
-    /// Returns the xml value of a property on the product. Will traverse the content tree recursively to find the value. Will also use the master relation property of the product to search master products.
-    /// </summary>
-    /// <param name="storeId">Id of the store.</param>
-    /// <param name="model">The product as a DynamicNode.</param>
-    /// <param name="propertyAlias">Alias of the property to find.</param>
-    /// <param name="func">A function to filter the result.</param>
-    /// <returns>The xml value of the property.</returns>
-    public static DynamicXml GetXmlPropertyValue( long storeId, DynamicNode model, string propertyAlias, Func<DynamicNode, bool> func = null ) {
-      return DynamicNodeProductInformationExtractor.Instance.GetXmlPropertyValue( model, propertyAlias, func );
+    public static T GetPropertyValue<T>( long storeId, IPublishedContent model, string propertyAlias, string variantId = null, Func<IPublishedContent, bool> func = null ) {
+      return IPublishedContentProductInformationExtractor.Instance.GetPropertyValue<T>( model, propertyAlias, variantId, func );
     }
 
     #endregion

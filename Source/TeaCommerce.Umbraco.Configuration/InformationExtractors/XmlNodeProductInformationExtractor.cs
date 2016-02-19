@@ -37,19 +37,13 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       string propertyValue = "";
 
       if ( !string.IsNullOrEmpty( variantGuid ) ) {
-        long storeId = GetStoreId( model, useCachedInformation );
-        if ( storeId > 0 ) {
-          Store store = StoreService.Get( storeId );
-          if ( store != null ) {
-            string nodeIdStr = GetPropertyValue( model, null, "@id" );
-            int nodeId = 0;
-            if ( !string.IsNullOrEmpty( nodeIdStr ) && int.TryParse( nodeIdStr, out nodeId ) ) {
-              IPublishedContent variant = VariantService.Instance.GetVariants( nodeId, variantGuid );
-              if ( variant != null ) {
-                //TODO: Hvad sker der hvis det er en avanceret type
-                propertyValue = variant.GetPropertyValue( propertyAlias ).ToString();
-              }
-            }
+        string nodeIdStr = GetPropertyValue( model, null, "@id" );
+        int nodeId = 0;
+        if ( !string.IsNullOrEmpty( nodeIdStr ) && int.TryParse( nodeIdStr, out nodeId ) ) {
+          IPublishedContent variant = VariantService.Instance.GetVariants( nodeId, variantGuid );
+          if ( variant != null ) {
+            //TODO: Hvad sker der hvis det er en avanceret type
+            propertyValue = variant.GetPropertyValue( propertyAlias ).ToString();
           }
         }
       }

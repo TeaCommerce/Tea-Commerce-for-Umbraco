@@ -7,7 +7,6 @@
 
   if ($routeParams.create) {
     $scope.ui.creating = true;
-    //TODO: kan vi løse så umbraco sender os det nye id i formsubmitting?
   } else {
     $http.get('backoffice/teacommerce/products/getstock/?productIdentifier=' + $routeParams.id + variantId).success(function (data) {
       $scope.stock = data;
@@ -17,6 +16,7 @@
   if (!$routeParams.create) {
     $scope.$on("formSubmitting", function () {
       var data = {
+        //TODO: Get sku field name from store Eller få sku'en via model ligesom varianten
         sku: jQuery('#sku').val(),
         value: $scope.stock.Value
       };

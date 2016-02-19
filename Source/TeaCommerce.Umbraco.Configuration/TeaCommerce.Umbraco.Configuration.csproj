@@ -103,6 +103,8 @@
     <Compile Include="AutofacModules\PersistenceConfig.cs" />
     <Compile Include="AutofacModules\InfrastructureConfig.cs" />
     <Compile Include="Compatibility\Domain.cs" />
+    <Compile Include="InformationExtractors\IIPublishedContentProductInformationExtractor.cs" />
+    <Compile Include="InformationExtractors\IPublishedContentProductInformationExtractor.cs" />
     <Compile Include="Infrastructure\Installation\Installer.cs" />
     <Compile Include="Infrastructure\Logging\LoggingProvider.cs" />
     <Compile Include="Infrastructure\Ping\PingDataProvider.cs" />
@@ -122,10 +124,8 @@
     <Compile Include="Marketing\Services\ManifestService.cs" />
     <Compile Include="PaymentProviders\HashSecretProvider.cs" />
     <Compile Include="PaymentProviders\PaymentProviderUriResolver.cs" />
-    <Compile Include="InformationExtractors\IDynamicNodeProductInformationExtractor.cs" />
     <Compile Include="InformationExtractors\IXmlNodeProductInformationExtractor.cs" />
     <Compile Include="InformationExtractors\XmlNodeProductInformationExtractor.cs" />
-    <Compile Include="InformationExtractors\DynamicNodeProductInformationExtractor.cs" />
     <Compile Include="InformationExtractors\ProductInformationExtractor.cs" />
     <Compile Include="Persistence\DatabaseFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -133,6 +133,7 @@
     <Compile Include="Services\LanguageService.cs" />
     <Compile Include="Services\VariantService.cs" />
     <Compile Include="Variant\Product\Combination.cs" />
+    <Compile Include="Variant\Product\ProductIdentifier.cs" />
     <Compile Include="Variant\Product\Variant.cs" />
     <Compile Include="Variant\Product\VariantAttribute.cs" />
     <Compile Include="Variant\Product\VariantAttributeGroup.cs" />
