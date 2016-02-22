@@ -58,14 +58,14 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
           //Check if this node or ancestor has it
           IPublishedContent currentNode = func != null ? model.AncestorsOrSelf().FirstOrDefault( func ) : model;
           if ( currentNode != null ) {
-            rtnValue = GetPropertyValueInternal<T>( currentNode, propertyAlias, func == null, variantGuid, useCachedInformation );
+            rtnValue = GetPropertyValueInternal<T>( currentNode, propertyAlias, func == null, useCachedInformation );
           }
 
           //Check if we found the value
           if ( CheckNullOrEmpty( rtnValue ) ) {
 
             //Check if we can find a master relation
-            string masterRelationNodeId = GetPropertyValueInternal<string>( model, Constants.ProductPropertyAliases.MasterRelationPropertyAlias, true, variantGuid, useCachedInformation );
+            string masterRelationNodeId = GetPropertyValueInternal<string>( model, Constants.ProductPropertyAliases.MasterRelationPropertyAlias, true, useCachedInformation );
             if ( !string.IsNullOrEmpty( masterRelationNodeId ) ) {
               rtnValue = GetPropertyValue<T>( UmbracoHelper.TypedContent( masterRelationNodeId ), propertyAlias,
                 variantGuid, func,
@@ -79,7 +79,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       return rtnValue;
     }
 
-    protected virtual T GetPropertyValueInternal<T>( IPublishedContent model, string propertyAlias, bool recursive, string variantGuid = null, bool useCachedInformation = true ) {
+    protected virtual T GetPropertyValueInternal<T>( IPublishedContent model, string propertyAlias, bool recursive, bool useCachedInformation = true ) {
       T rtnValue = default( T );
 
       if ( model != null && !string.IsNullOrEmpty( propertyAlias ) ) {
@@ -149,7 +149,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
     }
 
     public virtual string GetSku( IPublishedContent model, string variantGuid = null, bool useCachedInformation = true ) {
-      string sku = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.SkuPropertyAlias, useCachedInformation: useCachedInformation );
+      string sku = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.SkuPropertyAlias, variantGuid, useCachedInformation: useCachedInformation );
 
       //If no sku is found - default to umbraco node id
       if ( string.IsNullOrEmpty( sku ) ) {
@@ -160,7 +160,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
     }
 
     public virtual string GetName( IPublishedContent model, string variantGuid = null, bool useCachedInformation = true ) {
-      string name = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.NamePropertyAlias, useCachedInformation: useCachedInformation );
+      string name = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.NamePropertyAlias, variantGuid, useCachedInformation: useCachedInformation );
 
       //If no name is found - default to the umbraco node name
       if ( string.IsNullOrEmpty( name ) ) {
@@ -172,7 +172,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
     public virtual long? GetVatGroupId( IPublishedContent model, string variantGuid = null, bool useCachedInformation = true ) {
       long storeId = GetStoreId( model, useCachedInformation );
-      long? vatGroupId = GetPropertyValue<long?>( model, Constants.ProductPropertyAliases.VatGroupPropertyAlias, useCachedInformation: useCachedInformation );
+      long? vatGroupId = GetPropertyValue<long?>( model, Constants.ProductPropertyAliases.VatGroupPropertyAlias, variantGuid, useCachedInformation: useCachedInformation );
 
       //In umbraco a product can have a relation to a delete marked vat group
       if ( vatGroupId != null ) {
@@ -193,7 +193,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       OriginalUnitPriceCollection prices = new OriginalUnitPriceCollection();
 
       foreach ( Currency currency in CurrencyService.GetAll( GetStoreId( model, useCachedInformation ) ) ) {
-        prices.Add( new OriginalUnitPrice( GetPropertyValue<string>( model, currency.PricePropertyAlias,  variantGuid, useCachedInformation: useCachedInformation ).ParseToDecimal() ?? 0M, currency.Id ) );
+        prices.Add( new OriginalUnitPrice( GetPropertyValue<string>( model, currency.PricePropertyAlias, variantGuid, useCachedInformation: useCachedInformation ).ParseToDecimal() ?? 0M, currency.Id ) );
       }
 
       return prices;
@@ -203,7 +203,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       CustomPropertyCollection properties = new CustomPropertyCollection();
 
       foreach ( string productPropertyAlias in StoreService.Get( GetStoreId( model, useCachedInformation ) ).ProductSettings.ProductPropertyAliases ) {
-        properties.Add( new CustomProperty( productPropertyAlias, GetPropertyValue<string>( model, productPropertyAlias, useCachedInformation: useCachedInformation ) ) { IsReadOnly = true } );
+        properties.Add( new CustomProperty( productPropertyAlias, GetPropertyValue<string>( model, productPropertyAlias, variantGuid, useCachedInformation: useCachedInformation ) ) { IsReadOnly = true } );
       }
 
       return properties;
