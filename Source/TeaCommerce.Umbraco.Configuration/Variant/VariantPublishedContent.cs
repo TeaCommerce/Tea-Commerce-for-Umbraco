@@ -24,6 +24,7 @@ namespace TeaCommerce.Umbraco.Configuration.Variant {
       _variantId = variant.Id;
 
       _combinations = variant.Combination;
+      Validation = variant.Validation;
 
       _properties = new List<IPublishedProperty>();
 
@@ -36,9 +37,15 @@ namespace TeaCommerce.Umbraco.Configuration.Variant {
       get { return _variantId; }
     }
 
+    public string ProductIdentifier {
+      get { return _parentContent.Id + "_" + _variantId; }
+    }
+
     public List<Combination> Combinations {
       get { return _combinations; }
     }
+
+    public VariantValidation Validation { get; private set; }
 
     public override IEnumerable<IPublishedContent> Children {
       get { return Enumerable.Empty<IPublishedContent>(); }
@@ -57,7 +64,7 @@ namespace TeaCommerce.Umbraco.Configuration.Variant {
     }
 
     public override string CreatorName {
-      get { return _parentContent != null ? _parentContent.CreatorName : null; }
+      get { return _parentContent != null ? _parentContent.CreatorName : ""; }
     }
 
     public override string DocumentTypeAlias {
@@ -105,7 +112,7 @@ namespace TeaCommerce.Umbraco.Configuration.Variant {
     }
 
     public override string Path {
-      get { return null; }
+      get { return _parentContent != null ? _parentContent.Path : ""; }
     }
 
     public override ICollection<IPublishedProperty> Properties {
@@ -125,7 +132,11 @@ namespace TeaCommerce.Umbraco.Configuration.Variant {
     }
 
     public override string UrlName {
-      get { throw new NotImplementedException(); }
+      get { return _parentContent != null ? _parentContent.UrlName : ""; }
+    }
+
+    public override string Url {
+      get { return _parentContent != null ? _parentContent.Url : ""; }
     }
 
     public override Guid Version {
@@ -137,7 +148,7 @@ namespace TeaCommerce.Umbraco.Configuration.Variant {
     }
 
     public override string WriterName {
-      get { return _parentContent != null ? _parentContent.WriterName : null; }
+      get { return _parentContent != null ? _parentContent.WriterName : ""; }
     }
   }
 }

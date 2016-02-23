@@ -5,6 +5,8 @@ using TeaCommerce.Api.Marketing.Models;
 using TeaCommerce.Api.Models;
 using TeaCommerce.Api.Web;
 using TeaCommerce.Umbraco.Configuration.InformationExtractors;
+using TeaCommerce.Umbraco.Configuration.Services;
+using TeaCommerce.Umbraco.Configuration.Variant;
 using TeaCommerce.Umbraco.Configuration.Variant.Product;
 using Umbraco.Core.Models;
 using umbraco.MacroEngines;
@@ -601,6 +603,19 @@ namespace TeaCommerce.Umbraco.Web {
     /// <returns>The text value of the property.</returns>
     public static T GetPropertyValue<T>( long storeId, IPublishedContent model, string propertyAlias, string variantId = null, Func<IPublishedContent, bool> func = null ) {
       return IPublishedContentProductInformationExtractor.Instance.GetPropertyValue<T>( model, propertyAlias, variantId, func );
+    }
+
+    #endregion
+
+    #region Variants
+
+
+    public static VariantPublishedContent GetVariant( long storeId, IPublishedContent content, string variantId, bool onlyValid = true ) {
+      return VariantService.Instance.GetVariant( storeId, content, variantId, onlyValid );
+    }
+
+    public static List<VariantPublishedContent> GetVariants( long storeId, IPublishedContent content, bool onlyValid = true ) {
+      return VariantService.Instance.GetVariants( storeId, content, onlyValid );
     }
 
     #endregion

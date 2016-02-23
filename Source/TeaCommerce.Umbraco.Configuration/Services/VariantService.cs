@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TeaCommerce.Api.Models;
+using TeaCommerce.Api.Services;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
@@ -20,50 +22,58 @@ namespace TeaCommerce.Umbraco.Configuration.Services {
 
     private VariantService() { }
 
-    public VariantPublishedContent GetVariant( IPublishedContent content, string variantId ) {
-      List<VariantPublishedContent> variants = GetVariants( content );
+    public VariantPublishedContent GetVariant( long storeId, IPublishedContent content, string variantId, bool onlyValid = true ) {
+      List<VariantPublishedContent> variants = GetVariants( storeId, content, onlyValid );
 
       return variants.FirstOrDefault( v => v.VariantId == variantId );
     }
 
-    public VariantPublishedContent GetVariant( IContent content, string variantId ) {
-      List<VariantPublishedContent> variants = GetVariants( content );
+    public VariantPublishedContent GetVariant( long storeId, IContent content, string variantId, bool onlyValid = true ) {
+      List<VariantPublishedContent> variants = GetVariants( storeId, content, onlyValid );
 
       return variants.FirstOrDefault( v => v.VariantId == variantId );
     }
 
-    public VariantPublishedContent GetVariants( int nodeId, string variantId ) {
-      List<VariantPublishedContent> variants = GetVariants( nodeId );
+    public VariantPublishedContent GetVariants( long storeId, int nodeId, string variantId, bool onlyValid = true ) {
+      List<VariantPublishedContent> variants = GetVariants( storeId, nodeId, onlyValid );
 
       return variants.FirstOrDefault( v => v.VariantId == variantId );
     }
 
-    public List<VariantPublishedContent> GetVariants( int nodeId ) {
+    public List<VariantPublishedContent> GetVariants( long storeId, int nodeId, bool onlyValid = true ) {
       UmbracoHelper umbracoHelper = new UmbracoHelper( UmbracoContext.Current );
 
       IPublishedContent content = umbracoHelper.TypedContent( nodeId );
 
-      return GetVariants( content );
+      return GetVariants( storeId, content, onlyValid );
     }
 
-    public List<VariantPublishedContent> GetVariants( IPublishedContent content ) {
+    public List<VariantPublishedContent> GetVariants( long storeId, IPublishedContent content, bool onlyValid = true ) {
       List<VariantPublishedContent> variants = new List<VariantPublishedContent>();
 
       if ( content != null ) {
-        string variantsJson = content.GetPropertyValue<string>( "variants" ); //TODO: Er "variants" altid det samme?
+        Store store = StoreService.Instance.Get( storeId );
+
+        string variantsJson = content.GetPropertyValue<string>( store.ProductSettings.ProductVariantPropertyAlias );
 
         variants = ParseVariantJson( variantsJson, content );
+      }
+
+      if ( onlyValid ) {
+        variants = variants.Where( v => !v.Validation.DuplicatesFound && !v.Validation.HolesInVariants ).ToList();
       }
 
       return variants;
     }
 
-    public List<VariantPublishedContent> GetVariants( IContent content ) {
+    public List<VariantPublishedContent> GetVariants( long storeId, IContent content, bool onlyValid ) {
       List<VariantPublishedContent> variants = new List<VariantPublishedContent>();
       UmbracoHelper umbracoHelper = new UmbracoHelper( UmbracoContext.Current );
 
       if ( content != null ) {
-        string variantsJson = content.GetValue<string>( "variants" ); //TODO: Er "variants" altid det samme?
+        Store store = StoreService.Instance.Get( storeId );
+
+        string variantsJson = content.GetValue<string>( store.ProductSettings.ProductVariantPropertyAlias );
         IPublishedContent parentContent = umbracoHelper.TypedContent( content.Id );
         variants = ParseVariantJson( variantsJson, parentContent );
       }
@@ -91,7 +101,6 @@ namespace TeaCommerce.Umbraco.Configuration.Services {
         List<Variant.Product.Variant> productVariants = JObject.Parse( json ).SelectToken( "variants" ).ToObject<List<Variant.Product.Variant>>();
 
         foreach ( Variant.Product.Variant variant in productVariants ) {
-          variant.DocumentTypeAlias = "Variant"; //TODO: Get real variant documenttype
 
           PublishedContentType publishedContentType = PublishedContentType.Get( PublishedItemType.Content, variant.DocumentTypeAlias );
 

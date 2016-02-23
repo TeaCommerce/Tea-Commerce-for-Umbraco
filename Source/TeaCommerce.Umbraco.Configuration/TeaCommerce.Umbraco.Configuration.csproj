@@ -124,8 +124,6 @@
     <Compile Include="Marketing\Services\ManifestService.cs" />
     <Compile Include="PaymentProviders\HashSecretProvider.cs" />
     <Compile Include="PaymentProviders\PaymentProviderUriResolver.cs" />
-    <Compile Include="InformationExtractors\IXmlNodeProductInformationExtractor.cs" />
-    <Compile Include="InformationExtractors\XmlNodeProductInformationExtractor.cs" />
     <Compile Include="InformationExtractors\ProductInformationExtractor.cs" />
     <Compile Include="Persistence\DatabaseFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

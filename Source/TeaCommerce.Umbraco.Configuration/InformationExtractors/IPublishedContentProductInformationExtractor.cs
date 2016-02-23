@@ -43,12 +43,13 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       if ( model != null && !string.IsNullOrEmpty( propertyAlias ) ) {
         if ( !string.IsNullOrEmpty( variantGuid ) ) {
           IPublishedContent variant = null;
+          long storeId = GetStoreId( model, useCachedInformation );
 
           if ( useCachedInformation ) {
-            variant = VariantService.Instance.GetVariant( model, variantGuid );
+            variant = VariantService.Instance.GetVariant( storeId, model, variantGuid );
           } else {
             IContent content = ApplicationContext.Current.Services.ContentService.GetById( model.Id );
-            variant = VariantService.Instance.GetVariant( content, variantGuid );
+            variant = VariantService.Instance.GetVariant( storeId, content, variantGuid );
           }
           if ( variant != null ) {
             rtnValue = variant.GetPropertyValue<T>( propertyAlias );

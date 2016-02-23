@@ -9,7 +9,6 @@ namespace TeaCommerce.Umbraco.Configuration.AutofacModules {
     protected override void Load( ContainerBuilder builder ) {
       builder.MustNotBeNull( "builder" );
 
-      builder.RegisterType<XmlNodeProductInformationExtractor>().As<IXmlNodeProductInformationExtractor>().PreserveExistingDefaults().InstancePerLifetimeScope();
       builder.RegisterType<IPublishedContentProductInformationExtractor>().As<IIPublishedContentProductInformationExtractor>().PreserveExistingDefaults().InstancePerLifetimeScope();
       builder.RegisterType<ProductInformationExtractor>().As<IProductInformationExtractor>().PreserveExistingDefaults().InstancePerLifetimeScope();
     }
