@@ -618,6 +618,10 @@ namespace TeaCommerce.Umbraco.Web {
       return VariantService.Instance.GetVariants( storeId, content, onlyValid );
     }
 
+    public static Dictionary<int, string> GetVariantGroups( List<VariantPublishedContent> variants ) {
+      return VariantService.Instance.GetVariantGroups( variants );
+    }
+
     #endregion
 
   }
