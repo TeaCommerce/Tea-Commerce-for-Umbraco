@@ -232,6 +232,15 @@ namespace TeaCommerce.Umbraco.Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you wish create all countries? Existing countries will not be affected..
+        /// </summary>
+        public static string ConfirmCreateAllCountries {
+            get {
+                return ResourceManager.GetString("ConfirmCreateAllCountries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete this?.
         /// </summary>
         public static string ConfirmDelete {
@@ -291,6 +300,24 @@ namespace TeaCommerce.Umbraco.Application.Resources {
         public static string Create {
             get {
                 return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create all countries.
+        /// </summary>
+        public static string CreateAllCountries {
+            get {
+                return ResourceManager.GetString("CreateAllCountries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All countries and regions has been created.
+        /// </summary>
+        public static string CreateAllCountriesCompleted {
+            get {
+                return ResourceManager.GetString("CreateAllCountriesCompleted", resourceCulture);
             }
         }
         
@@ -745,6 +772,15 @@ namespace TeaCommerce.Umbraco.Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Or type the name.
+        /// </summary>
+        public static string OrTypeName {
+            get {
+                return ResourceManager.GetString("OrTypeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Payment method.
         /// </summary>
         public static string PaymentMethod {
@@ -921,6 +957,15 @@ namespace TeaCommerce.Umbraco.Application.Resources {
         public static string SelectAll {
             get {
                 return ResourceManager.GetString("SelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a country from the list.
+        /// </summary>
+        public static string SelectCountryFromList {
+            get {
+                return ResourceManager.GetString("SelectCountryFromList", resourceCulture);
             }
         }
         

@@ -7,46 +7,28 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TeaCommerce.Umbraco.Application.Views.Countries {
+namespace TeaCommerce.Umbraco.Application.Views.CreateAll {
     
     
-    public partial class CreateCountry {
+    public partial class CreateAll {
         
         /// <summary>
-        /// LitSelectCountry control.
+        /// CreateControls control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal LitSelectCountry;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl CreateControls;
         
         /// <summary>
-        /// DrpCountries control.
+        /// LitCreateAllWarning control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DrpCountries;
-        
-        /// <summary>
-        /// LitOrTypeName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal LitOrTypeName;
-        
-        /// <summary>
-        /// TxtName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtName;
+        protected global::System.Web.UI.WebControls.Literal LitCreateAllWarning;
         
         /// <summary>
         /// LitDefaultCurrency control.
@@ -65,6 +47,15 @@ namespace TeaCommerce.Umbraco.Application.Views.Countries {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DrpCurrencies;
+        
+        /// <summary>
+        /// RequiredFieldValidator1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
         
         /// <summary>
         /// BtnCreate control.
@@ -92,5 +83,23 @@ namespace TeaCommerce.Umbraco.Application.Views.Countries {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal LitCancel;
+        
+        /// <summary>
+        /// CreateAllCompleted control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl CreateAllCompleted;
+        
+        /// <summary>
+        /// LitCreateAllComplete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal LitCreateAllComplete;
     }
 }

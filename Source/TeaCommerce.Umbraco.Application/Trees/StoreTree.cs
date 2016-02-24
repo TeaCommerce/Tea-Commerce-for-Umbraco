@@ -183,6 +183,7 @@ namespace TeaCommerce.Umbraco.Application.Trees {
           #region Render tree
           node = CreateNode( GetNodeIdentifier( StoreTreeNodeType.SettingsCountries, CurrentStoreId ), CommonTerms.Countries, Constants.TreeIcons.GlobeModel, "settings-countries", true /*There is always a default country*/ );
           node.Menu.Add( ActionNew.Instance );
+          node.Menu.Add( new CreateAllCountriesAction() );
           node.Menu.Add( new SortCountriesAction() );
           node.Menu.Add( ContextMenuSeperator.Instance );
           node.Menu.Add( ActionRefresh.Instance );

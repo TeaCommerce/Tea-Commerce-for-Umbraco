@@ -4,5 +4,6 @@
   </area>
   <area alias="actions">
     <key alias="teaCommerceSort">Sortera</key>
+    <key alias="teaCommerceCreateAll">Skapa alla</key>
   </area>
 </language>
