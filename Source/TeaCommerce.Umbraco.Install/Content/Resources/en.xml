@@ -4,5 +4,6 @@
   </area>
   <area alias="actions">
     <key alias="teaCommerceSort">Sort</key>
+    <key alias="teaCommerceCreateAll">Create all</key>
   </area>
 </language>

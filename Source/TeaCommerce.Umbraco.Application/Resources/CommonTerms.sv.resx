@@ -507,4 +507,13 @@
   <data name="AllowWithPreviousCampaigns" xml:space="preserve">
     <value>Tillåt med tidigare kampanjer</value>
   </data>
+  <data name="CreateAllCountries" xml:space="preserve">
+    <value>Skapa alla länder</value>
+  </data>
+  <data name="ConfirmCreateAllCountries" xml:space="preserve">
+    <value>Är du säker på att du vill skapa alla länder? Befintliga länder kommer inte att påverkas.</value>
+  </data>
+  <data name="CreateAllCountriesCompleted" xml:space="preserve">
+    <value>Alla länder och regioner är skapad</value>
+  </data>
 </root>
