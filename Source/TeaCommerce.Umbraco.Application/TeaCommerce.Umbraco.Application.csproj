@@ -114,10 +114,16 @@
     <Content Include="Marketing\Rules\PaymentMethodRule\payment-method-rule.html" />
     <Content Include="Marketing\Rules\ShippingMethodRule\shipping-method-rule.controller.js" />
     <Content Include="Marketing\Rules\ShippingMethodRule\shipping-method-rule.html" />
+    <Content Include="PropertyEditors\js.cookie.js" />
     <Content Include="PropertyEditors\stock-management.controller.js" />
     <Content Include="PropertyEditors\stock-management.html" />
     <Content Include="Marketing\Rules\OrderLineAmountRule\order-line-amount-rule.controller.js" />
     <Content Include="Marketing\Rules\OrderLineAmountRule\order-line-amount-rule.html" />
+    <Content Include="PropertyEditors\variant-editor-node-type.html" />
+    <Content Include="PropertyEditors\variant-editor-node-type.js" />
+    <Content Include="PropertyEditors\variant-editor.controller.js" />
+    <Content Include="PropertyEditors\variant-editor.css" />
+    <Content Include="PropertyEditors\variant-editor.html" />
     <Content Include="PropertyEditors\vat-group-picker.controller.js" />
     <Content Include="PropertyEditors\vat-group-picker.html" />
     <Content Include="PropertyEditors\store-picker.controller.js" />

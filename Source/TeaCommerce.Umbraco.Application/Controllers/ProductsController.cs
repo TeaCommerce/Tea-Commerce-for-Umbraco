@@ -1,9 +1,10 @@
 ﻿using System.Web.Http;
-using System.Xml.XPath;
 using TeaCommerce.Api.Common;
 using TeaCommerce.Api.Services;
 using TeaCommerce.Umbraco.Configuration.InformationExtractors;
-using umbraco;
+using TeaCommerce.Umbraco.Configuration.Variant.Product;
+using Umbraco.Core;
+using Umbraco.Core.Models;
 using Umbraco.Web.Editors;
 using Umbraco.Web.Mvc;
 
@@ -18,15 +19,17 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
     }
 
     [HttpGet]
-    public Stock GetStock( string pageId ) {
+    public Stock GetStock( string productIdentifier ) {
+      
       Stock stock = new Stock();
+      ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
 
-      XPathNavigator xPathNavigator = library.GetXmlNodeById( pageId ).Current;
-      IXmlNodeProductInformationExtractor productInformationExtractor = XmlNodeProductInformationExtractor.Instance;
+      IContent content = ApplicationContext.Current.Services.ContentService.GetById( productIdentifierObj.NodeId );
+      IContentProductInformationExtractor productInformationExtractor = ContentProductInformationExtractor.Instance;
 
-      long storeId = productInformationExtractor.GetStoreId( xPathNavigator, false );
+      long storeId = productInformationExtractor.GetStoreId( content );
 
-      stock.Sku = productInformationExtractor.GetSku( xPathNavigator, false );
+      stock.Sku = productInformationExtractor.GetSku( content, productIdentifierObj.VariantId );
       decimal? stockValue = ProductService.Instance.GetStock( storeId, stock.Sku );
       stock.Value = stockValue != null ? stockValue.Value.ToString( "0.####" ) : "";
 
@@ -34,15 +37,19 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
     }
 
     [HttpPost]
-    public void PostStock( string pageId, Stock stock ) {
-      XPathNavigator xPathNavigator = library.GetXmlNodeById( pageId ).Current;
-      IXmlNodeProductInformationExtractor productInformationExtractor = XmlNodeProductInformationExtractor.Instance;
+    public void PostStock( string productIdentifier, Stock stock ) {
+      ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
 
-      long storeId = productInformationExtractor.GetStoreId( xPathNavigator, false );
-      stock.Sku = !string.IsNullOrEmpty( stock.Sku ) ? stock.Sku : productInformationExtractor.GetSku( xPathNavigator, false );
+      IContent content = ApplicationContext.Current.Services.ContentService.GetById( productIdentifierObj.NodeId );
+      IContentProductInformationExtractor productInformationExtractor = ContentProductInformationExtractor.Instance;
+
+      long storeId = productInformationExtractor.GetStoreId( content );
+
+      stock.Sku = !string.IsNullOrEmpty( stock.Sku ) ? stock.Sku : productInformationExtractor.GetSku( content, productIdentifierObj.VariantId );
 
       ProductService.Instance.SetStock( storeId, stock.Sku, !string.IsNullOrEmpty( stock.Value ) ? stock.Value.ParseToDecimal() : null );
     }
+
 
   }
 }

@@ -8,7 +8,9 @@ namespace TeaCommerce.Umbraco.Configuration.AutofacModules {
     protected override void Load( ContainerBuilder builder ) {
       builder.MustNotBeNull( "builder" );
 
+      builder.RegisterType<CacheService>().As<ICacheService>().PreserveExistingDefaults().InstancePerLifetimeScope();
       builder.RegisterType<LanguageService>().As<ILanguageService>().PreserveExistingDefaults().InstancePerLifetimeScope();
+      builder.RegisterType<VariantService>().As<IVariantService>().PreserveExistingDefaults().InstancePerLifetimeScope();
     }
 
   }
