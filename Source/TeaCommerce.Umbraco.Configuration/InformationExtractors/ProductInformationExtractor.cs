@@ -7,10 +7,10 @@ using Umbraco.Web;
 namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
   public class ProductInformationExtractor : IProductInformationExtractor {
 
-    protected IIPublishedContentProductInformationExtractor IPublishedContentProductInformationExtractor;
+    protected IPublishedContentProductInformationExtractor IPublishedContentProductInformationExtractor;
     protected UmbracoHelper UmbracoHelper { get; private set; }
 
-    public ProductInformationExtractor( IIPublishedContentProductInformationExtractor iPublishedContentProductInformationExtractor ) {
+    public ProductInformationExtractor( IPublishedContentProductInformationExtractor iPublishedContentProductInformationExtractor ) {
       IPublishedContentProductInformationExtractor = iPublishedContentProductInformationExtractor;
       UmbracoHelper = new UmbracoHelper( UmbracoContext.Current );
     }

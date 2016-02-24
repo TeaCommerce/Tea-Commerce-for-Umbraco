@@ -103,8 +103,10 @@
     <Compile Include="AutofacModules\PersistenceConfig.cs" />
     <Compile Include="AutofacModules\InfrastructureConfig.cs" />
     <Compile Include="Compatibility\Domain.cs" />
-    <Compile Include="InformationExtractors\IIPublishedContentProductInformationExtractor.cs" />
+    <Compile Include="InformationExtractors\ContentProductInformationExtractor.cs" />
+    <Compile Include="InformationExtractors\IContentProductInformationExtractor.cs" />
     <Compile Include="InformationExtractors\IPublishedContentProductInformationExtractor.cs" />
+    <Compile Include="InformationExtractors\PublishedContentProductInformationExtractor.cs" />
     <Compile Include="Infrastructure\Installation\Installer.cs" />
     <Compile Include="Infrastructure\Logging\LoggingProvider.cs" />
     <Compile Include="Infrastructure\Ping\PingDataProvider.cs" />

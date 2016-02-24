@@ -585,39 +585,56 @@ namespace TeaCommerce.Umbraco.Web {
     /// <returns>The text value of the property.</returns>
     public static T GetPropertyValue<T>( long storeId, string productIdentifier, string propertyAlias, Func<IPublishedContent, bool> func = null ) {
       ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
-      //TODO: Skal vi finde et andet sted at gemme denne her, så den ikke skal laves hver gang?
       UmbracoHelper umbracoHelper = new UmbracoHelper( UmbracoContext.Current );
 
-      return IPublishedContentProductInformationExtractor.Instance.GetPropertyValue<T>( umbracoHelper.TypedContent( productIdentifierObj.NodeId ), propertyAlias, productIdentifierObj.VariantId, func );
+      return PublishedContentProductInformationExtractor.Instance.GetPropertyValue<T>( umbracoHelper.TypedContent( productIdentifierObj.NodeId ), propertyAlias, productIdentifierObj.VariantId, func );
     }
 
-    //TODO: Slettes sammen med extractor og xml extractor
     /// <summary>
     /// Returns the value of a property on the product. Will traverse the content tree recursively to find the value. Will also use the master relation property of the product to search master products.
     /// </summary>
     /// <param name="storeId">Id of the store.</param>
-    /// <param name="model">The product as a DynamicNode.</param>
+    /// <param name="model">The product as a IPublishedContent.</param>
     /// <param name="propertyAlias">Alias of the property to find.</param>
     /// <param name="variantId">The id of a specific product variant</param>
     /// <param name="func">A function to filter the result.</param>
     /// <returns>The text value of the property.</returns>
     public static T GetPropertyValue<T>( long storeId, IPublishedContent model, string propertyAlias, string variantId = null, Func<IPublishedContent, bool> func = null ) {
-      return IPublishedContentProductInformationExtractor.Instance.GetPropertyValue<T>( model, propertyAlias, variantId, func );
+      return PublishedContentProductInformationExtractor.Instance.GetPropertyValue<T>( model, propertyAlias, variantId, func );
     }
 
     #endregion
 
     #region Variants
 
-
-    public static VariantPublishedContent GetVariant( long storeId, IPublishedContent content, string variantId, bool onlyValid = true ) {
-      return VariantService.Instance.GetVariant( storeId, content, variantId, onlyValid );
+    /// <summary>
+    /// Get a variant from a specific product content. The variants will be fetched from the property field using the "Tea Commerce: Variant editor"
+    /// </summary>
+    /// <param name="storeId">Id of the store.</param>
+    /// <param name="model">The product as a IPublishedContent.</param>
+    /// <param name="variantId">The id of a specific product variant</param>
+    /// <param name="onlyValid">Fetch only the valid variants. A valid variant have one of each variant type and is not a duplicate.</param>
+    /// <returns></returns>
+    public static VariantPublishedContent GetVariant( long storeId, IPublishedContent model, string variantId, bool onlyValid = true ) {
+      return VariantService.Instance.GetVariant( storeId, model, variantId, onlyValid );
     }
 
-    public static List<VariantPublishedContent> GetVariants( long storeId, IPublishedContent content, bool onlyValid = true ) {
-      return VariantService.Instance.GetVariants( storeId, content, onlyValid );
+    /// <summary>
+    /// Get the variants from a specific product content. The variants will be fetched from the property field using the "Tea Commerce: Variant editor"
+    /// </summary>
+    /// <param name="storeId">Id of the store.</param>
+    /// <param name="model">The product as a IPublishedContent.</param>
+    /// <param name="onlyValid">Fetch only the valid variants. A valid variant have one of each variant type and is not a duplicate.</param>
+    /// <returns></returns>
+    public static List<VariantPublishedContent> GetVariants( long storeId, IPublishedContent model, bool onlyValid = true ) {
+      return VariantService.Instance.GetVariants( storeId, model, onlyValid );
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="variants"></param>
+    /// <returns></returns>
     public static Dictionary<int, string> GetVariantGroups( List<VariantPublishedContent> variants ) {
       return VariantService.Instance.GetVariantGroups( variants );
     }

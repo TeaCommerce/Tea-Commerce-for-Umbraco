@@ -1,15 +1,20 @@
 ﻿
 namespace TeaCommerce.Umbraco.Configuration.Variant.Product {
   public class ProductIdentifier {
-    public string NodeId { get; set; }
+
+    public int NodeId { get; set; }
     public string VariantId { get; set; }
 
     public ProductIdentifier( string productIdentifier ) {
       if ( productIdentifier.Contains( "_" ) ) {
-        NodeId = productIdentifier.Split( '_' )[ 0 ];
+        string nodeIdStr = productIdentifier.Split( '_' )[ 0 ];
+        int nodeId;
+        int.TryParse( nodeIdStr, out nodeId );
         VariantId = productIdentifier.Split( '_' )[ 1 ];
       } else {
-        NodeId = productIdentifier;
+        string nodeIdStr = productIdentifier;
+        int nodeId;
+        int.TryParse( nodeIdStr, out nodeId );
       }
     }
   }
