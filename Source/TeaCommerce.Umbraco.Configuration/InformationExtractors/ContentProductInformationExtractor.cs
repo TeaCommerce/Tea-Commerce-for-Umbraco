@@ -36,7 +36,6 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
     public virtual T GetPropertyValue<T>( IContent model, string propertyAlias, string variantGuid = null, Func<IContent, bool> func = null ) {
       T rtnValue = default( T );
 
-      //TODO: Håndter at modellen er null hvis noden ikke er publiseret, men så har vi jo ikke noget id!!
       if ( model != null && !string.IsNullOrEmpty( propertyAlias ) ) {
         if ( !string.IsNullOrEmpty( variantGuid ) ) {
           IPublishedContent variant = null;
@@ -107,9 +106,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
       return rtnValue;
     }
-
-
-
+    
     public virtual long GetStoreId( IContent model ) {
       long? storeId = GetPropertyValue<long?>( model, Constants.ProductPropertyAliases.StorePropertyAlias );
       if ( storeId == null ) {
@@ -130,17 +127,6 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       return sku;
     }
 
-    public virtual string GetName( IContent model, string variantGuid = null ) {
-      string name = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.NamePropertyAlias, variantGuid );
-
-      //If no name is found - default to the umbraco node name
-      if ( string.IsNullOrEmpty( name ) ) {
-        name = model.Name;
-      }
-
-      return name;
-    }
-
     public virtual long? GetVatGroupId( IContent model, string variantGuid = null ) {
       long storeId = GetStoreId( model );
       long? vatGroupId = GetPropertyValue<long?>( model, Constants.ProductPropertyAliases.VatGroupPropertyAlias, variantGuid );
@@ -158,45 +144,6 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
     public virtual long? GetLanguageId( IContent model ) {
       return LanguageService.Instance.GetLanguageIdByNodePath( model.Path );
-    }
-
-    public virtual OriginalUnitPriceCollection GetOriginalUnitPrices( IContent model, string variantGuid = null ) {
-      OriginalUnitPriceCollection prices = new OriginalUnitPriceCollection();
-
-      foreach ( Currency currency in CurrencyService.GetAll( GetStoreId( model ) ) ) {
-        prices.Add( new OriginalUnitPrice( GetPropertyValue<string>( model, currency.PricePropertyAlias, variantGuid ).ParseToDecimal() ?? 0M, currency.Id ) );
-      }
-
-      return prices;
-    }
-
-    public virtual CustomPropertyCollection GetProperties( IContent model, string variantGuid = null ) {
-      CustomPropertyCollection properties = new CustomPropertyCollection();
-
-      foreach ( string productPropertyAlias in StoreService.Get( GetStoreId( model ) ).ProductSettings.ProductPropertyAliases ) {
-        properties.Add( new CustomProperty( productPropertyAlias, GetPropertyValue<string>( model, productPropertyAlias, variantGuid ) ) { IsReadOnly = true } );
-      }
-
-      return properties;
-    }
-
-    public virtual ProductSnapshot GetSnapshot( IContent model, string productIdentifier ) {
-      ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
-      //We use Clone() because each method should have it's own instance of the navigator - so if they traverse it doesn't affect other methods
-      ProductSnapshot snapshot = new ProductSnapshot( GetStoreId( model ), productIdentifier ) {
-        Sku = GetSku( model, productIdentifierObj.VariantId ),
-        Name = GetName( model, productIdentifierObj.VariantId ),
-        VatGroupId = GetVatGroupId( model, productIdentifierObj.VariantId ),
-        LanguageId = GetLanguageId( model ),
-        OriginalUnitPrices = GetOriginalUnitPrices( model, productIdentifierObj.VariantId ),
-        Properties = GetProperties( model, productIdentifierObj.VariantId )
-      };
-
-      return snapshot;
-    }
-
-    public virtual bool HasAccess( long storeId, IContent model ) {
-      return storeId == GetStoreId( model ) && library.HasAccess( model.Id, model.Path );
     }
 
     private static bool CheckNullOrEmpty<T>( T value ) {

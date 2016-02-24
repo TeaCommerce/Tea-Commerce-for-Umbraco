@@ -1,0 +1,37 @@
+﻿.teaCommerceVariantEditor .noSelect { -webkit-user-select: none; -moz-user-select: none; -khtml-user-select: none; -ms-user-select: none; }
+.teaCommerceVariantEditor .pointer { cursor: pointer; }
+.teaCommerceVariantEditor .validation-error { margin-top: 20px; }
+.teaCommerceVariantEditor .btn-nostyles { border: none; background: none; text-decoration: none; }
+
+.variants { }
+.variants .variant { padding-bottom: 0; }
+.variants .variant .headline .error { color: #9d261d; }
+.variants th i { color: #eee; }
+.variants th.orderedBy i { color: #000; }
+.variants .variant .buttons { text-align: right; }
+.variants .delete,
+.variants .toggle { float: right; margin-left: 3px; border: none; background: none; text-decoration: none; }
+.variants .delete { color: #b94a48; }
+.variants tbody.variant { border-top: 0; }
+.variants .variant-content td { border-top: 0; }
+.variants .variant .variant-content .umb-property:last-child .control-group { margin-bottom: 0; border-bottom: 0; }
+
+.variantGroupsWrapper { margin-bottom: 30px; padding-bottom: 30px; border-bottom: 1px solid #f8f8f8; }
+.variantGroupsWrapper .propertypaneTitel { }
+.variantGroupsWrapper .propertypaneTitel .toggle { margin-right: 3px; border: none; background: none; text-decoration: none; }
+
+.variantGroups .variantGroup { padding: 0; margin-bottom: 0!important; }
+.variantGroups .warning { margin-top: 20px; color: gold; }
+.variantGroups .variantGroup.disabled,
+.variantGroups .variantGroup.disabled i { color: #eeeeee; }
+.variantGroups .variantGroup .handle { padding: 20px 0; }
+.variantGroups .variantGroup .handle .disable,
+.variantGroups .variantGroup .handle .toggle { float: right; margin-left: 3px; border: none; background: none; text-decoration: none; }
+.variantGroups .variantGroup .handle .disable { font-size: 22px; }
+.variantGroups .variantGroup .variantGroup-content { overflow: hidden; }
+.variantGroups .variantGroup .variantGroup-content .item { white-space: nowrap; float: left; padding: 5px 10px; border: 1px solid #e1e1e1; line-height: 24px; margin-right: 10px; margin-bottom: 20px; border-radius: 2px; cursor: pointer; }
+.variantGroups .variantGroup .variantGroup-content .item i { color: #f1f1f1; }
+/*.variantGroups .variantGroup .variantGroup-content .item:hover { border-color: #8cbec5; }*/
+.variantGroups .variantGroup .variantGroup-content .item.checked { background: #fff; border: 1px solid #bbb; }
+.variantGroups .variantGroup .variantGroup-content .item.checked i { color: #000; }
+.variantGroups .add.btn { margin-top: 20px; }

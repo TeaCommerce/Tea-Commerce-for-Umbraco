@@ -39,7 +39,6 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
     public virtual T GetPropertyValue<T>( IPublishedContent model, string propertyAlias, string variantGuid = null, Func<IPublishedContent, bool> func = null ) {
       T rtnValue = default( T );
 
-      //TODO: Håndter at modellen er null hvis noden ikke er publiseret, men så har vi jo ikke noget id!!
       if ( model != null && !string.IsNullOrEmpty( propertyAlias ) ) {
         if ( !string.IsNullOrEmpty( variantGuid ) ) {
           IPublishedContent variant = null;
@@ -103,9 +102,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
       return rtnValue;
     }
-
-
-
+    
     public virtual long GetStoreId( IPublishedContent model ) {
       long? storeId = GetPropertyValue<long?>( model, Constants.ProductPropertyAliases.StorePropertyAlias );
       if ( storeId == null ) {

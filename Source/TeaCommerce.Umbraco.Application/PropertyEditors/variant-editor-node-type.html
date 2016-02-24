@@ -1,0 +1,58 @@
+﻿<div class="variantEditorNodeType" ng-controller="TeaCommerce.PropertyEditors.variantEditorNodeType">
+
+  <a ng-click="model.value.showXPath = ! model.value.showXPath">
+    <div ng-show="model.value.showXPath">
+      Change to select node.
+    </div>
+    <div ng-hide="model.value.showXPath">
+      Change to enter xpath query.
+    </div>
+  </a>
+  <div ng-show="model.value.showXPath">
+    <input type="text" ng-model="model.value.query" class="umb-editor umb-textstring ng-pristine ng-valid" placeholder="Enter xpath query">
+
+    <div>
+      <a ng-click="showHelp = ! showHelp">
+        <span ng-hide="showHelp">Show xpath query help</span>
+        <span ng-show="showHelp">Hide xpath query help</span>
+      </a>
+      <!-- ngIf: showHelp -->
+      <small ng-show="showHelp" class="ng-scope">
+        <p>
+          Use Xpath query to set a root node on the tree, either based on a search from the root of the content tree, or by using a context-aware placeholder.
+        </p>
+
+        <p>
+          Placeholders finds the nearest published ID and runs its query from there. so for instance:
+
+        </p><pre>$parent/newsArticle</pre>
+
+        Will try to get the parent if available, but will then fall back to the nearest ancestor and query for all news articles there.
+        <p></p>
+
+        <p>
+          Available placeholders: <br>
+          <code>$current</code>: current page or closest found ancestor<br>
+          <code>$parent</code>: parent page or closest found ancestor<br>
+          <code>$root</code>: root of the content tree<br>
+          <code>$site</code>: Ancestor node at level 1 <br>
+        </p>
+      </small>
+    </div>
+
+  </div>
+  <div ng-hide="model.value.showXPath">
+    <div ng-hide="model.value.showChosenContent">
+      <i class="icon icon-add blue" ng-click="openContentPicker()"></i>
+      <a href="" ng-click="openContentPicker()" prevent-default="">
+        <localize key="general_choose" class="ng-isolate-scope ng-scope">Choose</localize>...
+      </a>
+    </div>
+    <div ng-show="model.value.showChosenContent">
+      <i class="icon icon-delete red" ng-click="clearContent()"></i>
+      <a href="" ng-click="openContentPicker()" prevent-default="">
+        {{model.value.selectedNode.name}}
+      </a>
+    </div>
+  </div>
+</div>

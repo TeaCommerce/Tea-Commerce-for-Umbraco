@@ -43,6 +43,9 @@
       <HintPath>..\Lib\Umbraco\businesslogic.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ClientDependency.Core">
+      <HintPath>..\Lib\Umbraco\ClientDependency.Core.dll</HintPath>
+    </Reference>
     <Reference Include="cms">
       <HintPath>..\Lib\Umbraco\cms.dll</HintPath>
       <Private>True</Private>
@@ -58,6 +61,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -129,6 +133,10 @@
     <Compile Include="InformationExtractors\ProductInformationExtractor.cs" />
     <Compile Include="Persistence\DatabaseFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyEditors\VariantEditorPropertyEditor.cs" />
+    <Compile Include="Services\CacheService.cs" />
+    <Compile Include="Services\ICacheService.cs" />
+    <Compile Include="Services\IVariantService.cs" />
     <Compile Include="Services\ILanguageService.cs" />
     <Compile Include="Services\LanguageService.cs" />
     <Compile Include="Services\VariantService.cs" />

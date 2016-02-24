@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TeaCommerce.Api.Dependency;
 using TeaCommerce.Api.Models;
 using TeaCommerce.Api.Services;
 using Umbraco.Core.Models;
@@ -14,13 +16,11 @@ using TeaCommerce.Umbraco.Configuration.Variant;
 using TeaCommerce.Umbraco.Configuration.Variant.Product;
 
 namespace TeaCommerce.Umbraco.Configuration.Services {
-  public class VariantService {
-    private static VariantService _instance;
-    public static VariantService Instance {
-      get { return _instance ?? ( _instance = new VariantService() ); }
-    }
+  public class VariantService : IVariantService {
 
-    private VariantService() { }
+    public string CacheKey = "TeaCommerceVariants";
+
+    public static IVariantService Instance { get { return DependencyContainer.Instance.Resolve<IVariantService>(); } }
 
     public VariantPublishedContent GetVariant( long storeId, IPublishedContent content, string variantId, bool onlyValid = true ) {
       List<VariantPublishedContent> variants = GetVariants( storeId, content, onlyValid );
@@ -34,33 +34,26 @@ namespace TeaCommerce.Umbraco.Configuration.Services {
       return variants.FirstOrDefault( v => v.VariantId == variantId );
     }
 
-    public VariantPublishedContent GetVariants( long storeId, int nodeId, string variantId, bool onlyValid = true ) {
-      List<VariantPublishedContent> variants = GetVariants( storeId, nodeId, onlyValid );
-
-      return variants.FirstOrDefault( v => v.VariantId == variantId );
-    }
-
-    public List<VariantPublishedContent> GetVariants( long storeId, int nodeId, bool onlyValid = true ) {
-      UmbracoHelper umbracoHelper = new UmbracoHelper( UmbracoContext.Current );
-
-      IPublishedContent content = umbracoHelper.TypedContent( nodeId );
-
-      return GetVariants( storeId, content, onlyValid );
-    }
-
     public List<VariantPublishedContent> GetVariants( long storeId, IPublishedContent content, bool onlyValid = true ) {
+      Dictionary<int, List<VariantPublishedContent>> variantsForProducts = CacheService.Instance.Get<Dictionary<int, List<VariantPublishedContent>>>( CacheKey + "-" + storeId );
+      if ( variantsForProducts == null ) {
+        variantsForProducts = new Dictionary<int, List<VariantPublishedContent>>();
+        CacheService.Instance.Set( CacheKey + "-" + storeId, variantsForProducts );
+      }
+
       List<VariantPublishedContent> variants = new List<VariantPublishedContent>();
 
-      if ( content != null ) {
+      if ( content != null && !variantsForProducts.TryGetValue( content.Id, out variants ) ) {
         Store store = StoreService.Instance.Get( storeId );
 
         string variantsJson = content.GetPropertyValue<string>( store.ProductSettings.ProductVariantPropertyAlias );
 
         variants = ParseVariantJson( variantsJson, content );
-      }
 
-      if ( onlyValid ) {
-        variants = variants.Where( v => !v.Validation.DuplicatesFound && !v.Validation.HolesInVariants ).ToList();
+        if ( onlyValid ) {
+          variants = variants.Where( v => !v.Validation.DuplicatesFound && !v.Validation.HolesInVariants ).ToList();
+        }
+        variantsForProducts.Add( content.Id, variants );
       }
 
       return variants;

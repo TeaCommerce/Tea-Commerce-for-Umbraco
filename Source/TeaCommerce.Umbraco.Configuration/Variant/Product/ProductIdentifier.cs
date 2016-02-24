@@ -10,11 +10,13 @@ namespace TeaCommerce.Umbraco.Configuration.Variant.Product {
         string nodeIdStr = productIdentifier.Split( '_' )[ 0 ];
         int nodeId;
         int.TryParse( nodeIdStr, out nodeId );
+        NodeId = nodeId;
         VariantId = productIdentifier.Split( '_' )[ 1 ];
       } else {
         string nodeIdStr = productIdentifier;
         int nodeId;
         int.TryParse( nodeIdStr, out nodeId );
+        NodeId = nodeId;
       }
     }
   }
