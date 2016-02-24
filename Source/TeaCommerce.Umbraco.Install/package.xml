@@ -59,6 +59,7 @@
     <Action runat="install" alias="CreateDataTypeDefinition" dataTypeDefinitionAlias="TeaCommerce.StorePicker" name="Tea Commerce: Store picker" />
     <Action runat="install" alias="CreateDataTypeDefinition" dataTypeDefinitionAlias="TeaCommerce.VatGroupPicker" name="Tea Commerce: VAT group picker" />
     <Action runat="install" alias="CreateDataTypeDefinition" dataTypeDefinitionAlias="TeaCommerce.StockManagement" name="Tea Commerce: Stock management" />
+    <Action runat="install" alias="CreateDataTypeDefinition" dataTypeDefinitionAlias="TeaCommerce.StockManagement" name="Tea Commerce: Stock management" />
     <Action runat="install" alias="TeaCommerceInstaller" />
     <Action runat="install" alias="TeaRemoveOldInstallation" />
   </Actions>
