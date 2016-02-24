@@ -8,13 +8,15 @@
 'dialogService',
     function ($scope, $rootScope, $timeout, $routeParams, contentResource, entityResource, dialogService) {
 
+      if (!$scope.model.value) {
+        $scope.model.value = {};
+      }
 
       var config = {
         multiPicker: false,
         callback: function (selectedNode) {
           if (selectedNode) {
             $scope.model.value.contentId = selectedNode.id;
-            $scope.model.value.showXPath;
             $scope.model.value.selectedNode = selectedNode;
             $scope.model.value.showChosenContent = true;
             console.log(selectedNode);
