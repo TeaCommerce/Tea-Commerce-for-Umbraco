@@ -9,7 +9,7 @@ namespace TeaCommerce.Umbraco.Configuration.PropertyEditors {
   [PropertyEditorAsset( ClientDependencyType.Css, "/App_Plugins/TeaCommerce/PropertyEditors/variant-editor.css", Priority = 2 )]
   [PropertyEditorAsset( ClientDependencyType.Javascript, "/App_Plugins/TeaCommerce/PropertyEditors/variant-editor.controller.js", Priority = 2 )]
   [PropertyEditorAsset( ClientDependencyType.Javascript, "/App_Plugins/TeaCommerce/PropertyEditors/variant-editor-node-type.js", Priority = 2 )]
-  [PropertyEditor( "TeaCommerceVariantEditor", "Tea Commerce: Variant Editor", "/App_Plugins/TeaCommerce/PropertyEditors/variant-editor.html", ValueType = "JSON" )]
+  [PropertyEditor( "TeaCommerce.VariantEditor", "Tea Commerce: Variant Editor", "/App_Plugins/TeaCommerce/PropertyEditors/variant-editor.html", ValueType = "JSON" )]
   public class VariantEditorPropertyEditor : PropertyEditor {
     private IDictionary<string, object> _defaultPreValues;
     public override IDictionary<string, object> DefaultPreValues
