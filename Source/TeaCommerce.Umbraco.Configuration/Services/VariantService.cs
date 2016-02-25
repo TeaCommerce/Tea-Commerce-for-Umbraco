@@ -23,18 +23,18 @@ namespace TeaCommerce.Umbraco.Configuration.Services {
     public static IVariantService Instance { get { return DependencyContainer.Instance.Resolve<IVariantService>(); } }
 
     public VariantPublishedContent GetVariant( long storeId, IPublishedContent content, string variantId, bool onlyValid = true ) {
-      List<VariantPublishedContent> variants = GetVariants( storeId, content, onlyValid );
+      IEnumerable<VariantPublishedContent> variants = GetVariants( storeId, content, onlyValid );
 
       return variants.FirstOrDefault( v => v.VariantId == variantId );
     }
 
     public VariantPublishedContent GetVariant( long storeId, IContent content, string variantId, bool onlyValid = true ) {
-      List<VariantPublishedContent> variants = GetVariants( storeId, content, onlyValid );
+      IEnumerable<VariantPublishedContent> variants = GetVariants( storeId, content, onlyValid );
 
       return variants.FirstOrDefault( v => v.VariantId == variantId );
     }
 
-    public List<VariantPublishedContent> GetVariants( long storeId, IPublishedContent content, bool onlyValid = true ) {
+    public IEnumerable<VariantPublishedContent> GetVariants( long storeId, IPublishedContent content, bool onlyValid = true ) {
       Dictionary<int, List<VariantPublishedContent>> variantsForProducts = CacheService.Instance.Get<Dictionary<int, List<VariantPublishedContent>>>( CacheKey + "-" + storeId );
       if ( variantsForProducts == null ) {
         variantsForProducts = new Dictionary<int, List<VariantPublishedContent>>();
@@ -59,7 +59,7 @@ namespace TeaCommerce.Umbraco.Configuration.Services {
       return variants;
     }
 
-    public List<VariantPublishedContent> GetVariants( long storeId, IContent content, bool onlyValid ) {
+    public IEnumerable<VariantPublishedContent> GetVariants( long storeId, IContent content, bool onlyValid ) {
       List<VariantPublishedContent> variants = new List<VariantPublishedContent>();
       UmbracoHelper umbracoHelper = new UmbracoHelper( UmbracoContext.Current );
 
@@ -74,18 +74,25 @@ namespace TeaCommerce.Umbraco.Configuration.Services {
       return variants;
     }
 
-    public Dictionary<int, string> GetVariantGroups( List<VariantPublishedContent> variants ) {
-      Dictionary<int, string> variantGroups = new Dictionary<int, string>();
+    public IEnumerable<VariantAttributeGroup> GetVariantGroups( IEnumerable<VariantPublishedContent> variants ) {
+      List<VariantAttributeGroup> attributeGroups = new List<VariantAttributeGroup>();
 
       foreach ( VariantPublishedContent variant in variants ) {
         foreach ( Combination combination in variant.Combinations ) {
-          if ( !variantGroups.ContainsKey( combination.GroupId ) ) {
-            variantGroups.Add( combination.GroupId, combination.GroupName );
+          VariantAttributeGroup attributeGroup = attributeGroups.FirstOrDefault( ag => ag.Id == combination.GroupId );
+
+          if ( attributeGroup == null ) {
+            attributeGroup = new VariantAttributeGroup { Id = combination.GroupId, Name = combination.GroupName };
+            attributeGroups.Add( attributeGroup );
+          }
+
+          if ( attributeGroup.Attributes.All( a => a.Id != combination.Id ) ) {
+            attributeGroup.Attributes.Add( new VariantAttribute { Id = combination.Id, Name = combination.Name } );
           }
         }
       }
 
-      return variantGroups;
+      return attributeGroups;
     }
 
     private List<VariantPublishedContent> ParseVariantJson( string json, IPublishedContent parentContent ) {
@@ -94,7 +101,6 @@ namespace TeaCommerce.Umbraco.Configuration.Services {
         List<Variant.Product.Variant> productVariants = JObject.Parse( json ).SelectToken( "variants" ).ToObject<List<Variant.Product.Variant>>();
 
         foreach ( Variant.Product.Variant variant in productVariants ) {
-
           PublishedContentType publishedContentType = PublishedContentType.Get( PublishedItemType.Content, variant.DocumentTypeAlias );
 
           variants.Add( new VariantPublishedContent( variant, publishedContentType, parentContent ) );

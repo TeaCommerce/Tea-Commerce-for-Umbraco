@@ -626,16 +626,17 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="model">The product as a IPublishedContent.</param>
     /// <param name="onlyValid">Fetch only the valid variants. A valid variant have one of each variant type and is not a duplicate.</param>
     /// <returns></returns>
-    public static List<VariantPublishedContent> GetVariants( long storeId, IPublishedContent model, bool onlyValid = true ) {
+    public static IEnumerable<VariantPublishedContent> GetVariants( long storeId, IPublishedContent model, bool onlyValid = true ) {
       return VariantService.Instance.GetVariants( storeId, model, onlyValid );
+
     }
 
     /// <summary>
-    /// 
+    /// Gets the attribute groups and attributes present in a collection of variants.
     /// </summary>
-    /// <param name="variants"></param>
+    /// <param name="variants">A collection of variants.</param>
     /// <returns></returns>
-    public static Dictionary<int, string> GetVariantGroups( List<VariantPublishedContent> variants ) {
+    public static IEnumerable<VariantAttributeGroup> GetVariantGroups( IEnumerable<VariantPublishedContent> variants ) {
       return VariantService.Instance.GetVariantGroups( variants );
     }
 
