@@ -14,9 +14,9 @@ function ($scope, $rootScope, $timeout, $routeParams, contentResource, editorSta
   };
 
   $scope.settings = {
-    xPath: $scope.model.config.xpathOrNode.query,//Xpath to variant group parent
-    contentId: $scope.model.config.xpathOrNode.contentId,//Content id of variant group parent
-    showXPath: $scope.model.config.xpathOrNode.showXPath,//Use xpath instead op content id
+    xPath: $scope.model.config.xpathOrNode ? $scope.model.config.xpathOrNode.query : '',//Xpath to variant group parent
+    contentId: $scope.model.config.xpathOrNode ? $scope.model.config.xpathOrNode.contentId : '',//Content id of variant group parent
+    showXPath: $scope.model.config.xpathOrNode ? $scope.model.config.xpathOrNode.showXPath : '',//Use xpath instead op content id
     docTypeAlias: $scope.model.config.variantDocumentType,//Doc type alias for the variant properties
     hideLabel: $scope.model.config.hideLabel == 1,//Hide Umbraco label
     forceEditorToChooseAllVariantGroups: $scope.model.config.forceEditorToChooseAllVariantGroups == 1,//Validation rule will force editor to choose from all variant groups
@@ -586,7 +586,7 @@ function ($scope, $rootScope, $timeout, $routeParams, contentResource, editorSta
     if (skuProp && stockProp) {
       //Add the sku to the stock property
       //If the variant have a custom sku it can also have a custom stock
-      stockProp.skuProp = skuProp;
+      stockProp.skuProp = skuProp.value;
     }
 
     variant.combinationDictionary = {};
