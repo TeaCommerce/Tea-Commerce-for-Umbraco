@@ -5,12 +5,16 @@ using TeaCommerce.Api;
 using TeaCommerce.Api.Models;
 using TeaCommerce.Api.Services;
 using System.Linq;
+using TeaCommerce.Umbraco.Configuration.Variant.Product;
+using Umbraco.Core.Models;
+using Umbraco.Web;
 
 namespace TeaCommerce.Umbraco.Configuration.Marketing.Models {
   public static class ProductUtils {
     public static IEnumerable<OrderLine> OrderLinesThatMatchProductOrProductCategory( IProductService productService, int nodeId, IEnumerable<OrderLine> orderLines ) {
       List<OrderLine> tempOrderLines = new List<OrderLine>();
       string nodeIdStr = nodeId.ToString( CultureInfo.InvariantCulture );
+      UmbracoHelper umbracoHelper = new UmbracoHelper( UmbracoContext.Current );
 
       foreach ( OrderLine orderLine in orderLines ) {
         if ( productService.GetSku( nodeIdStr ) == orderLine.Sku ) {
@@ -18,17 +22,24 @@ namespace TeaCommerce.Umbraco.Configuration.Marketing.Models {
           continue;
         }
 
+        ProductIdentifier productIdentifierObj = new ProductIdentifier( orderLine.ProductIdentifier );
+
+        IPublishedContent productContent = umbracoHelper.TypedContent( productIdentifierObj.NodeId );
+
         //Check the path - it could be a "product category" that was selected
-        if ( productService.GetPropertyValue( orderLine.ProductIdentifier, "@path" ).Split( new[] { ',' }, StringSplitOptions.None ).Contains( nodeIdStr ) ) {
+        if ( productContent.Path.Split( new[] { ',' }, StringSplitOptions.None ).Contains( nodeIdStr ) ) {
           tempOrderLines.Add( orderLine );
           continue;
         }
 
-        //Test if the master relation chould be a "product category" that was selected
-        string masterRelationNodeId = productService.GetPropertyValue( orderLine.ProductIdentifier, Constants.ProductPropertyAliases.MasterRelationPropertyAlias );
+        //Test if the master relation could be a "product category" that was selected
+        string masterRelationNodeId = productContent.GetPropertyValue<string>( Constants.ProductPropertyAliases.MasterRelationPropertyAlias );
+
         if ( string.IsNullOrEmpty( masterRelationNodeId ) ) continue;
 
-        if ( productService.GetPropertyValue( masterRelationNodeId, "@path" ).Split( new[] { ',' }, StringSplitOptions.None ).Contains( nodeIdStr ) ) {
+        IPublishedContent masterRelationNode = umbracoHelper.TypedContent( masterRelationNodeId );
+
+        if ( masterRelationNode.Path.Split( new[] { ',' }, StringSplitOptions.None ).Contains( nodeIdStr ) ) {
           tempOrderLines.Add( orderLine );
         }
       }

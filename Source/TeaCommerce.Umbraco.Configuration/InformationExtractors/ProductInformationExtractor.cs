@@ -1,7 +1,8 @@
-﻿using TeaCommerce.Api.InformationExtractors;
+﻿using Autofac;
+using TeaCommerce.Api.Dependency;
+using TeaCommerce.Api.InformationExtractors;
 using TeaCommerce.Api.Models;
 using TeaCommerce.Umbraco.Configuration.Variant.Product;
-using umbraco;
 using Umbraco.Web;
 
 namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
@@ -9,6 +10,8 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
     protected IPublishedContentProductInformationExtractor IPublishedContentProductInformationExtractor;
     protected UmbracoHelper UmbracoHelper { get; private set; }
+
+    public static IProductInformationExtractor Instance { get { return DependencyContainer.Instance.Resolve<IProductInformationExtractor>(); } }
 
     public ProductInformationExtractor( IPublishedContentProductInformationExtractor iPublishedContentProductInformationExtractor ) {
       IPublishedContentProductInformationExtractor = iPublishedContentProductInformationExtractor;
