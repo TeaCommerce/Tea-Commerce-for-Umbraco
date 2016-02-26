@@ -71,20 +71,20 @@ namespace TeaCommerce.Umbraco.Configuration.Services {
       return variants;
     }
 
-    public IEnumerable<VariantAttributeGroup> GetVariantGroups( IEnumerable<VariantPublishedContent> variants ) {
-      List<VariantAttributeGroup> attributeGroups = new List<VariantAttributeGroup>();
+    public IEnumerable<VariantGroup> GetVariantGroups( IEnumerable<VariantPublishedContent> variants ) {
+      List<VariantGroup> attributeGroups = new List<VariantGroup>();
 
       foreach ( VariantPublishedContent variant in variants ) {
         foreach ( Combination combination in variant.Combinations ) {
-          VariantAttributeGroup attributeGroup = attributeGroups.FirstOrDefault( ag => ag.Id == combination.GroupId );
+          VariantGroup attributeGroup = attributeGroups.FirstOrDefault( ag => ag.Id == combination.GroupId );
 
           if ( attributeGroup == null ) {
-            attributeGroup = new VariantAttributeGroup { Id = combination.GroupId, Name = combination.GroupName };
+            attributeGroup = new VariantGroup { Id = combination.GroupId, Name = combination.GroupName };
             attributeGroups.Add( attributeGroup );
           }
 
           if ( attributeGroup.Attributes.All( a => a.Id != combination.Id ) ) {
-            attributeGroup.Attributes.Add( new VariantAttribute { Id = combination.Id, Name = combination.Name } );
+            attributeGroup.Attributes.Add( new VariantType { Id = combination.Id, Name = combination.Name } );
           }
         }
       }
@@ -92,14 +92,19 @@ namespace TeaCommerce.Umbraco.Configuration.Services {
       return attributeGroups;
     }
 
-    public string GetVariantJson( IEnumerable<VariantPublishedContent> variants ) {
-      Dictionary<string, dynamic> jsonVariants = new Dictionary<string, dynamic>();
+    public string GetVariantJson( long storeId, IEnumerable<IPublishedContent> productContents, bool onlyValid ) {
+      Dictionary<int, Dictionary<string, dynamic>> jsonProducts = new Dictionary<int, Dictionary<string, dynamic>>();
 
-      foreach ( VariantPublishedContent variant in variants ) {
-        jsonVariants.Add( variant.VariantId, variant.Combinations.Select( c => c.Id ) );
+      foreach ( IPublishedContent productContent in productContents ) {
+        Dictionary<string, dynamic> variants = GetVariants( storeId, productContent, onlyValid ).ToDictionary( v => v.VariantId, v => 
+        (dynamic)new {
+          combinations = v.Combinations.Select( c => c.Id ),
+          productIdentifier = v.ProductIdentifier,
+        } );
+        jsonProducts.Add( productContent.Id, variants );
       }
 
-      return JsonConvert.SerializeObject( jsonVariants );
+      return JsonConvert.SerializeObject( jsonProducts );
     }
 
     private List<VariantPublishedContent> ParseVariantJson( string json, IPublishedContent parentContent ) {

@@ -636,17 +636,26 @@ namespace TeaCommerce.Umbraco.Web {
     /// </summary>
     /// <param name="variants">A collection of variants.</param>
     /// <returns></returns>
-    public static IEnumerable<VariantAttributeGroup> GetVariantGroups( IEnumerable<VariantPublishedContent> variants ) {
+    public static IEnumerable<VariantGroup> GetVariantGroups( IEnumerable<VariantPublishedContent> variants ) {
       return VariantService.Instance.GetVariantGroups( variants );
     }
 
     /// <summary>
-    /// 
+    /// Will get variant information from several products. This json will mostly be used to create variant selection drop downs in the frontend
     /// </summary>
     /// <param name="variants"></param>
-    /// <returns></returns>
-    public static string GetVariantJson( IEnumerable<VariantPublishedContent> variants ) {
-      return VariantService.Instance.GetVariantJson( variants );
+    /// <returns>A json blob with a dictionary of products and their variants</returns>
+    public static string GetVariantJson( long storeId, IEnumerable<IPublishedContent> productContents, bool onlyValid ) {
+      return VariantService.Instance.GetVariantJson( storeId, productContents, onlyValid );
+    }
+
+    /// <summary>
+    /// Will get variant information from a single product. This json will mostly be used to create variant selection drop downs in the frontend
+    /// </summary>
+    /// <param name="variants"></param>
+    /// <returns>A json blob with a dictionary of products and their variants. This dictionary will only contain a single product</returns>
+    public static string GetVariantJson( long storeId, IPublishedContent productContents, bool onlyValid ) {
+      return VariantService.Instance.GetVariantJson( storeId, new List<IPublishedContent> { productContents }, onlyValid );
     }
 
     #endregion

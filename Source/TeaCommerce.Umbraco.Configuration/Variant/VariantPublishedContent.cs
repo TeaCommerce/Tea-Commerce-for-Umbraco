@@ -150,5 +150,6 @@ namespace TeaCommerce.Umbraco.Configuration.Variant {
     public override string WriterName {
       get { return _parentContent != null ? _parentContent.WriterName : ""; }
     }
+
   }
 }

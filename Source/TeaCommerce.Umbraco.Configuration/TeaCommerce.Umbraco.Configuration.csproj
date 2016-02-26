@@ -143,8 +143,8 @@
     <Compile Include="Variant\Product\Combination.cs" />
     <Compile Include="Variant\Product\ProductIdentifier.cs" />
     <Compile Include="Variant\Product\Variant.cs" />
-    <Compile Include="Variant\Product\VariantAttribute.cs" />
-    <Compile Include="Variant\Product\VariantAttributeGroup.cs" />
+    <Compile Include="Variant\Product\VariantType.cs" />
+    <Compile Include="Variant\Product\VariantGroup.cs" />
     <Compile Include="Variant\VariantPublishedContent.cs" />
     <Compile Include="Variant\VariantPublishedProperty.cs" />
   </ItemGroup>

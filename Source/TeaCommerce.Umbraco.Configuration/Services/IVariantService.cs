@@ -10,7 +10,7 @@ namespace TeaCommerce.Umbraco.Configuration.Services {
     VariantPublishedContent GetVariant( long storeId, IContent content, string variantId, bool onlyValid = true );
     IEnumerable<VariantPublishedContent> GetVariants( long storeId, IPublishedContent content, bool onlyValid = true );
     IEnumerable<VariantPublishedContent> GetVariants( long storeId, IContent content, bool onlyValid );
-    IEnumerable<VariantAttributeGroup> GetVariantGroups( IEnumerable<VariantPublishedContent> variants );
-    string GetVariantJson( IEnumerable<VariantPublishedContent> variants );
+    IEnumerable<VariantGroup> GetVariantGroups( IEnumerable<VariantPublishedContent> variants );
+    string GetVariantJson( long storeId, IEnumerable<IPublishedContent> productContents, bool onlyValid );
   }
 }

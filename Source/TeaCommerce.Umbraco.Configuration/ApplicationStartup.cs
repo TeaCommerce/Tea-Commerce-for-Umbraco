@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Reflection;
 using TeaCommerce.Api.Dependency;
+using TeaCommerce.Umbraco.Configuration.Services;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.web;
 using Umbraco.Core;
 using Umbraco.Core.Logging;
+using Umbraco.Core.Services;
 
 namespace TeaCommerce.Umbraco.Configuration {
   public class ApplicationStartup : ApplicationEventHandler {
@@ -19,7 +21,13 @@ namespace TeaCommerce.Umbraco.Configuration {
       Domain.New += Domain_New;
       Domain.AfterSave += Domain_AfterSave;
       Domain.AfterDelete += Domain_AfterDelete;
+
+      ContentService.Published += ContentService_Published; ;
     }
+
+    private void ContentService_Published( global::Umbraco.Core.Publishing.IPublishingStrategy sender, global::Umbraco.Core.Events.PublishEventArgs<global::Umbraco.Core.Models.IContent> e ) {
+      CacheService.Instance.InvalidateApplicationCache();
+    } 
 
     void Domain_New( Domain sender, NewEventArgs e ) {
       Compatibility.Domain.InvalidateCache();
