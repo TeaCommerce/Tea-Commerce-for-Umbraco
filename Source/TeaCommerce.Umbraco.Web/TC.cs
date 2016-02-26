@@ -640,7 +640,15 @@ namespace TeaCommerce.Umbraco.Web {
       return VariantService.Instance.GetVariantGroups( variants );
     }
 
-    #endregion
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="variants"></param>
+    /// <returns></returns>
+    public static string GetVariantJson( IEnumerable<VariantPublishedContent> variants ) {
+      return VariantService.Instance.GetVariantJson( variants );
+    }
 
+    #endregion
   }
 }
