@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autofac;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -93,6 +90,16 @@ namespace TeaCommerce.Umbraco.Configuration.Services {
       }
 
       return attributeGroups;
+    }
+
+    public string GetVariantJson( IEnumerable<VariantPublishedContent> variants ) {
+      Dictionary<string, dynamic> jsonVariants = new Dictionary<string, dynamic>();
+
+      foreach ( VariantPublishedContent variant in variants ) {
+        jsonVariants.Add( variant.VariantId, variant.Combinations.Select( c => c.Id ) );
+      }
+
+      return JsonConvert.SerializeObject( jsonVariants );
     }
 
     private List<VariantPublishedContent> ParseVariantJson( string json, IPublishedContent parentContent ) {

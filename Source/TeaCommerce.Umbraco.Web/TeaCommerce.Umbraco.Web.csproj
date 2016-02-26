@@ -78,8 +78,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(ProjectDir)bin\Debug\TeaCommerce.Umbraco.Configuration.dll" "D:\Projects\Tea  Commerce - Demo - Variant Website\Source\Website\bin\TeaCommerce.Umbraco.Configuration.dll" /Y /I
-xcopy "$(ProjectDir)bin\Debug\TeaCommerce.Umbraco.Web.dll" "D:\Projects\Tea  Commerce - Demo - Variant Website\Source\Website\bin\TeaCommerce.Umbraco.Web.dll" /Y /I</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -11,5 +11,6 @@ namespace TeaCommerce.Umbraco.Configuration.Services {
     IEnumerable<VariantPublishedContent> GetVariants( long storeId, IPublishedContent content, bool onlyValid = true );
     IEnumerable<VariantPublishedContent> GetVariants( long storeId, IContent content, bool onlyValid );
     IEnumerable<VariantAttributeGroup> GetVariantGroups( IEnumerable<VariantPublishedContent> variants );
+    string GetVariantJson( IEnumerable<VariantPublishedContent> variants );
   }
 }
