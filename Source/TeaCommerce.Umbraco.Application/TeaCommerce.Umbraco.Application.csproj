@@ -114,10 +114,16 @@
     <Content Include="Marketing\Rules\PaymentMethodRule\payment-method-rule.html" />
     <Content Include="Marketing\Rules\ShippingMethodRule\shipping-method-rule.controller.js" />
     <Content Include="Marketing\Rules\ShippingMethodRule\shipping-method-rule.html" />
+    <Content Include="PropertyEditors\js.cookie.js" />
     <Content Include="PropertyEditors\stock-management.controller.js" />
     <Content Include="PropertyEditors\stock-management.html" />
     <Content Include="Marketing\Rules\OrderLineAmountRule\order-line-amount-rule.controller.js" />
     <Content Include="Marketing\Rules\OrderLineAmountRule\order-line-amount-rule.html" />
+    <Content Include="PropertyEditors\variant-editor-node-type.html" />
+    <Content Include="PropertyEditors\variant-editor-node-type.js" />
+    <Content Include="PropertyEditors\variant-editor.controller.js" />
+    <Content Include="PropertyEditors\variant-editor.css" />
+    <Content Include="PropertyEditors\variant-editor.html" />
     <Content Include="PropertyEditors\vat-group-picker.controller.js" />
     <Content Include="PropertyEditors\vat-group-picker.html" />
     <Content Include="PropertyEditors\store-picker.controller.js" />
@@ -141,6 +147,7 @@
     <Content Include="Marketing\Rules\OrderAmountRule\order-amount-rule.html" />
     <Content Include="Views\Campaigns\CreateCampaign.ascx" />
     <Content Include="Views\Campaigns\EditCampaign.aspx" />
+    <Content Include="Views\CreateAll\CreateAll.aspx" />
     <Content Include="Views\CountryRegions\CreateCountryRegion.ascx" />
     <Content Include="Views\CountryRegions\EditCountryRegion.aspx" />
     <Content Include="Views\GiftCards\CreateGiftCard.ascx" />
@@ -336,6 +343,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StoreTerms.resx</DependentUpon>
     </Compile>
+    <Compile Include="Trees\Actions\CreateActions.cs" />
     <Compile Include="Trees\Actions\SortActions.cs" />
     <Compile Include="Trees\SecurityTree.cs" />
     <Compile Include="Trees\Tasks\ADeleteTask.cs" />
@@ -378,6 +386,13 @@
     </Compile>
     <Compile Include="Views\Campaigns\EditCampaign.aspx.designer.cs">
       <DependentUpon>EditCampaign.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CreateAll\CreateAll.aspx.cs">
+      <DependentUpon>CreateAll.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\CreateAll\CreateAll.aspx.designer.cs">
+      <DependentUpon>CreateAll.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\EmailTemplates\EditEmailTemplate.aspx.designer.cs">
       <DependentUpon>EditEmailTemplate.aspx</DependentUpon>

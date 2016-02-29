@@ -3,22 +3,39 @@
     creating: false
   };
   
+  var variantId = $scope.model.variantId ? '_' + $scope.model.variantId : '';
+
+
+
   if ($routeParams.create) {
     $scope.ui.creating = true;
-    //TODO: kan vi løse så umbraco sender os det nye id i formsubmitting?
   } else {
-    $http.get('backoffice/teacommerce/products/getstock/?pageId=' + $routeParams.id).success(function (data) {
-      $scope.stock = data;
-    });
+    if ($scope.model.skuProp !== '') {
+      $http.get('backoffice/teacommerce/products/getstock/?productIdentifier=' + $routeParams.id + variantId).success(function (data) {
+        $scope.stock = data;
+      });
+    }
   }
 
   if (!$routeParams.create) {
     $scope.$on("formSubmitting", function () {
-      var data = {
-        sku: jQuery('#sku').val(),
-        value: $scope.stock.Value
-      };
-      $http.post('backoffice/teacommerce/products/poststock?pageId=' + $routeParams.id, data);
+      var productSkuField = null;
+      jQuery('.umb-pane #sku').each(function () {
+        skuField = jQuery(this);
+        if (!skuField.closest('.teaCommerceVariantEditor')[0]) {
+          productSkuField = skuField;
+        }
+      });
+
+      if ($scope.model.skuProp !== '') {
+        //teaCommerceVariantEditor
+
+        var data = {
+          sku: $scope.model.skuProp !== undefined ? $scope.model.skuProp : productSkuField.val(),
+          value: $scope.stock ? $scope.stock.Value : null
+        };
+        $http.post('backoffice/teacommerce/products/poststock?productIdentifier=' + $routeParams.id + variantId, data);
+      }
     });
   }
 });

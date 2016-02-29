@@ -7,11 +7,12 @@
         <option value="2">&gt;=</option>
         <option value="3">&lt;</option>
         <option value="4">&lt;=</option>
+        <option value="5">!=</option>
       </select>
       <input type="text" ng-model="rule.settings.quantity" ng-disabled="!editMode" placeholder="Quantity" class="guiInputText" />
       <span class="accumulate">
-          <input type="checkbox" ng-model="rule.settings.accumulate" ng-disabled="!editMode" id="accumulate{{rule.id}}" name="accumulate{{rule.id}}" />
-          <label for="accumulate{{rule.id}}" title="Check to use the accumulated quantity of previously fulfilled order lines">Accumulate</label>
+        <input type="checkbox" ng-model="rule.settings.accumulate" ng-disabled="!editMode" id="accumulate{{rule.id}}" name="accumulate{{rule.id}}" />
+        <label for="accumulate{{rule.id}}" title="Check to use the accumulated quantity of previously fulfilled order lines">Accumulate</label>
       </span>
     </td>
     <td style="width: 100px;" valign="top" class="buttons">

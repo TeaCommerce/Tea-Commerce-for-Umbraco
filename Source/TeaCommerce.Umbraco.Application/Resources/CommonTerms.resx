@@ -507,4 +507,19 @@
   <data name="AllowWithPreviousCampaigns" xml:space="preserve">
     <value>Allow with previous Campaigns</value>
   </data>
+  <data name="OrTypeName" xml:space="preserve">
+    <value>Or type the name</value>
+  </data>
+  <data name="SelectCountryFromList" xml:space="preserve">
+    <value>Select a country from the list</value>
+  </data>
+  <data name="CreateAllCountries" xml:space="preserve">
+    <value>Create all countries</value>
+  </data>
+  <data name="ConfirmCreateAllCountries" xml:space="preserve">
+    <value>Are you sure you wish create all countries? Existing countries will not be affected.</value>
+  </data>
+  <data name="CreateAllCountriesCompleted" xml:space="preserve">
+    <value>All countries and regions has been created</value>
+  </data>
 </root>

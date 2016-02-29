@@ -177,6 +177,9 @@
   <data name="ProductUniquenessPropertyAliases" xml:space="preserve">
     <value>Product uniqueness property aliases</value>
   </data>
+  <data name="ProductVariantPropertyAlias" xml:space="preserve">
+    <value>Product variant property alias</value>
+  </data>
   <data name="Security" xml:space="preserve">
     <value>Security</value>
   </data>

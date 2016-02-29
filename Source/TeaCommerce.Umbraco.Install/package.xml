@@ -4,7 +4,7 @@
   <info>
     <package>
       <name>Tea Commerce</name>
-      <version>3.0.7 for Umbraco 7</version>
+      <version>3.1.0 for Umbraco 7</version>
       <license url="http://teacommerce.net/license-agreement/">Commercial license</license>
       <url>http://teacommerce.net</url>
       <requirements>
@@ -59,6 +59,7 @@
     <Action runat="install" alias="CreateDataTypeDefinition" dataTypeDefinitionAlias="TeaCommerce.StorePicker" name="Tea Commerce: Store picker" />
     <Action runat="install" alias="CreateDataTypeDefinition" dataTypeDefinitionAlias="TeaCommerce.VatGroupPicker" name="Tea Commerce: VAT group picker" />
     <Action runat="install" alias="CreateDataTypeDefinition" dataTypeDefinitionAlias="TeaCommerce.StockManagement" name="Tea Commerce: Stock management" />
+    <Action runat="install" alias="CreateDataTypeDefinition" dataTypeDefinitionAlias="TeaCommerce.VariantEditor" name="Tea Commerce: Variant Editor" />
     <Action runat="install" alias="TeaCommerceInstaller" />
     <Action runat="install" alias="TeaRemoveOldInstallation" />
   </Actions>

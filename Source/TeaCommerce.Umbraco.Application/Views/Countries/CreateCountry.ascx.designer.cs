@@ -13,13 +13,31 @@ namespace TeaCommerce.Umbraco.Application.Views.Countries {
     public partial class CreateCountry {
         
         /// <summary>
-        /// LitName control.
+        /// LitSelectCountry control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal LitName;
+        protected global::System.Web.UI.WebControls.Literal LitSelectCountry;
+        
+        /// <summary>
+        /// DrpCountries control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DrpCountries;
+        
+        /// <summary>
+        /// LitOrTypeName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal LitOrTypeName;
         
         /// <summary>
         /// TxtName control.

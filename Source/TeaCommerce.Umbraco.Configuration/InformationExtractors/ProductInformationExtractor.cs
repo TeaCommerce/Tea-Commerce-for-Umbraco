@@ -1,54 +1,71 @@
-﻿using TeaCommerce.Api.InformationExtractors;
+﻿using Autofac;
+using TeaCommerce.Api.Dependency;
+using TeaCommerce.Api.InformationExtractors;
 using TeaCommerce.Api.Models;
-using umbraco;
+using TeaCommerce.Umbraco.Configuration.Variant.Product;
+using Umbraco.Web;
 
 namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
   public class ProductInformationExtractor : IProductInformationExtractor {
 
-    protected IXmlNodeProductInformationExtractor XmlNodeProductInformationExtractor;
+    protected IPublishedContentProductInformationExtractor IPublishedContentProductInformationExtractor;
+    protected UmbracoHelper UmbracoHelper { get; private set; }
 
-    public ProductInformationExtractor( IXmlNodeProductInformationExtractor xmlNodeProductInformationExtractor ) {
-      XmlNodeProductInformationExtractor = xmlNodeProductInformationExtractor;
+    public static IProductInformationExtractor Instance { get { return DependencyContainer.Instance.Resolve<IProductInformationExtractor>(); } }
+
+    public ProductInformationExtractor( IPublishedContentProductInformationExtractor iPublishedContentProductInformationExtractor ) {
+      IPublishedContentProductInformationExtractor = iPublishedContentProductInformationExtractor;
+      UmbracoHelper = new UmbracoHelper( UmbracoContext.Current );
     }
 
     public virtual long GetStoreId( string productIdentifier ) {
-      return XmlNodeProductInformationExtractor.GetStoreId( library.GetXmlNodeById( productIdentifier ).Current );
+      ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
+      return IPublishedContentProductInformationExtractor.GetStoreId( UmbracoHelper.TypedContent( productIdentifierObj.NodeId ) );
     }
 
     public virtual string GetPropertyValue( string productIdentifier, string propertyAlias ) {
-      return XmlNodeProductInformationExtractor.GetPropertyValue( library.GetXmlNodeById( productIdentifier ).Current, propertyAlias );
+      ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
+      return IPublishedContentProductInformationExtractor.GetPropertyValue<string>( UmbracoHelper.TypedContent( productIdentifierObj.NodeId ), productIdentifierObj.VariantId, propertyAlias );
     }
 
     public virtual string GetSku( string productIdentifier ) {
-      return XmlNodeProductInformationExtractor.GetSku( library.GetXmlNodeById( productIdentifier ).Current );
+      ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
+      return IPublishedContentProductInformationExtractor.GetSku( UmbracoHelper.TypedContent( productIdentifierObj.NodeId ), productIdentifierObj.VariantId );
     }
 
     public virtual string GetName( string productIdentifier ) {
-      return XmlNodeProductInformationExtractor.GetName( library.GetXmlNodeById( productIdentifier ).Current );
+      ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
+      return IPublishedContentProductInformationExtractor.GetName( UmbracoHelper.TypedContent( productIdentifierObj.NodeId ), productIdentifierObj.VariantId );
     }
 
     public virtual long? GetVatGroupId( string productIdentifier ) {
-      return XmlNodeProductInformationExtractor.GetVatGroupId( library.GetXmlNodeById( productIdentifier ).Current );
+      ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
+      return IPublishedContentProductInformationExtractor.GetVatGroupId( UmbracoHelper.TypedContent( productIdentifierObj.NodeId ), productIdentifierObj.VariantId );
     }
 
     public virtual long? GetLanguageId( string productIdentifier ) {
-      return XmlNodeProductInformationExtractor.GetLanguageId( library.GetXmlNodeById( productIdentifier ).Current );
+      ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
+      return IPublishedContentProductInformationExtractor.GetLanguageId( UmbracoHelper.TypedContent( productIdentifierObj.NodeId ) );
     }
 
     public virtual OriginalUnitPriceCollection GetOriginalUnitPrices( string productIdentifier ) {
-      return XmlNodeProductInformationExtractor.GetOriginalUnitPrices( library.GetXmlNodeById( productIdentifier ).Current );
+      ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
+      return IPublishedContentProductInformationExtractor.GetOriginalUnitPrices( UmbracoHelper.TypedContent( productIdentifierObj.NodeId ), productIdentifierObj.VariantId );
     }
 
     public virtual CustomPropertyCollection GetProperties( string productIdentifier ) {
-      return XmlNodeProductInformationExtractor.GetProperties( library.GetXmlNodeById( productIdentifier ).Current );
+      ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
+      return IPublishedContentProductInformationExtractor.GetProperties( UmbracoHelper.TypedContent( productIdentifierObj.NodeId ), productIdentifierObj.VariantId );
     }
 
     public virtual ProductSnapshot GetSnapshot( string productIdentifier ) {
-      return XmlNodeProductInformationExtractor.GetSnapshot( library.GetXmlNodeById( productIdentifier ).Current, productIdentifier );
+      ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
+      return IPublishedContentProductInformationExtractor.GetSnapshot( UmbracoHelper.TypedContent( productIdentifierObj.NodeId ), productIdentifier );
     }
 
     public virtual bool HasAccess( long storeId, string productIdentifier ) {
-      return XmlNodeProductInformationExtractor.HasAccess( storeId, library.GetXmlNodeById( productIdentifier ).Current );
+      ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
+      return IPublishedContentProductInformationExtractor.HasAccess( storeId, UmbracoHelper.TypedContent( productIdentifierObj.NodeId ) );
     }
 
   }

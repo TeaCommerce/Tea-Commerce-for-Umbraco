@@ -51,6 +51,7 @@ namespace TeaCommerce.Umbraco.Application.Views.Stores {
 
       PPnlProductPropertyAliases.Text = StoreTerms.ProductPropertyAliases;
       PPnlProductUniquenessPropertyAliases.Text = StoreTerms.ProductUniquenessPropertyAliases;
+      PPnlProductVariantPropertyAlias.Text = StoreTerms.ProductVariantPropertyAlias;
       PPnlStockSharingStore.Text = StoreTerms.StockSharingStore + "<br /><small>" + StoreTerms.StockSharingStoreHelp + "</small>";
 
       PPnlGiftCardLength.Text = StoreTerms.Length;
@@ -103,6 +104,7 @@ namespace TeaCommerce.Umbraco.Application.Views.Stores {
 
         TxtProductPropertyAliases.Text = string.Join( ",", store.ProductSettings.ProductPropertyAliases );
         TxtProductUniquenessPropertyAliases.Text = string.Join( ",", store.ProductSettings.ProductUniquenessPropertyAliases );
+        TxtProductVariantPropertyAlias.Text = store.ProductSettings.ProductVariantPropertyAlias;
 
         IEnumerable<Store> stores = StoreService.Instance.GetAll().ToList();
         IEnumerable<Store> stockSharingStores = stores.Where( s => s.ProductSettings.StockSharingStoreId == store.Id ).ToList();
@@ -152,6 +154,7 @@ namespace TeaCommerce.Umbraco.Application.Views.Stores {
 
         store.ProductSettings.ProductPropertyAliases = TxtProductPropertyAliases.Text.Split( new[] { ',' }, StringSplitOptions.RemoveEmptyEntries ).Select( i => i.Trim() ).ToList();
         store.ProductSettings.ProductUniquenessPropertyAliases = TxtProductUniquenessPropertyAliases.Text.Split( new[] { ',' }, StringSplitOptions.RemoveEmptyEntries ).Select( i => i.Trim() ).ToList();
+        store.ProductSettings.ProductVariantPropertyAlias = TxtProductVariantPropertyAlias.Text;
 
         store.ProductSettings.StockSharingStoreId = DrpStockSharingStore.SelectedValue.TryParse<long>();
         if ( store.ProductSettings.StockSharingStoreId != null && ( store.ProductSettings.StockSharingStoreId == store.Id || currentLoggedInUserPermissions == null || !currentLoggedInUserPermissions.HasPermission( StoreSpecificPermissionType.AccessStore, store.ProductSettings.StockSharingStoreId.Value ) ) ) {

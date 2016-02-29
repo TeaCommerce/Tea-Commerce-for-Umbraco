@@ -274,6 +274,24 @@ namespace TeaCommerce.Umbraco.Application.Views.Stores {
         protected global::System.Web.UI.WebControls.TextBox TxtProductUniquenessPropertyAliases;
         
         /// <summary>
+        /// PPnlProductVariantPropertyAlias control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::umbraco.uicontrols.PropertyPanel PPnlProductVariantPropertyAlias;
+        
+        /// <summary>
+        /// TxtProductVariantPropertyAlias control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxtProductVariantPropertyAlias;
+        
+        /// <summary>
         /// PPnlStockSharingStore control.
         /// </summary>
         /// <remarks>

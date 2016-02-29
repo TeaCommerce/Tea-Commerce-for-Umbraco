@@ -58,6 +58,9 @@
     <umbUIControls:PropertyPanel ID="PPnlProductUniquenessPropertyAliases" runat="server">
       <asp:TextBox ID="TxtProductUniquenessPropertyAliases" runat="server" CssClass="guiInputText guiInputStandardSize" />
     </umbUIControls:PropertyPanel>
+    <umbUIControls:PropertyPanel ID="PPnlProductVariantPropertyAlias" runat="server">
+      <asp:TextBox ID="TxtProductVariantPropertyAlias" runat="server" CssClass="guiInputText guiInputStandardSize" />
+    </umbUIControls:PropertyPanel>
     <umbUIControls:PropertyPanel ID="PPnlStockSharingStore" runat="server">
       <asp:DropDownList ID="DrpStockSharingStore" runat="server" DataTextField="Name" DataValueField="Id"
         CssClass="guiInputText guiInputStandardSize" AppendDataBoundItems="true">

@@ -5,7 +5,11 @@ using System.Xml.XPath;
 using TeaCommerce.Api.Serialization;
 using TeaCommerce.Api.Services;
 using TeaCommerce.Umbraco.Configuration.InformationExtractors;
+using TeaCommerce.Umbraco.Configuration.Variant.Product;
 using umbraco;
+using Umbraco.Core;
+using Umbraco.Core.Models;
+using Umbraco.Web;
 using Umbraco.Web.Editors;
 using Umbraco.Web.Mvc;
 
@@ -16,10 +20,11 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
 
     [HttpGet]
     public HttpResponseMessage GetAll( string pageId ) {
-      XPathNavigator xPathNavigator = library.GetXmlNodeById( pageId ).Current;
-      IXmlNodeProductInformationExtractor productInformationExtractor = XmlNodeProductInformationExtractor.Instance;
+      ProductIdentifier productIdentifierObj = new ProductIdentifier( pageId );
+      IContent content = ApplicationContext.Current.Services.ContentService.GetById( productIdentifierObj.NodeId );
+      IContentProductInformationExtractor productInformationExtractor = ContentProductInformationExtractor.Instance;
 
-      long storeId = productInformationExtractor.GetStoreId( xPathNavigator, false );
+      long storeId = productInformationExtractor.GetStoreId( content );
 
       HttpResponseMessage response = new HttpResponseMessage {
         Content = new StringContent( VatGroupService.Instance.GetAll( storeId ).ToJson() )
@@ -31,10 +36,11 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
 
     [HttpGet]
     public HttpResponseMessage Get( string pageId, long vatGroupId ) {
-      XPathNavigator xPathNavigator = library.GetXmlNodeById( pageId ).Current;
-      IXmlNodeProductInformationExtractor productInformationExtractor = XmlNodeProductInformationExtractor.Instance;
+      ProductIdentifier productIdentifierObj = new ProductIdentifier( pageId );
+      IContent content = ApplicationContext.Current.Services.ContentService.GetById( productIdentifierObj.NodeId );
+      IContentProductInformationExtractor productInformationExtractor = ContentProductInformationExtractor.Instance;
 
-      long storeId = productInformationExtractor.GetStoreId( xPathNavigator, false );
+      long storeId = productInformationExtractor.GetStoreId( content );
 
       HttpResponseMessage response = new HttpResponseMessage {
         Content = new StringContent( VatGroupService.Instance.Get( storeId, vatGroupId ).ToJson() )

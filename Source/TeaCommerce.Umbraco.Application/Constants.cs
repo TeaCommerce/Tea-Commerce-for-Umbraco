@@ -72,6 +72,7 @@
       public const string EditEmailTemplate = "/Views/EmailTemplates/EditEmailTemplate.aspx";
       public const string EditUserPermissions = "/Views/Security/EditUserPermissions.aspx";
       public const string Sort = "/Views/Sort/Sort.aspx";
+      public const string CreateAll = "/Views/CreateAll/CreateAll.aspx";
     }
 
     public class MimeTypes {

@@ -1,0 +1,114 @@
+﻿<div ng-controller="TeaCommerce.VariantEditor.Controller">
+  <div class="teaCommerceVariantEditor">
+    <div class="genericPropertyForm">
+      <div class="variantGroupsWrapper">
+        <h4 class="propertypaneTitel noSelect pointer" ng-click="variantGroupsOpen=!variantGroupsOpen"><i class="toggle btn btn-mini icon-navigation-down"></i>Add product variants</h4>
+        <div class="variantGroups" ng-show="variantGroupsOpen">
+          <p><i class="icon-info"></i>Choose the types of variants that will make up this product and click "Add variant options".</p>
+          <div>
+            <a href="javascript:void(0);" class="btn" ng-click="openOrCloseAllVariantGroups()">
+              <span ng-hide="checkIfAllVariantGroupsAreClosed()">- Close all -</span>
+              <span ng-show="checkIfAllVariantGroupsAreClosed()">- Open all -</span>
+            </a>
+            <a href="javascript:void(0);" class="btn" ng-click="selectOrDeselectAllVariantTypes()">
+              <span ng-hide="checkIfAllVariantTypesAreUnchecked()">- Deselect all variant types -</span>
+              <span ng-show="checkIfAllVariantTypesAreUnchecked()">- Select all variant types -</span>
+            </a>
+          </div>
+          <div class="variantGroup control-group umb-control-group" ng-class="{open:model.value.variantGroupsOpen[variantGroup.id]}" ng-repeat="variantGroup in variantGroups | orderBy:'name'">
+            <div class="handle noSelect pointer" ng-click="setVariantGroupClosedState(variantGroup)">
+              <i class="toggle btn btn-nostyles btn-mini icon-navigation-down"></i>
+              {{variantGroup.name}}
+            </div>
+            <div class="variantGroup-content" ng-show="model.value.variantGroupsOpen[variantGroup.id]">
+              <div class="item" ng-repeat="item in variantGroup.items | orderBy:'name'" ng-class="{checked:item.checked}" ng-click="item.checked=!item.checked" title="{{ item.checked && 'Remove '+item.name+' from selection' || 'Add '+item.name+' to selection' }}">
+                <i class="icon-check"></i>
+                {{item.name}}
+              </div>
+            </div>
+
+          </div>
+          <div class="warning" ng-show="settings.forceEditorToChooseAllVariantGroups && !isVariantGroupsChecked()">
+            Choose at least one variant type from each variant group
+          </div>
+          <button type="button" class="btn add btn-success" ng-click="addVariantOptions()" ng-disabled="!isVariantGroupsChecked()">Add variant options</button>
+
+        </div>
+      </div>
+      <div ng-show="variants && variants.length > 0">
+        <h4 class="propertypaneTitel">Edit variant options</h4>
+        <a href="javascript:void(0);" class="btn" ng-click="openOrCloseAllVariants()">
+          <span ng-hide="checkIfAllVariantAreClosed()">- Close all -</span>
+          <span ng-show="checkIfAllVariantAreClosed()">- Open all -</span>
+        </a>
+        <a href="javascript:void(0);" class="btn" ng-click="deleteAllVariants()">- Delete all -</a>
+        <div class="validation-error alert-error alert" ng-hide="!validateVariants().holesInVariants">
+          Some of your variants does not have the same variant types
+        </div>
+        <div class="validation-error alert-error alert" ng-hide="!validateVariants().duplicatesFound">
+          Duplicate variants found
+        </div>
+
+        <div class="variants">
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th class="noSelect pointer" ng-class="{orderedBy:orderByColumn.column===variantColumn.id}" ng-repeat="variantColumn in variantColumns" ng-click="setOrder(variantColumn.id)">
+                  {{variantColumn.name}} <i class="icon-navigation-road"></i>
+                </th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody class="variant" ng-class="{holesInVariants:variant.validation.holesInVariants,duplicatesFound:variant.validation.duplicatesFound,error:variant.validation.duplicatesFound||variant.validation.holesInVariants}" style="min-height: 30px;" ng-repeat="variant in variants | orderBy : getOrderByValue : orderByColumn.reverse">
+              <tr class="headline noSelect pointer">
+                <td class="error-td" ng-click="variant.edit = !variant.edit;variant.open=false;">
+                  <i class="error icon-block" title="You are choosing a combination that already exists" ng-show="variant.validation.duplicatesFound"></i>
+                  <i class="error icon-block" title="This variant is missing some variant types" ng-show="variant.validation.holesInVariants"></i>
+                </td>
+                <td ng-repeat="variantColumn in variantColumns" ng-click="variant.open=!variant.open;variant.edit=false;">
+                  {{(variant.columns[variantColumn.id].alias ? variant.columns[variantColumn.id].value : variant.columns[variantColumn.id])}}
+                </td>
+                <td class="buttons" ng-click="variant.open=!variant.open;variant.edit=false;">
+                  <i class="delete btn btn-nostyles btn-mini icon-delete" ng-click="deleteVariant(variant);$event.stopPropagation();" title="Delete"></i>
+                  <i class="toggle btn btn-nostyles btn-mini icon-navigation-down" ng-show="variant.properties.length > 0 && !variant.open" title="Fold out"></i>
+                  <i class="toggle btn btn-nostyles btn-mini icon-navigation-up" ng-show="variant.properties.length > 0 && variant.open" title="Fold in"></i>
+                </td>
+                <td ng-click="variant.edit = !variant.edit;variant.open=false;">
+                  <i class="edit btn btn-nostyles btn-mini icon-edit" title="Edit variant types"></i>
+
+                </td>
+              </tr>
+              <tr ng-show="variant.edit">
+                <td colspan="{{variantColumns.length+3}}">
+                  <div class="validation-error alert-error alert" ng-show="variant.combinationExists">
+                    You are choosing a combination that already exists
+                  </div>
+
+                  <umb-property property="variantGroup"
+                                ng-repeat="variantGroup in variantGroups | orderBy:'name'">
+                    <select ng-options="option.id as option.name for option in variantGroup.items" ng-model="variant.combinationDictionary[variantGroup.id].id" ng-change="combinationChanged({variant: variant, variantGroup: variantGroup})">
+                      <option value="">-- None selected --</option>
+                    </select>
+                  </umb-property>
+                </td>
+              </tr>
+              <tr class="variant-content" ng-show="variant.open && variant.properties.length > 0">
+                <td colspan="{{variantColumns.length+3}}">
+                  <umb-property property="property"
+                                ng-repeat="property in variant.properties">
+                    <umb-editor model="property"></umb-editor>
+                  </umb-property>
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
