@@ -51,18 +51,19 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
             rtnValue = variant.GetPropertyValue<T>( propertyAlias );
           }
         }
-        if ( CheckNullOrEmpty( rtnValue ) ) {
+
+        if ( ( string.IsNullOrEmpty( variantId ) || recursive ) && CheckNullOrEmpty( rtnValue ) ) {
           //Check if this node or ancestor has it
           IPublishedContent currentNode = func != null ? model.AncestorsOrSelf().FirstOrDefault( func ) : model;
           if ( currentNode != null ) {
-            rtnValue = GetPropertyValueInternal<T>( currentNode, propertyAlias, func == null );
+            rtnValue = GetPropertyValueInternal<T>( currentNode, propertyAlias, recursive && func == null );
           }
 
           //Check if we found the value
           if ( CheckNullOrEmpty( rtnValue ) ) {
 
             //Check if we can find a master relation
-            string masterRelationNodeId = GetPropertyValueInternal<string>( model, Constants.ProductPropertyAliases.MasterRelationPropertyAlias, true );
+            string masterRelationNodeId = GetPropertyValueInternal<string>( model, Constants.ProductPropertyAliases.MasterRelationPropertyAlias, recursive );
             if ( !string.IsNullOrEmpty( masterRelationNodeId ) ) {
               rtnValue = GetPropertyValue<T>( UmbracoHelper.TypedContent( masterRelationNodeId ), propertyAlias,
                 variantId, func );
@@ -114,11 +115,16 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
     }
 
     public virtual string GetSku( IPublishedContent model, string variantId = null ) {
-      string sku = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.SkuPropertyAlias, variantId );
+      string sku = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.SkuPropertyAlias, variantId, recursive: string.IsNullOrEmpty( variantId ) );
 
       //If no sku is found - default to umbraco node id
       if ( string.IsNullOrEmpty( sku ) ) {
-        sku = model.Id.ToString( CultureInfo.InvariantCulture );
+        if ( !string.IsNullOrEmpty( variantId ) ) {
+          sku = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.SkuPropertyAlias );
+        }
+        if ( string.IsNullOrEmpty( sku ) ) {
+          sku = model.Id.ToString( CultureInfo.InvariantCulture );
+        }
         if ( !string.IsNullOrEmpty( variantId ) ) {
           sku += "_" + variantId;
         }
@@ -128,16 +134,21 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
     }
 
     public virtual string GetName( IPublishedContent model, string variantId = null ) {
-      string name = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.NamePropertyAlias, variantId );
+      string name = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.NamePropertyAlias, variantId, recursive: string.IsNullOrEmpty( variantId ) );
 
       //If no name is found - default to the umbraco node name
       if ( string.IsNullOrEmpty( name ) ) {
-        name = model.Name;
+        if ( !string.IsNullOrEmpty( variantId ) ) {
+          name = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.NamePropertyAlias );
+        }
+        if ( string.IsNullOrEmpty( name ) ) {
+          name = model.Name;
+        }
         if ( !string.IsNullOrEmpty( variantId ) ) {
           long storeId = GetStoreId( model );
           VariantPublishedContent variant = VariantService.Instance.GetVariant( storeId, model, variantId, false );
           if ( variant != null ) {
-            name += " " + variant.Name;
+            name += " - " + variant.Name;
           }
         }
       }
