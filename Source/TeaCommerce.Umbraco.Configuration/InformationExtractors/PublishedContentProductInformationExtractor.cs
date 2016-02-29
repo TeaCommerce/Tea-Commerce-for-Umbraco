@@ -17,6 +17,7 @@ using Umbraco.Core.Dynamics;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 using Constants = TeaCommerce.Api.Constants;
+using TeaCommerce.Umbraco.Configuration.Variant;
 
 namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
   public class PublishedContentProductInformationExtractor : IPublishedContentProductInformationExtractor {
@@ -36,15 +37,15 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       UmbracoHelper = new UmbracoHelper( UmbracoContext.Current );
     }
 
-    public virtual T GetPropertyValue<T>( IPublishedContent model, string propertyAlias, string variantGuid = null, Func<IPublishedContent, bool> func = null ) {
+    public virtual T GetPropertyValue<T>( IPublishedContent model, string propertyAlias, string variantId = null, Func<IPublishedContent, bool> func = null, bool recursive = true ) {
       T rtnValue = default( T );
 
       if ( model != null && !string.IsNullOrEmpty( propertyAlias ) ) {
-        if ( !string.IsNullOrEmpty( variantGuid ) ) {
+        if ( !string.IsNullOrEmpty( variantId ) ) {
           IPublishedContent variant = null;
           long storeId = GetStoreId( model );
 
-          variant = VariantService.Instance.GetVariant( storeId, model, variantGuid );
+          variant = VariantService.Instance.GetVariant( storeId, model, variantId );
 
           if ( variant != null ) {
             rtnValue = variant.GetPropertyValue<T>( propertyAlias );
@@ -64,7 +65,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
             string masterRelationNodeId = GetPropertyValueInternal<string>( model, Constants.ProductPropertyAliases.MasterRelationPropertyAlias, true );
             if ( !string.IsNullOrEmpty( masterRelationNodeId ) ) {
               rtnValue = GetPropertyValue<T>( UmbracoHelper.TypedContent( masterRelationNodeId ), propertyAlias,
-                variantGuid, func );
+                variantId, func );
             }
           }
 
@@ -102,7 +103,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
       return rtnValue;
     }
-    
+
     public virtual long GetStoreId( IPublishedContent model ) {
       long? storeId = GetPropertyValue<long?>( model, Constants.ProductPropertyAliases.StorePropertyAlias );
       if ( storeId == null ) {
@@ -112,31 +113,41 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       return storeId.Value;
     }
 
-    public virtual string GetSku( IPublishedContent model, string variantGuid = null ) {
-      string sku = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.SkuPropertyAlias, variantGuid );
+    public virtual string GetSku( IPublishedContent model, string variantId = null ) {
+      string sku = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.SkuPropertyAlias, variantId );
 
       //If no sku is found - default to umbraco node id
       if ( string.IsNullOrEmpty( sku ) ) {
-        sku = model.Id.ToString( CultureInfo.InvariantCulture ) + "_" + variantGuid;
+        sku = model.Id.ToString( CultureInfo.InvariantCulture );
+        if ( !string.IsNullOrEmpty( variantId ) ) {
+          sku += "_" + variantId;
+        }
       }
 
       return sku;
     }
 
-    public virtual string GetName( IPublishedContent model, string variantGuid = null ) {
-      string name = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.NamePropertyAlias, variantGuid );
+    public virtual string GetName( IPublishedContent model, string variantId = null ) {
+      string name = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.NamePropertyAlias, variantId );
 
       //If no name is found - default to the umbraco node name
       if ( string.IsNullOrEmpty( name ) ) {
         name = model.Name;
+        if ( !string.IsNullOrEmpty( variantId ) ) {
+          long storeId = GetStoreId( model );
+          VariantPublishedContent variant = VariantService.Instance.GetVariant( storeId, model, variantId, false );
+          if ( variant != null ) {
+            name += " " + variant.Name;
+          }
+        }
       }
 
       return name;
     }
 
-    public virtual long? GetVatGroupId( IPublishedContent model, string variantGuid = null ) {
+    public virtual long? GetVatGroupId( IPublishedContent model, string variantId = null ) {
       long storeId = GetStoreId( model );
-      long? vatGroupId = GetPropertyValue<long?>( model, Constants.ProductPropertyAliases.VatGroupPropertyAlias, variantGuid );
+      long? vatGroupId = GetPropertyValue<long?>( model, Constants.ProductPropertyAliases.VatGroupPropertyAlias, variantId );
 
       //In umbraco a product can have a relation to a delete marked vat group
       if ( vatGroupId != null ) {
@@ -153,21 +164,21 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       return LanguageService.Instance.GetLanguageIdByNodePath( model.Path );
     }
 
-    public virtual OriginalUnitPriceCollection GetOriginalUnitPrices( IPublishedContent model, string variantGuid = null ) {
+    public virtual OriginalUnitPriceCollection GetOriginalUnitPrices( IPublishedContent model, string variantId = null ) {
       OriginalUnitPriceCollection prices = new OriginalUnitPriceCollection();
 
       foreach ( Currency currency in CurrencyService.GetAll( GetStoreId( model ) ) ) {
-        prices.Add( new OriginalUnitPrice( GetPropertyValue<string>( model, currency.PricePropertyAlias, variantGuid ).ParseToDecimal() ?? 0M, currency.Id ) );
+        prices.Add( new OriginalUnitPrice( GetPropertyValue<string>( model, currency.PricePropertyAlias, variantId ).ParseToDecimal() ?? 0M, currency.Id ) );
       }
 
       return prices;
     }
 
-    public virtual CustomPropertyCollection GetProperties( IPublishedContent model, string variantGuid = null ) {
+    public virtual CustomPropertyCollection GetProperties( IPublishedContent model, string variantId = null ) {
       CustomPropertyCollection properties = new CustomPropertyCollection();
 
       foreach ( string productPropertyAlias in StoreService.Get( GetStoreId( model ) ).ProductSettings.ProductPropertyAliases ) {
-        properties.Add( new CustomProperty( productPropertyAlias, GetPropertyValue<string>( model, productPropertyAlias, variantGuid ) ) { IsReadOnly = true } );
+        properties.Add( new CustomProperty( productPropertyAlias, GetPropertyValue<string>( model, productPropertyAlias, variantId ) ) { IsReadOnly = true } );
       }
 
       return properties;
