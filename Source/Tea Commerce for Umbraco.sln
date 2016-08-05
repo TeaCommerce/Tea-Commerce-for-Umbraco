@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeaCommerce.Umbraco.Web", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeaCommerce.Umbraco.Configuration", "TeaCommerce.Umbraco.Configuration\TeaCommerce.Umbraco.Configuration.csproj", "{3D4CC43D-F088-43BF-B86E-53CCDE13B223}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeaCommerce.Umbraco.Application2", "TeaCommerce.Umbraco.Application2\TeaCommerce.Umbraco.Application2.csproj", "{1E053346-B4A4-4FFA-BD86-513CF3222D9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,16 @@ Global
 		{3D4CC43D-F088-43BF-B86E-53CCDE13B223}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3D4CC43D-F088-43BF-B86E-53CCDE13B223}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3D4CC43D-F088-43BF-B86E-53CCDE13B223}.Release|x86.ActiveCfg = Release|Any CPU
+		{1E053346-B4A4-4FFA-BD86-513CF3222D9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E053346-B4A4-4FFA-BD86-513CF3222D9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E053346-B4A4-4FFA-BD86-513CF3222D9B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1E053346-B4A4-4FFA-BD86-513CF3222D9B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1E053346-B4A4-4FFA-BD86-513CF3222D9B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1E053346-B4A4-4FFA-BD86-513CF3222D9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E053346-B4A4-4FFA-BD86-513CF3222D9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E053346-B4A4-4FFA-BD86-513CF3222D9B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1E053346-B4A4-4FFA-BD86-513CF3222D9B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1E053346-B4A4-4FFA-BD86-513CF3222D9B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
