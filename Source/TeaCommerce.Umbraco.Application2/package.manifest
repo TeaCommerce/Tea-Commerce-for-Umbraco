@@ -1,0 +1,5 @@
+﻿{
+  javascript: [
+    '~/App_Plugins/teacommerce2/backoffice/teacommerce2/order-status-edit.controller.js'
+  ]
+}
