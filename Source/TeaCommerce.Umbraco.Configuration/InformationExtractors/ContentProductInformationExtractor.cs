@@ -17,20 +17,26 @@ using Umbraco.Core.Dynamics;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 using Constants = TeaCommerce.Api.Constants;
+using TeaCommerce.Api.InformationExtractors;
+using TeaCommerce.Umbraco.Configuration.Variant;
 
 namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
-  public class ContentProductInformationExtractor : IContentProductInformationExtractor {
+
+  [SuppressDependency( "TeaCommerce.Api.InformationExtractors.IProductInformationExtractor`2[[Umbraco.Core.Models.IContent, Umbraco.Core],[System.String, mscorlib]]", "TeaCommerce.Api" )]
+  public class ContentProductInformationExtractor : IProductInformationExtractor<IContent, string> {
 
     protected readonly IStoreService StoreService;
     protected readonly ICurrencyService CurrencyService;
     protected readonly IVatGroupService VatGroupService;
+    protected readonly IVariantService<IContent> VariantService;
 
-    public static IContentProductInformationExtractor Instance { get { return DependencyContainer.Instance.Resolve<IContentProductInformationExtractor>(); } }
+    public static IProductInformationExtractor<IContent, string> Instance { get { return DependencyContainer.Instance.Resolve<IProductInformationExtractor<IContent, string>>(); } }
 
-    public ContentProductInformationExtractor( IStoreService storeService, ICurrencyService currencyService, IVatGroupService vatGroupService ) {
+    public ContentProductInformationExtractor( IStoreService storeService, ICurrencyService currencyService, IVatGroupService vatGroupService, IVariantService<IContent> variantService ) {
       StoreService = storeService;
       CurrencyService = currencyService;
       VatGroupService = vatGroupService;
+      VariantService = variantService;
     }
 
     public virtual T GetPropertyValue<T>( IContent model, string propertyAlias, string variantGuid = null, Func<IContent, bool> func = null ) {
@@ -41,7 +47,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
           IPublishedContent variant = null;
           long storeId = GetStoreId( model );
 
-          variant = VariantService.Instance.GetVariant( storeId, model, variantGuid );
+          variant = VariantService.GetVariant( storeId, model, variantGuid );
 
           if ( variant != null ) {
             rtnValue = variant.GetPropertyValue<T>( propertyAlias );
@@ -151,6 +157,53 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
         return string.IsNullOrEmpty( value as string );
 
       return value == null || value.Equals( default( T ) );
+    }
+
+    public string GetPropertyValue( IContent product, string variantId, string propertyAlias ) {
+      return GetPropertyValue<string>( product, Constants.ProductPropertyAliases.NamePropertyAlias, variantId );
+    }
+
+    public string GetName( IContent product, string variantId ) {
+      string name = GetPropertyValue<string>( product, Constants.ProductPropertyAliases.NamePropertyAlias, variantId );
+
+      //If no name is found - default to the umbraco node name
+      if ( string.IsNullOrEmpty( name ) ) {
+        if ( !string.IsNullOrEmpty( variantId ) ) {
+          name = GetPropertyValue<string>( product, Constants.ProductPropertyAliases.NamePropertyAlias );
+        }
+        if ( string.IsNullOrEmpty( name ) ) {
+          name = product.Name;
+        }
+        if ( !string.IsNullOrEmpty( variantId ) ) {
+          long storeId = GetStoreId( product );
+          VariantPublishedContent variant = VariantService.GetVariant( storeId, product, variantId, false );
+          if ( variant != null ) {
+            name += " - " + variant.Name;
+          }
+        }
+      }
+
+      return name;
+    }
+
+    public OriginalUnitPriceCollection GetOriginalUnitPrices( IContent product, string variantId ) {
+      OriginalUnitPriceCollection prices = new OriginalUnitPriceCollection();
+
+      foreach ( Currency currency in CurrencyService.GetAll( GetStoreId( product ) ) ) {
+        prices.Add( new OriginalUnitPrice( GetPropertyValue<string>( product, currency.PricePropertyAlias, variantId ).ParseToDecimal() ?? 0M, currency.Id ) );
+      }
+
+      return prices;
+    }
+
+    public CustomPropertyCollection GetProperties( IContent product, string variantId ) {
+      CustomPropertyCollection properties = new CustomPropertyCollection();
+
+      foreach ( string productPropertyAlias in StoreService.Get( GetStoreId( product ) ).ProductSettings.ProductPropertyAliases ) {
+        properties.Add( new CustomProperty( productPropertyAlias, GetPropertyValue<string>( product, productPropertyAlias, variantId ) ) { IsReadOnly = true } );
+      }
+
+      return properties;
     }
   }
 }

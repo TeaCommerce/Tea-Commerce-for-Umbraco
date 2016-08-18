@@ -4,13 +4,14 @@ using TeaCommerce.Umbraco.Configuration.Variant.Product;
 using Umbraco.Core.Models;
 
 namespace TeaCommerce.Umbraco.Configuration.Services {
-  public interface IVariantService {
+  public interface IVariantService<T> {
 
-    VariantPublishedContent GetVariant( long storeId, IPublishedContent content, string variantId, bool onlyValid = true );
-    VariantPublishedContent GetVariant( long storeId, IContent content, string variantId, bool onlyValid = true );
-    IEnumerable<VariantPublishedContent> GetVariants( long storeId, IPublishedContent content, bool onlyValid = true );
-    IEnumerable<VariantPublishedContent> GetVariants( long storeId, IContent content, bool onlyValid );
+    VariantPublishedContent GetVariant( long storeId, T content, string variantId, bool onlyValid = true );
+    IEnumerable<VariantPublishedContent> GetVariants( long storeId, T content, bool onlyValid = true );
     IEnumerable<VariantGroup> GetVariantGroups( IEnumerable<VariantPublishedContent> variants );
-    string GetVariantJson( long storeId, IEnumerable<IPublishedContent> productContents, bool onlyValid );
+    string GetVariantDataFromContent( long storeId, T productContents, bool onlyValid );
+    string GetVariantJson( long storeId, IEnumerable<T> productContents, bool onlyValid );
+    List<VariantPublishedContent> ParseVariantJson( string json, IPublishedContent parentContent );
+    int GetId( T content );
   }
 }

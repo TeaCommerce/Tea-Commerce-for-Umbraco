@@ -27,14 +27,20 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
     protected readonly IStoreService StoreService;
     protected readonly ICurrencyService CurrencyService;
     protected readonly IVatGroupService VatGroupService;
+    protected readonly IVariantService<IPublishedContent> VariantService;
 
     public static IPublishedContentProductInformationExtractor Instance { get { return DependencyContainer.Instance.Resolve<IPublishedContentProductInformationExtractor>(); } }
 
-    public PublishedContentProductInformationExtractor( IStoreService storeService, ICurrencyService currencyService, IVatGroupService vatGroupService ) {
+    public PublishedContentProductInformationExtractor( IStoreService storeService, ICurrencyService currencyService, IVatGroupService vatGroupService, IVariantService<IPublishedContent> variantService ) {
       StoreService = storeService;
       CurrencyService = currencyService;
       VatGroupService = vatGroupService;
-      UmbracoHelper = new UmbracoHelper( UmbracoContext.Current );
+      VariantService = variantService;
+      try {
+        UmbracoHelper = new UmbracoHelper( UmbracoContext.Current );
+      } catch ( Exception ex ) {
+        //Will fail if we're out of context
+      }
     }
 
     public virtual T GetPropertyValue<T>( IPublishedContent model, string propertyAlias, string variantId = null, Func<IPublishedContent, bool> func = null, bool recursive = true ) {
@@ -45,7 +51,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
           IPublishedContent variant = null;
           long storeId = GetStoreId( model );
 
-          variant = VariantService.Instance.GetVariant( storeId, model, variantId );
+          variant = VariantService.GetVariant( storeId, model, variantId );
 
           if ( variant != null ) {
             rtnValue = variant.GetPropertyValue<T>( propertyAlias );
@@ -64,7 +70,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
             //Check if we can find a master relation
             string masterRelationNodeId = GetPropertyValueInternal<string>( model, Constants.ProductPropertyAliases.MasterRelationPropertyAlias, recursive );
-            if ( !string.IsNullOrEmpty( masterRelationNodeId ) ) {
+            if ( !string.IsNullOrEmpty( masterRelationNodeId ) && UmbracoHelper != null ) {
               rtnValue = GetPropertyValue<T>( UmbracoHelper.TypedContent( masterRelationNodeId ), propertyAlias,
                 variantId, func );
             }
@@ -146,7 +152,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
         }
         if ( !string.IsNullOrEmpty( variantId ) ) {
           long storeId = GetStoreId( model );
-          VariantPublishedContent variant = VariantService.Instance.GetVariant( storeId, model, variantId, false );
+          VariantPublishedContent variant = VariantService.GetVariant( storeId, model, variantId, false );
           if ( variant != null ) {
             name += " - " + variant.Name;
           }

@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
+using TeaCommerce.Api.Dependency;
 using TeaCommerce.Api.Marketing.Models;
 using TeaCommerce.Api.Models;
 using TeaCommerce.Api.Web;
@@ -9,9 +10,7 @@ using TeaCommerce.Umbraco.Configuration.Services;
 using TeaCommerce.Umbraco.Configuration.Variant;
 using TeaCommerce.Umbraco.Configuration.Variant.Product;
 using Umbraco.Core.Models;
-using umbraco.MacroEngines;
 using Umbraco.Web;
-using DynamicXml = Umbraco.Core.Dynamics.DynamicXml;
 
 namespace TeaCommerce.Umbraco.Web {
 
@@ -543,8 +542,8 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="storeId">Id of the store.</param>
     /// <param name="price">The price to format excl. VAT.</param>
     /// <returns>A price object.</returns>
-    public static Price FormatPrice( long storeId, decimal price ) {
-      return TeaCommerceHelper.FormatPrice( storeId, price );
+    public static Price FormatPrice( long storeId, decimal price, long? currencyId ) {
+      return TeaCommerceHelper.FormatPrice( storeId, price, currencyId );
     }
 
     /// <summary>
@@ -555,6 +554,14 @@ namespace TeaCommerce.Umbraco.Web {
     /// <returns>A price object.</returns>
     public static Price GetPrice( long storeId, string productIdentifier ) {
       return TeaCommerceHelper.GetPrice( storeId, productIdentifier );
+    }
+
+    public static Price GetPrice<T1>( long storeId, T1 product ) {
+      return TeaCommerceHelper.GetPrice<T1, string>( storeId, product, null );
+    }
+
+    public static Price GetPrice<T1, T2>( long storeId, T1 product, T2 variant ) {
+      return TeaCommerceHelper.GetPrice( storeId, product, variant );
     }
 
     #endregion
@@ -569,6 +576,10 @@ namespace TeaCommerce.Umbraco.Web {
     /// <returns>The stock of the product. Will be null if no stock have been provided for this product.</returns>
     public static decimal? GetStock( long storeId, string productIdentifier ) {
       return TeaCommerceHelper.GetStock( storeId, productIdentifier );
+    }
+
+    public static decimal? GetStock<T1, T2>( long storeId, T1 product, T2 variant ) {
+      return TeaCommerceHelper.GetStock( storeId, product, variant );
     }
 
     #endregion
@@ -615,8 +626,9 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="variantId">The id of a specific product variant</param>
     /// <param name="onlyValid">Fetch only the valid variants. A valid variant have one of each variant type and is not a duplicate.</param>
     /// <returns></returns>
-    public static VariantPublishedContent GetVariant( long storeId, IPublishedContent model, string variantId, bool onlyValid = true ) {
-      return VariantService.Instance.GetVariant( storeId, model, variantId, onlyValid );
+    public static VariantPublishedContent GetVariant<T>( long storeId, T model, string variantId, bool onlyValid = true ) {
+      IVariantService<T> variantService = DependencyContainer.Instance.Resolve<IVariantService<T>>();
+      return variantService.GetVariant( storeId, model, variantId, onlyValid );
     }
 
     /// <summary>
@@ -626,8 +638,9 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="model">The product as a IPublishedContent.</param>
     /// <param name="onlyValid">Fetch only the valid variants. A valid variant have one of each variant type and is not a duplicate.</param>
     /// <returns></returns>
-    public static IEnumerable<VariantPublishedContent> GetVariants( long storeId, IPublishedContent model, bool onlyValid = true ) {
-      return VariantService.Instance.GetVariants( storeId, model, onlyValid );
+    public static IEnumerable<VariantPublishedContent> GetVariants<T>( long storeId, T model, bool onlyValid = true ) {
+      IVariantService<T> variantService = DependencyContainer.Instance.Resolve<IVariantService<T>>();
+      return variantService.GetVariants( storeId, model, onlyValid );
 
     }
 
@@ -636,8 +649,9 @@ namespace TeaCommerce.Umbraco.Web {
     /// </summary>
     /// <param name="variants">A collection of variants.</param>
     /// <returns></returns>
-    public static IEnumerable<VariantGroup> GetVariantGroups( IEnumerable<VariantPublishedContent> variants ) {
-      return VariantService.Instance.GetVariantGroups( variants );
+    public static IEnumerable<VariantGroup> GetVariantGroups<T>( IEnumerable<VariantPublishedContent> variants ) {
+      IVariantService<T> variantService = DependencyContainer.Instance.Resolve<IVariantService<T>>();
+      return variantService.GetVariantGroups( variants );
     }
 
     /// <summary>
@@ -645,8 +659,9 @@ namespace TeaCommerce.Umbraco.Web {
     /// </summary>
     /// <param name="variants"></param>
     /// <returns>A json blob with a dictionary of products and their variants</returns>
-    public static string GetVariantJson( long storeId, IEnumerable<IPublishedContent> productContents, bool onlyValid ) {
-      return VariantService.Instance.GetVariantJson( storeId, productContents, onlyValid );
+    public static string GetVariantJson<T>( long storeId, IEnumerable<T> productContents, bool onlyValid ) {
+      IVariantService<T> variantService = DependencyContainer.Instance.Resolve<IVariantService<T>>();
+      return variantService.GetVariantJson( storeId, productContents, onlyValid );
     }
 
     /// <summary>
@@ -654,8 +669,9 @@ namespace TeaCommerce.Umbraco.Web {
     /// </summary>
     /// <param name="variants"></param>
     /// <returns>A json blob with a dictionary of products and their variants. This dictionary will only contain a single product</returns>
-    public static string GetVariantJson( long storeId, IPublishedContent productContents, bool onlyValid ) {
-      return VariantService.Instance.GetVariantJson( storeId, new List<IPublishedContent> { productContents }, onlyValid );
+    public static string GetVariantJson<T>( long storeId, T productContents, bool onlyValid ) {
+      IVariantService<T> variantService = DependencyContainer.Instance.Resolve<IVariantService<T>>();
+      return variantService.GetVariantJson( storeId, new List<T> { productContents }, onlyValid );
     }
 
     #endregion

@@ -102,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationStartup.cs" />
+    <Compile Include="AutofacModules\ProductCalculatorsConfig.cs" />
     <Compile Include="AutofacModules\InformationExtractorsConfig.cs" />
     <Compile Include="AutofacModules\PaymentProvidersConfig.cs" />
     <Compile Include="AutofacModules\ServicesConfig.cs" />
@@ -109,7 +110,6 @@
     <Compile Include="AutofacModules\InfrastructureConfig.cs" />
     <Compile Include="Compatibility\Domain.cs" />
     <Compile Include="InformationExtractors\ContentProductInformationExtractor.cs" />
-    <Compile Include="InformationExtractors\IContentProductInformationExtractor.cs" />
     <Compile Include="InformationExtractors\IPublishedContentProductInformationExtractor.cs" />
     <Compile Include="InformationExtractors\PublishedContentProductInformationExtractor.cs" />
     <Compile Include="Infrastructure\Installation\Installer.cs" />
@@ -133,6 +133,8 @@
     <Compile Include="PaymentProviders\PaymentProviderUriResolver.cs" />
     <Compile Include="InformationExtractors\ProductInformationExtractor.cs" />
     <Compile Include="Persistence\DatabaseFactory.cs" />
+    <Compile Include="PriceCalculators\ContentProductCalculator.cs" />
+    <Compile Include="PriceCalculators\PublishedContentProductCalculator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyEditors\VariantEditorPropertyEditor.cs" />
     <Compile Include="Services\CacheService.cs" />
@@ -140,7 +142,9 @@
     <Compile Include="Services\IVariantService.cs" />
     <Compile Include="Services\ILanguageService.cs" />
     <Compile Include="Services\LanguageService.cs" />
-    <Compile Include="Services\VariantService.cs" />
+    <Compile Include="Services\ContentVariantService.cs" />
+    <Compile Include="Services\AVariantService.cs" />
+    <Compile Include="Services\PublishedContentVariantService.cs" />
     <Compile Include="Variant\Product\Combination.cs" />
     <Compile Include="Variant\Product\ProductIdentifier.cs" />
     <Compile Include="Variant\Product\Variant.cs" />
