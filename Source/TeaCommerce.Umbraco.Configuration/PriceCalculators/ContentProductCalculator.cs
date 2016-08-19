@@ -10,58 +10,58 @@ using Umbraco.Core.Models;
 
 namespace TeaCommerce.Umbraco.Configuration.PriceCalculators {
 
-  [SuppressDependency( "TeaCommerce.Api.PriceCalculators.IProductCalculator`2[[Umbraco.Core.Models.IContent, Umbraco.Core],[System.String, mscorlib]]", "TeaCommerce.Api" )]
-  public class ContentProductCalculator : IProductCalculator<IContent, string> {
+  //[SuppressDependency( "TeaCommerce.Api.PriceCalculators.IProductCalculator`2[[Umbraco.Core.Models.IContent, Umbraco.Core],[System.String, mscorlib]]", "TeaCommerce.Api" )]
+  //public class ContentProductCalculator : IProductCalculator<IContent, string> {
 
-    protected readonly IVatGroupService VatGroupService;
-    protected readonly ContentProductInformationExtractor ProductInformationExtractor;
+  //  protected readonly IVatGroupService VatGroupService;
+  //  protected readonly ContentProductInformationExtractor ProductInformationExtractor;
 
-    public ContentProductCalculator( IVatGroupService vatGroupService ) {
-      VatGroupService = vatGroupService;
-    }
+  //  public ContentProductCalculator( IVatGroupService vatGroupService ) {
+  //    VatGroupService = vatGroupService;
+  //  }
 
-    #region With order
+  //  #region With order
 
-    public virtual VatRate CalculateVatRate( IContent product, string variantId, Order order ) {
-      order.MustNotBeNull( "order" );
+  //  public virtual VatRate CalculateVatRate( IContent product, string variantId, Order order ) {
+  //    order.MustNotBeNull( "order" );
 
-      return CalculateVatRate( product, variantId, order.PaymentInformation.CountryId, order.PaymentInformation.CountryRegionId, order.ShipmentInformation.CountryId, order.ShipmentInformation.CountryRegionId, order.VatRate.Copy() );
-    }
+  //    return CalculateVatRate( product, variantId, order.PaymentInformation.CountryId, order.PaymentInformation.CountryRegionId, order.ShipmentInformation.CountryId, order.ShipmentInformation.CountryRegionId, order.VatRate.Copy() );
+  //  }
 
-    public virtual Price CalculatePrice( IContent product, string variantId, Currency currency, VatRate vatRate, Order order ) {
-      order.MustNotBeNull( "order" );
-      vatRate.MustNotBeNull( "vatRate" );
+  //  public virtual Price CalculatePrice( IContent product, string variantId, Currency currency, VatRate vatRate, Order order ) {
+  //    order.MustNotBeNull( "order" );
+  //    vatRate.MustNotBeNull( "vatRate" );
 
-      return CalculatePrice( product, variantId, currency, vatRate );
-    }
+  //    return CalculatePrice( product, variantId, currency, vatRate );
+  //  }
 
-    #endregion
+  //  #endregion
 
-    #region Without order
+  //  #region Without order
 
-    public virtual VatRate CalculateVatRate( IContent product, string variantId, long paymentCountryId, long? paymentCountryRegionId, long? shippingCountryId, long? shippingCountryRegionId, VatRate fallbackVatRate ) {
-      fallbackVatRate.MustNotBeNull( "fallbackVatRate" );
+  //  public virtual VatRate CalculateVatRate( IContent product, string variantId, long paymentCountryId, long? paymentCountryRegionId, long? shippingCountryId, long? shippingCountryRegionId, VatRate fallbackVatRate ) {
+  //    fallbackVatRate.MustNotBeNull( "fallbackVatRate" );
 
-      VatRate vatRate = fallbackVatRate;
+  //    VatRate vatRate = fallbackVatRate;
 
-      long? vatGroupId = ContentProductInformationExtractor.Instance.GetVatGroupId( product, variantId );
-      if ( vatGroupId != null ) {
-        vatRate = VatGroupService.Get( ContentProductInformationExtractor.Instance.GetStoreId( product ), vatGroupId.Value ).GetVatRate( paymentCountryId, paymentCountryRegionId, shippingCountryId, shippingCountryRegionId );
-      }
+  //    long? vatGroupId = ContentProductInformationExtractor.Instance.GetVatGroupId( product, variantId );
+  //    if ( vatGroupId != null ) {
+  //      vatRate = VatGroupService.Get( ContentProductInformationExtractor.Instance.GetStoreId( product ), vatGroupId.Value ).GetVatRate( paymentCountryId, paymentCountryRegionId, shippingCountryId, shippingCountryRegionId );
+  //    }
 
-      return vatRate;
-    }
+  //    return vatRate;
+  //  }
 
-    public virtual Price CalculatePrice( IContent product, string variantId, Currency currency, VatRate vatRate ) {
-      currency.MustNotBeNull( "currency" );
-      vatRate.MustNotBeNull( "vatRate" );
+  //  public virtual Price CalculatePrice( IContent product, string variantId, Currency currency, VatRate vatRate ) {
+  //    currency.MustNotBeNull( "currency" );
+  //    vatRate.MustNotBeNull( "vatRate" );
 
-      OriginalUnitPrice originalUnitPrice = ContentProductInformationExtractor.Instance.GetOriginalUnitPrices( product, variantId ).Get( currency.Id ) ?? new OriginalUnitPrice( 0M, currency.Id );
+  //    OriginalUnitPrice originalUnitPrice = ContentProductInformationExtractor.Instance.GetOriginalUnitPrices( product, variantId ).Get( currency.Id ) ?? new OriginalUnitPrice( 0M, currency.Id );
 
-      return new Price( originalUnitPrice.Value, vatRate, currency );
-    }
+  //    return new Price( originalUnitPrice.Value, vatRate, currency );
+  //  }
 
-    #endregion
+  //  #endregion
 
-  }
+  //}
 }

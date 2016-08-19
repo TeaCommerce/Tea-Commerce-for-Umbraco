@@ -9,16 +9,17 @@ using Umbraco.Core.Models.PublishedContent;
 using TeaCommerce.Umbraco.Configuration.Variant.Product;
 
 namespace TeaCommerce.Umbraco.Configuration.Variant {
-  public class VariantPublishedContent : PublishedContentBase {
+  public class VariantPublishedContent<T> : PublishedContentBase {
     private readonly bool _isPreviewing;
     private readonly string _variantId;
     private readonly IPublishedContent _parentContent;
+    private readonly Func<T, string> _getContentIdFunc;
     private readonly List<IPublishedProperty> _properties;
     private readonly PublishedContentType _contentType;
     private readonly List<Combination> _combinations;
 
-    public VariantPublishedContent( Product.Variant variant, PublishedContentType contentType, IPublishedContent parentContent = null, bool isPreviewing = false ) {
-      _parentContent = parentContent;
+    public VariantPublishedContent( Product.Variant variant, PublishedContentType contentType, T parentContent, bool isPreviewing = false ) {
+      _parentContent = parentContent.GetType() == typeof( IPublishedContent ) ? (IPublishedContent)parentContent : null;
       _isPreviewing = isPreviewing;
       _contentType = contentType;
       _variantId = variant.Id;
@@ -35,10 +36,6 @@ namespace TeaCommerce.Umbraco.Configuration.Variant {
 
     public string VariantId {
       get { return _variantId; }
-    }
-
-    public string ProductIdentifier {
-      get { return _parentContent.Id + "_" + _variantId; }
     }
 
     public List<Combination> Combinations {

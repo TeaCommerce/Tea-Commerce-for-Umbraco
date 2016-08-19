@@ -15,6 +15,8 @@ using System;
 using Umbraco.Core.Logging;
 
 namespace TeaCommerce.Umbraco.Configuration.Services {
+
+  [SuppressDependency( "TeaCommerce.Umbraco.Configuration.Services.IVariantService`1[[Umbraco.Core.Models.IContent, Umbraco.Core]]", "TeaCommerce.Umbraco.Configuration" )]
   public class ContentVariantService : AVariantService<IContent> {
     public override int GetId( IContent content ) {
       return content.Id;
@@ -35,5 +37,8 @@ namespace TeaCommerce.Umbraco.Configuration.Services {
       return variantsJson;
     }
 
+    public override string GetVariantProductIdentifier( IContent content, VariantPublishedContent<IContent> variant ) {
+      return content.Id + "_" + variant.VariantId;
+    }
   }
 }

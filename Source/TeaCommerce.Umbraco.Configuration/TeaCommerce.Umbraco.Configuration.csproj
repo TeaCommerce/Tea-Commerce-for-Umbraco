@@ -145,6 +145,7 @@
     <Compile Include="Services\ContentVariantService.cs" />
     <Compile Include="Services\AVariantService.cs" />
     <Compile Include="Services\PublishedContentVariantService.cs" />
+    <Compile Include="Services\IPublishedContentVariantService.cs" />
     <Compile Include="Variant\Product\Combination.cs" />
     <Compile Include="Variant\Product\ProductIdentifier.cs" />
     <Compile Include="Variant\Product\Variant.cs" />

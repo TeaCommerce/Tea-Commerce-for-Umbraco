@@ -43,22 +43,15 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       }
     }
 
-    public virtual T GetPropertyValue<T>( IPublishedContent model, string propertyAlias, string variantId = null, Func<IPublishedContent, bool> func = null, bool recursive = true ) {
+    public virtual T GetPropertyValue<T>( IPublishedContent model, string propertyAlias, VariantPublishedContent<IPublishedContent> variant = null, Func<IPublishedContent, bool> func = null, bool recursive = true ) {
       T rtnValue = default( T );
 
       if ( model != null && !string.IsNullOrEmpty( propertyAlias ) ) {
-        if ( !string.IsNullOrEmpty( variantId ) ) {
-          IPublishedContent variant = null;
-          long storeId = GetStoreId( model );
-
-          variant = VariantService.GetVariant( storeId, model, variantId );
-
-          if ( variant != null ) {
-            rtnValue = variant.GetPropertyValue<T>( propertyAlias );
-          }
+        if ( variant != null ) {
+          rtnValue = variant.GetPropertyValue<T>( propertyAlias );
         }
 
-        if ( ( string.IsNullOrEmpty( variantId ) || recursive ) && CheckNullOrEmpty( rtnValue ) ) {
+        if ( ( variant == null || recursive ) && CheckNullOrEmpty( rtnValue ) ) {
           //Check if this node or ancestor has it
           IPublishedContent currentNode = func != null ? model.AncestorsOrSelf().FirstOrDefault( func ) : model;
           if ( currentNode != null ) {
@@ -72,7 +65,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
             string masterRelationNodeId = GetPropertyValueInternal<string>( model, Constants.ProductPropertyAliases.MasterRelationPropertyAlias, recursive );
             if ( !string.IsNullOrEmpty( masterRelationNodeId ) && UmbracoHelper != null ) {
               rtnValue = GetPropertyValue<T>( UmbracoHelper.TypedContent( masterRelationNodeId ), propertyAlias,
-                variantId, func );
+                variant, func );
             }
           }
 
@@ -120,51 +113,39 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       return storeId.Value;
     }
 
-    public virtual string GetSku( IPublishedContent model, string variantId = null ) {
-      string sku = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.SkuPropertyAlias, variantId, recursive: string.IsNullOrEmpty( variantId ) );
+    public virtual string GetSku( IPublishedContent model, VariantPublishedContent<IPublishedContent> variant = null ) {
+      string sku = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.SkuPropertyAlias, variant, recursive: variant == null );
 
       //If no sku is found - default to umbraco node id
       if ( string.IsNullOrEmpty( sku ) ) {
-        if ( !string.IsNullOrEmpty( variantId ) ) {
-          sku = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.SkuPropertyAlias );
-        }
-        if ( string.IsNullOrEmpty( sku ) ) {
-          sku = model.Id.ToString( CultureInfo.InvariantCulture );
-        }
-        if ( !string.IsNullOrEmpty( variantId ) ) {
-          sku += "_" + variantId;
-        }
+        sku = model.Id.ToString( CultureInfo.InvariantCulture ) + "_" + variant.VariantId;
       }
 
       return sku;
     }
 
-    public virtual string GetName( IPublishedContent model, string variantId = null ) {
-      string name = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.NamePropertyAlias, variantId, recursive: string.IsNullOrEmpty( variantId ) );
+    public virtual string GetName( IPublishedContent model, VariantPublishedContent<IPublishedContent> variant = null ) {
+      string name = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.NamePropertyAlias, variant, recursive: variant == null );
 
       //If no name is found - default to the umbraco node name
       if ( string.IsNullOrEmpty( name ) ) {
-        if ( !string.IsNullOrEmpty( variantId ) ) {
+        if ( variant != null ) {
           name = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.NamePropertyAlias );
         }
-        if ( string.IsNullOrEmpty( name ) ) {
+        if ( variant == null ) {
           name = model.Name;
         }
-        if ( !string.IsNullOrEmpty( variantId ) ) {
-          long storeId = GetStoreId( model );
-          VariantPublishedContent variant = VariantService.GetVariant( storeId, model, variantId, false );
-          if ( variant != null ) {
-            name += " - " + variant.Name;
-          }
+        if ( variant != null ) {
+          name += " - " + variant.Name;
         }
       }
 
       return name;
     }
 
-    public virtual long? GetVatGroupId( IPublishedContent model, string variantId = null ) {
+    public virtual long? GetVatGroupId( IPublishedContent model, VariantPublishedContent<IPublishedContent> variant = null ) {
       long storeId = GetStoreId( model );
-      long? vatGroupId = GetPropertyValue<long?>( model, Constants.ProductPropertyAliases.VatGroupPropertyAlias, variantId );
+      long? vatGroupId = GetPropertyValue<long?>( model, Constants.ProductPropertyAliases.VatGroupPropertyAlias, variant );
 
       //In umbraco a product can have a relation to a delete marked vat group
       if ( vatGroupId != null ) {
@@ -181,21 +162,21 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       return LanguageService.Instance.GetLanguageIdByNodePath( model.Path );
     }
 
-    public virtual OriginalUnitPriceCollection GetOriginalUnitPrices( IPublishedContent model, string variantId = null ) {
+    public virtual OriginalUnitPriceCollection GetOriginalUnitPrices( IPublishedContent model, VariantPublishedContent<IPublishedContent> variant = null ) {
       OriginalUnitPriceCollection prices = new OriginalUnitPriceCollection();
 
       foreach ( Currency currency in CurrencyService.GetAll( GetStoreId( model ) ) ) {
-        prices.Add( new OriginalUnitPrice( GetPropertyValue<string>( model, currency.PricePropertyAlias, variantId ).ParseToDecimal() ?? 0M, currency.Id ) );
+        prices.Add( new OriginalUnitPrice( GetPropertyValue<string>( model, currency.PricePropertyAlias, variant ).ParseToDecimal() ?? 0M, currency.Id ) );
       }
 
       return prices;
     }
 
-    public virtual CustomPropertyCollection GetProperties( IPublishedContent model, string variantId = null ) {
+    public virtual CustomPropertyCollection GetProperties( IPublishedContent model, VariantPublishedContent<IPublishedContent> variant = null ) {
       CustomPropertyCollection properties = new CustomPropertyCollection();
 
       foreach ( string productPropertyAlias in StoreService.Get( GetStoreId( model ) ).ProductSettings.ProductPropertyAliases ) {
-        properties.Add( new CustomProperty( productPropertyAlias, GetPropertyValue<string>( model, productPropertyAlias, variantId ) ) { IsReadOnly = true } );
+        properties.Add( new CustomProperty( productPropertyAlias, GetPropertyValue<string>( model, productPropertyAlias, variant ) ) { IsReadOnly = true } );
       }
 
       return properties;
@@ -203,14 +184,17 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
     public virtual ProductSnapshot GetSnapshot( IPublishedContent model, string productIdentifier ) {
       ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
+      IPublishedContent content = UmbracoHelper.TypedContent( productIdentifierObj.NodeId );
+      long storeId = GetStoreId( content );
+      VariantPublishedContent<IPublishedContent> variant = PublishedContentVariantService.Instance.GetVariant( storeId, content, productIdentifierObj.VariantId );
       //We use Clone() because each method should have it's own instance of the navigator - so if they traverse it doesn't affect other methods
-      ProductSnapshot snapshot = new ProductSnapshot( GetStoreId( model ), productIdentifier ) {
-        Sku = GetSku( model, productIdentifierObj.VariantId ),
-        Name = GetName( model, productIdentifierObj.VariantId ),
-        VatGroupId = GetVatGroupId( model, productIdentifierObj.VariantId ),
+      ProductSnapshot snapshot = new ProductSnapshot( storeId, productIdentifier ) {
+        Sku = GetSku( model, variant ),
+        Name = GetName( model, variant ),
+        VatGroupId = GetVatGroupId( model, variant ),
         LanguageId = GetLanguageId( model ),
-        OriginalUnitPrices = GetOriginalUnitPrices( model, productIdentifierObj.VariantId ),
-        Properties = GetProperties( model, productIdentifierObj.VariantId )
+        OriginalUnitPrices = GetOriginalUnitPrices( model, variant ),
+        Properties = GetProperties( model, variant )
       };
 
       return snapshot;

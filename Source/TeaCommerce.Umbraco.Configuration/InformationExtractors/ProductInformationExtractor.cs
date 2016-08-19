@@ -2,13 +2,16 @@
 using TeaCommerce.Api.Dependency;
 using TeaCommerce.Api.InformationExtractors;
 using TeaCommerce.Api.Models;
+using TeaCommerce.Umbraco.Configuration.Services;
+using TeaCommerce.Umbraco.Configuration.Variant;
 using TeaCommerce.Umbraco.Configuration.Variant.Product;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 
 namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
-  public class ProductInformationExtractorT : IProductInformationExtractor<IPublishedContent, string> {
+  [SuppressDependency( "TeaCommerce.Api.InformationExtractors.IProductInformationExtractor`2[[Umbraco.Core.Models.IPublishedContent, Umbraco.Core],[TeaCommerce.Umbraco.Configuration.Variant.VariantPublishedContent`1[[Umbraco.Core.Models.IPublishedContent, Umbraco.Core]], TeaCommerce.Umbraco.Configuration]]", "TeaCommerce.Api" )]
+  public class ProductInformationExtractorT : IProductInformationExtractor<IPublishedContent, VariantPublishedContent<IPublishedContent>> {
 
     protected IPublishedContentProductInformationExtractor IPublishedContentProductInformationExtractor;
     protected UmbracoHelper UmbracoHelper { get; private set; }
@@ -24,32 +27,32 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       return IPublishedContentProductInformationExtractor.GetStoreId( product );
     }
 
-    public virtual string GetPropertyValue( IPublishedContent product, string variantId, string propertyAlias ) {
-      return IPublishedContentProductInformationExtractor.GetPropertyValue<string>( product, variantId, propertyAlias );
+    public virtual string GetPropertyValue( IPublishedContent product, VariantPublishedContent<IPublishedContent> variant, string propertyAlias ) {
+      return IPublishedContentProductInformationExtractor.GetPropertyValue<string>( product, propertyAlias, variant );
     }
 
-    public virtual string GetSku( IPublishedContent product, string variantId ) {
-      return IPublishedContentProductInformationExtractor.GetSku( product, variantId );
+    public virtual string GetSku( IPublishedContent product, VariantPublishedContent<IPublishedContent> variant ) {
+      return IPublishedContentProductInformationExtractor.GetSku( product, variant );
     }
 
-    public virtual string GetName( IPublishedContent product, string variantId ) {
-      return IPublishedContentProductInformationExtractor.GetName( product, variantId );
+    public virtual string GetName( IPublishedContent product, VariantPublishedContent<IPublishedContent> variant ) {
+      return IPublishedContentProductInformationExtractor.GetName( product, variant );
     }
 
-    public virtual long? GetVatGroupId( IPublishedContent product, string variantId ) {
-      return IPublishedContentProductInformationExtractor.GetVatGroupId( product, variantId );
+    public virtual long? GetVatGroupId( IPublishedContent product, VariantPublishedContent<IPublishedContent> variant ) {
+      return IPublishedContentProductInformationExtractor.GetVatGroupId( product, variant );
     }
 
     public virtual long? GetLanguageId( IPublishedContent product ) {
       return IPublishedContentProductInformationExtractor.GetLanguageId( product );
     }
 
-    public virtual OriginalUnitPriceCollection GetOriginalUnitPrices( IPublishedContent product, string variantId ) {
-      return IPublishedContentProductInformationExtractor.GetOriginalUnitPrices( product, variantId );
+    public virtual OriginalUnitPriceCollection GetOriginalUnitPrices( IPublishedContent product, VariantPublishedContent<IPublishedContent> variant ) {
+      return IPublishedContentProductInformationExtractor.GetOriginalUnitPrices( product, variant );
     }
 
-    public virtual CustomPropertyCollection GetProperties( IPublishedContent product, string variantId ) {
-      return IPublishedContentProductInformationExtractor.GetProperties( product, variantId );
+    public virtual CustomPropertyCollection GetProperties( IPublishedContent product, VariantPublishedContent<IPublishedContent> variant ) {
+      return IPublishedContentProductInformationExtractor.GetProperties( product, variant );
     }
 
   }
@@ -73,17 +76,26 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
     public virtual string GetSku( string productIdentifier ) {
       ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
-      return IPublishedContentProductInformationExtractor.GetSku( UmbracoHelper.TypedContent( productIdentifierObj.NodeId ), productIdentifierObj.VariantId );
+      IPublishedContent content = UmbracoHelper.TypedContent( productIdentifierObj.NodeId );
+      long storeId = IPublishedContentProductInformationExtractor.GetStoreId( content );
+      VariantPublishedContent<IPublishedContent> variant = PublishedContentVariantService.Instance.GetVariant( storeId, content, productIdentifierObj.VariantId );
+      return IPublishedContentProductInformationExtractor.GetSku( content, variant );
     }
 
     public virtual long? GetVatGroupId( string productIdentifier ) {
       ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
-      return IPublishedContentProductInformationExtractor.GetVatGroupId( UmbracoHelper.TypedContent( productIdentifierObj.NodeId ), productIdentifierObj.VariantId );
+      IPublishedContent content = UmbracoHelper.TypedContent( productIdentifierObj.NodeId );
+      long storeId = IPublishedContentProductInformationExtractor.GetStoreId( content );
+      VariantPublishedContent<IPublishedContent> variant = PublishedContentVariantService.Instance.GetVariant( storeId, content, productIdentifierObj.VariantId );
+      return IPublishedContentProductInformationExtractor.GetVatGroupId( content, variant );
     }
 
     public virtual OriginalUnitPriceCollection GetOriginalUnitPrices( string productIdentifier ) {
       ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
-      return IPublishedContentProductInformationExtractor.GetOriginalUnitPrices( UmbracoHelper.TypedContent( productIdentifierObj.NodeId ), productIdentifierObj.VariantId );
+      IPublishedContent content = UmbracoHelper.TypedContent( productIdentifierObj.NodeId );
+      long storeId = IPublishedContentProductInformationExtractor.GetStoreId( content );
+      VariantPublishedContent<IPublishedContent> variant = PublishedContentVariantService.Instance.GetVariant( storeId, content, productIdentifierObj.VariantId );
+      return IPublishedContentProductInformationExtractor.GetOriginalUnitPrices( content, variant );
     }
 
     public virtual ProductSnapshot GetSnapshot( string productIdentifier ) {

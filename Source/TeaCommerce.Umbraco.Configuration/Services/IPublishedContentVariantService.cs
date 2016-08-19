@@ -1,22 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Autofac;
+﻿using Autofac;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using TeaCommerce.Api.Dependency;
 using TeaCommerce.Api.Models;
 using TeaCommerce.Api.Services;
-using Umbraco.Core.Models;
-using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Web;
+using TeaCommerce.Umbraco.Configuration.Services;
 using TeaCommerce.Umbraco.Configuration.Variant;
 using TeaCommerce.Umbraco.Configuration.Variant.Product;
-using System;
 using Umbraco.Core.Logging;
+using Umbraco.Core.Models;
+using Umbraco.Web;
 
-namespace TeaCommerce.Umbraco.Configuration.Services {
-  public class PublishedContentVariantService : AVariantService<IPublishedContent> {
-    
+namespace Website.Extensions.Ecommerce.Services {
+
+  [SuppressDependency( "TeaCommerce.Umbraco.Configuration.Services.IVariantService`1[[Umbraco.Core.Models.IPublishedContent, Umbraco.Core]]", "TeaCommerce.Umbraco.Configuration" )]
+  public class IPublishedContentVariantService : AVariantService<IPublishedContent> {
+
     public override int GetId( IPublishedContent content ) {
       return content.Id;
     }
@@ -29,7 +32,7 @@ namespace TeaCommerce.Umbraco.Configuration.Services {
         if ( content.HasProperty( store.ProductSettings.ProductVariantPropertyAlias ) ) {
           variantsJson = content.GetPropertyValue<string>( store.ProductSettings.ProductVariantPropertyAlias );
         } else {
-          LogHelper.Debug<PublishedContentVariantService>( "There was no variants in the property \"" + store.ProductSettings.ProductVariantPropertyAlias + "\". Check the " + content.ContentType.Alias + " doc type and the product variant alias setting on the \"" + store.Name + "\" store." );
+          LogHelper.Debug<IPublishedContentVariantService>( "There was no variants in the property \"" + store.ProductSettings.ProductVariantPropertyAlias + "\". Check the " + content.DocumentTypeAlias + " doc type and the product variant alias setting on the \"" + store.Name + "\" store." );
         }
       }
 

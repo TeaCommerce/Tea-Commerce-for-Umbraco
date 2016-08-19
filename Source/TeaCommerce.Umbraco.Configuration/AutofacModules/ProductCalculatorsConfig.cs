@@ -14,7 +14,7 @@ namespace TeaCommerce.Umbraco.Configuration.AutofacModules {
 
       //builder.RegisterType<ContentProductInformationExtractor>().As<IContentProductInformationExtractor>().PreserveExistingDefaults().InstancePerLifetimeScope();
       //builder.RegisterType<PublishedContentProductInformationExtractor>().As<IPublishedContentProductInformationExtractor>().PreserveExistingDefaults().InstancePerLifetimeScope();
-      builder.RegisterType<PublishedContentProductCalculator>().As<IProductCalculator<IPublishedContent, string>>().PreserveExistingDefaults().InstancePerLifetimeScope();
+      //builder.RegisterType<PublishedContentProductCalculator>().As<IProductCalculator<IPublishedContent, string>>().PreserveExistingDefaults().InstancePerLifetimeScope();
     }
 
   }
