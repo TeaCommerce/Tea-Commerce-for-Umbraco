@@ -4,7 +4,7 @@
   <info>
     <package>
       <name>Tea Commerce</name>
-      <version>3.1.2 for Umbraco 7</version>
+      <version>3.2.0 for Umbraco 7</version>
       <license url="http://teacommerce.net/license-agreement/">Commercial license</license>
       <url>http://teacommerce.net</url>
       <requirements>
@@ -42,6 +42,8 @@
   <DictionaryItems />
   <Languages />
   <DataTypes />
-  <Actions />
+  <Actions>
+    <Action runat="install" alias="InstallPackageAction" />
+  </Actions>
   <control>/App_Plugins/TeaCommerce/Views/Install/Installer.ascx</control>
 </umbPackage>

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
+using System.Web.Hosting;
 
 namespace TeaCommerce.Umbraco.Install.InstallTasks {
   public class MoveFileInstallTask : IInstallTask {
@@ -16,6 +17,9 @@ namespace TeaCommerce.Umbraco.Install.InstallTasks {
     }
 
     public void Install() {
+      SourceFilePath = !EmbeddedResource ? HostingEnvironment.MapPath( SourceFilePath ) : SourceFilePath;
+      TargetFilePath = HostingEnvironment.MapPath( TargetFilePath );
+
       if ( OverwriteFile && File.Exists( TargetFilePath ) )
         File.Delete( TargetFilePath );
 
@@ -35,7 +39,7 @@ namespace TeaCommerce.Umbraco.Install.InstallTasks {
     }
 
     public void Uninstall() {
-      File.Delete( TargetFilePath );
+      File.Delete( HostingEnvironment.MapPath( TargetFilePath ) );
     }
   }
 }

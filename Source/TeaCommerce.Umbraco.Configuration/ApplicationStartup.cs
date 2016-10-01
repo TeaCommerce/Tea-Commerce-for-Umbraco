@@ -8,6 +8,7 @@ using umbraco.cms.businesslogic.web;
 using Umbraco.Core;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Services;
+using System.Linq;
 
 namespace TeaCommerce.Umbraco.Configuration {
   public class ApplicationStartup : ApplicationEventHandler {
@@ -21,14 +22,19 @@ namespace TeaCommerce.Umbraco.Configuration {
         LogHelper.Error( GetType(), "Error loading Autofac modules", exp );
       }
 
-      //Run install/update on each application start up to support UaaS and Nuget
+      //Run install/update on each application startup to support Umbraco Cloud and Nuget
       InstallationService.Instance.InstallOrUpdate();
 
       Domain.New += Domain_New;
       Domain.AfterSave += Domain_AfterSave;
       Domain.AfterDelete += Domain_AfterDelete;
+      UserService.SavingUser += UserService_SavingUser;
 
       ContentService.Published += ContentService_Published;
+    }
+
+    private void UserService_SavingUser( IUserService sender, global::Umbraco.Core.Events.SaveEventArgs<global::Umbraco.Core.Models.Membership.IUser> e ) {
+      e.SavedEntities.
     }
 
     private void ContentService_Published( global::Umbraco.Core.Publishing.IPublishingStrategy sender, global::Umbraco.Core.Events.PublishEventArgs<global::Umbraco.Core.Models.IContent> e ) {

@@ -71,7 +71,7 @@
       <HintPath>..\Lib\Tea Commerce\TeaCommerce.Api.Persistence.dll</HintPath>
     </Reference>
     <Reference Include="umbraco">
-      <HintPath>..\TeaCommerce.Umbraco.Application\bin\Debug\umbraco.dll</HintPath>
+      <HintPath>..\Lib\Umbraco\umbraco.dll</HintPath>
     </Reference>
     <Reference Include="Umbraco.Core, Version=1.0.5206.24609, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -109,6 +109,7 @@
     <Compile Include="InstallTasks\DataTypeDefinitionInstallTask.cs" />
     <Compile Include="InstallTasks\IInstallTask.cs" />
     <Compile Include="InstallTasks\AMergeXmlFileInstallTask.cs" />
+    <Compile Include="PackageActions\InstallPackageAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

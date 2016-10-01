@@ -15,7 +15,7 @@ namespace TeaCommerce.Umbraco.Install.InstallTasks {
       //Give access if no stores is created
       if ( !StoreService.Instance.GetAll().Any() ) {
         IUser user = ApplicationContext.Current.Services.UserService.GetUserById( UmbracoContext.Current.Security.GetUserId() );
-        if ( !user.AllowedSections.Contains( "teacommerce" ) ) {
+        if ( user != null && !user.AllowedSections.Contains( "teacommerce" ) ) {
           user.AddAllowedSection( "teacommerce" );
           ApplicationContext.Current.Services.UserService.Save( user );
         }
