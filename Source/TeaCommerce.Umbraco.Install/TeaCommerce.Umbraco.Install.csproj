@@ -100,7 +100,6 @@
     <Compile Include="AutofacModules\InfrastructureConfig.cs" />
     <Compile Include="Installer.cs" />
     <Compile Include="InstallTasks\MoveFileInstallTask.cs" />
-    <Compile Include="InstallTasks\GrantPermissionsInstallTask.cs" />
     <Compile Include="InstallTasks\UIFileInstallTask.cs" />
     <Compile Include="InstallTasks\LanguageFileInstallTask.cs" />
     <Compile Include="InstallTasks\SectionInstallTask.cs" />
