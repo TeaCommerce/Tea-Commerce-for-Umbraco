@@ -129,9 +129,6 @@
   <data name="Installation_Complete" xml:space="preserve">
     <value>Tea Commerce successfully installed!</value>
   </data>
-  <data name="Installation_GoToTeaCommerceSection" xml:space="preserve">
-    <value>Go to the Tea Commerce section</value>
-  </data>
   <data name="Installation_StepsToComplete1" xml:space="preserve">
     <value>Complete the installation</value>
   </data>
@@ -141,7 +138,7 @@
     &lt;ol&gt;
       &lt;li&gt;Add the following script in your html &amp;lt;head&amp;gt; tag.
       &lt;/li&gt;
-      &lt;li&gt;Hit F5 or press the button below to get access to the Tea Commerce section
+      &lt;li&gt;Go to the Users section and give your user access to the Tea Commerce section
       &lt;/li&gt;
     &lt;/ol&gt;&lt;/p&gt;</value>
   </data>
