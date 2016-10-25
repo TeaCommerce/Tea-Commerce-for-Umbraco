@@ -148,7 +148,7 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Installation {
           currentVersion++;
           database.Execute( "UPDATE TeaCommerce_Version SET SpecialActionsVersion=@0", currentVersion );
         } catch ( Exception exp ) {
-          LoggingService.Instance.Log( exp );
+          LoggingService.Instance.Error<Installer>( "Tea Commerce installation failed", exp );
           break;
         }
       }
