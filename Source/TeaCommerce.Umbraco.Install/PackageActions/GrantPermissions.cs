@@ -18,25 +18,7 @@ namespace TeaCommerce.Umbraco.Install.PackageActions {
     }
 
     public bool Execute( string packageName, XmlNode xmlData ) {
-      //Give access if no stores is created
-      if ( !StoreService.Instance.GetAll().Any() ) {
-        IUser user = ApplicationContext.Current.Services.UserService.GetUserById( UmbracoContext.Current.Security.GetUserId() );
-        if ( !user.AllowedSections.Contains( "teacommerce" ) ) {
-          user.AddAllowedSection( "teacommerce" );
-          ApplicationContext.Current.Services.UserService.Save( user );
-        }
-
-        //If your not the super admin - give access to the Tea Commerce default features
-        Permissions permissions = PermissionService.Instance.GetCurrentLoggedInUserPermissions();
-        if ( permissions != null && !permissions.IsUserSuperAdmin ) {
-          permissions.GeneralPermissions |= GeneralPermissionType.AccessSecurity;
-          permissions.GeneralPermissions |= GeneralPermissionType.AccessLicenses;
-          permissions.GeneralPermissions |= GeneralPermissionType.CreateAndDeleteStore;
-
-          permissions.Save();
-        }
-      }
-      return true;
+      //Giving permissions at this point won't work as the current user is null
     }
 
     public XmlNode SampleXml() {
