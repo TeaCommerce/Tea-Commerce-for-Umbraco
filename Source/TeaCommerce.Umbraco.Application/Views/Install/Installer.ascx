@@ -8,16 +8,6 @@
   .teaCommerce h2.propertypaneTitel { margin-bottom: 10px; color: #000; }
   .teaCommerce ul.links li { padding-bottom: 4px; }
 </style>
-<script>
-  jQuery('.btnGoToTeaCommerceSection').live('click', function () {
-    if (window.top.location.href.indexOf('umbraco.aspx') > -1) {
-      window.top.location.href = '/umbraco/#teacommerce';
-    } else {
-      window.top.location.href = '/umbraco/umbraco.aspx#teacommerce';
-    }
-    return false;
-  });
-</script>
 <div class="teaCommerce">
   <div class="success" id="body_packagerConfigControl_ctl00">
     <p>
@@ -31,9 +21,6 @@
     <asp:Literal ID="LitStep2" runat="server" />
   </div>
   <umbUIControls:CodeArea ID="CodeArea1" runat="server" CodeBase="HTML" AutoResize="false" />
-  <br />
-  <br />
-  <asp:Button ID="BtnGoToTeaCommerceSection" runat="server" CssClass="btnGoToTeaCommerceSection" />
   <%= @"</div></div></div><div class='propertypane' style=''><div><div class='teaCommerce' style='padding: 0 10px 0;'>" %>
   <h2 class="propertypaneTitel">
     <asp:Literal ID="LitUsefulLinks" runat="server" /></h2>

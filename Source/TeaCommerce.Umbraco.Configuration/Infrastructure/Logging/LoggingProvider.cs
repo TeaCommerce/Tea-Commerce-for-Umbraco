@@ -5,25 +5,16 @@ using Umbraco.Core.Logging;
 namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Logging {
   public class LoggingProvider : ILoggingProvider {
 
-    public void Log( Exception exception ) {
-      Log( exception, null );
+    public void Error<T>( string message, Exception exception ) {
+      LogHelper.Error<T>( message, exception );
     }
 
-    public void Log( string message ) {
-      Log( null, message );
+    public void Info<T>( string message ) {
+      LogHelper.Info<T>( message );
     }
 
-    public void Log( Exception exception, string message ) {
-      message = message ?? "";
-
-      if ( exception != null ) {
-        if ( !string.IsNullOrEmpty( message ) ) {
-          message += " - Exception: ";
-        }
-        message += exception.ToString();
-      }
-      LogHelper.Error( GetType(), message, exception );
+    public void Warn<T>( string message ) {
+      LogHelper.Warn<T>( message );
     }
-
   }
 }
