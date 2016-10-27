@@ -54,10 +54,6 @@ namespace TeaCommerce.Umbraco.Install {
       _installTasks.Add( new MoveFileInstallTask( "~/macroScripts/tea-commerce/email-template-payment-inconsistency.cshtml.default", "~/macroScripts/tea-commerce/email-template-payment-inconsistency.cshtml" ) { OverwriteFile = false } );
       _installTasks.Add( new MoveFileInstallTask( "~/macroScripts/tea-commerce/edit-order.cshtml.default", "~/macroScripts/tea-commerce/edit-order.cshtml" ) { OverwriteFile = false } );
 
-      /*
-      <Action runat="install" alias="GrantPermissions" />
-      */
-
       //Data type definitions
       _installTasks.Add( new DataTypeDefinitionInstallTask( "Tea Commerce: Store picker", "TeaCommerce.StorePicker" ) );
       _installTasks.Add( new DataTypeDefinitionInstallTask( "Tea Commerce: VAT group picker", "TeaCommerce.VatGroupPicker" ) );
