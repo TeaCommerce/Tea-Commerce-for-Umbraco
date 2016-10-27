@@ -19,6 +19,8 @@ namespace TeaCommerce.Umbraco.Install.PackageActions {
 
     public bool Execute( string packageName, XmlNode xmlData ) {
       //Giving permissions at this point won't work as the current user is null
+      //User is given permissions when granting access to the Tea Commerce section
+      return true;
     }
 
     public XmlNode SampleXml() {
