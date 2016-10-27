@@ -40,6 +40,9 @@ namespace TeaCommerce.Umbraco.Install {
       _installTasks.Add( new ApplicationTreeInstallTask( "tea-commerce-licenses-tree", "Licenses", 2, "TeaCommerce.Umbraco.Application.Trees.LicenseTree,TeaCommerce.Umbraco.Application" ) );
       _installTasks.Add( new ApplicationTreeInstallTask( "tea-commerce-need-help-tree", "Need help?", 3, "TeaCommerce.Umbraco.Application.Trees.NeedHelpTree,TeaCommerce.Umbraco.Application" ) );
 
+      //Grant permissions
+      _installTasks.Add( new GrantPermissionsInstallTask() );
+
       //Language files
       _installTasks.Add( new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.da.xml", "~/umbraco/config/lang/da.xml" ) );
       _installTasks.Add( new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.en.xml", "~/umbraco/config/lang/en.xml" ) );
