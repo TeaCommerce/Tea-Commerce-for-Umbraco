@@ -22,7 +22,6 @@ using TeaCommerce.Umbraco.Configuration.Variant;
 
 namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
-  [SuppressDependency( "TeaCommerce.Api.InformationExtractors.IProductInformationExtractor`2[[Umbraco.Core.Models.IContent, Umbraco.Core],[TeaCommerce.Umbraco.Configuration.Variant.VariantPublishedContent`1[[Umbraco.Core.Models.IContent, Umbraco.Core]], TeaCommerce.Umbraco.Configuration]]", "TeaCommerce.Api" )]
   public class ContentProductInformationExtractor : IProductInformationExtractor<IContent, VariantPublishedContent<IContent>> {
 
     protected readonly IStoreService StoreService;

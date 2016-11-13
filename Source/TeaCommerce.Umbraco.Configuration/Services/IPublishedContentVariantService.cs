@@ -15,32 +15,32 @@ using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 
-namespace Website.Extensions.Ecommerce.Services {
+namespace TeaCommerce.Umbraco.Configuration.Services {
 
-  [SuppressDependency( "TeaCommerce.Umbraco.Configuration.Services.IVariantService`1[[Umbraco.Core.Models.IPublishedContent, Umbraco.Core]]", "TeaCommerce.Umbraco.Configuration" )]
-  public class IPublishedContentVariantService : AVariantService<IPublishedContent> {
+  //[SuppressDependency( "TeaCommerce.Umbraco.Configuration.Services.IVariantService`1[[Umbraco.Core.Models.IPublishedContent, Umbraco.Core]]", "TeaCommerce.Umbraco.Configuration" )]
+  //public class IPublishedContentVariantService : AVariantService<IPublishedContent> {
 
-    public override int GetId( IPublishedContent content ) {
-      return content.Id;
-    }
+  //  public override int GetId( IPublishedContent content ) {
+  //    return content.Id;
+  //  }
 
-    public override string GetVariantDataFromContent( long storeId, IPublishedContent content, bool onlyValid ) {
-      string variantsJson = "";
+  //  public override string GetVariantDataFromContent( long storeId, IPublishedContent content, bool onlyValid ) {
+  //    string variantsJson = "";
 
-      if ( content != null ) {
-        Store store = StoreService.Instance.Get( storeId );
-        if ( content.HasProperty( store.ProductSettings.ProductVariantPropertyAlias ) ) {
-          variantsJson = content.GetPropertyValue<string>( store.ProductSettings.ProductVariantPropertyAlias );
-        } else {
-          LogHelper.Debug<IPublishedContentVariantService>( "There was no variants in the property \"" + store.ProductSettings.ProductVariantPropertyAlias + "\". Check the " + content.DocumentTypeAlias + " doc type and the product variant alias setting on the \"" + store.Name + "\" store." );
-        }
-      }
+  //    if ( content != null ) {
+  //      Store store = StoreService.Instance.Get( storeId );
+  //      if ( content.HasProperty( store.ProductSettings.ProductVariantPropertyAlias ) ) {
+  //        variantsJson = content.GetPropertyValue<string>( store.ProductSettings.ProductVariantPropertyAlias );
+  //      } else {
+  //        LogHelper.Debug<IPublishedContentVariantService>( "There was no variants in the property \"" + store.ProductSettings.ProductVariantPropertyAlias + "\". Check the " + content.DocumentTypeAlias + " doc type and the product variant alias setting on the \"" + store.Name + "\" store." );
+  //      }
+  //    }
 
-      return variantsJson;
-    }
+  //    return variantsJson;
+  //  }
 
-    public override string GetVariantProductIdentifier( IPublishedContent content, VariantPublishedContent<IPublishedContent> variant ) {
-      return content.Id + "_" + variant.VariantId;
-    }
-  }
+  //  public override string GetVariantProductIdentifier( IPublishedContent content, VariantPublishedContent<IPublishedContent> variant ) {
+  //    return content.Id + "_" + variant.VariantId;
+  //  }
+  //}
 }

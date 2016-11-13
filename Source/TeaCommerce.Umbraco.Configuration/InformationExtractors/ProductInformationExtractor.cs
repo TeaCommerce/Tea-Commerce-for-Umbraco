@@ -10,7 +10,6 @@ using Umbraco.Web;
 
 namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
-  [SuppressDependency( "TeaCommerce.Api.InformationExtractors.IProductInformationExtractor`2[[Umbraco.Core.Models.IPublishedContent, Umbraco.Core],[TeaCommerce.Umbraco.Configuration.Variant.VariantPublishedContent`1[[Umbraco.Core.Models.IPublishedContent, Umbraco.Core]], TeaCommerce.Umbraco.Configuration]]", "TeaCommerce.Api" )]
   public class ProductInformationExtractorT : IProductInformationExtractor<IPublishedContent, VariantPublishedContent<IPublishedContent>> {
 
     protected IPublishedContentProductInformationExtractor IPublishedContentProductInformationExtractor;
