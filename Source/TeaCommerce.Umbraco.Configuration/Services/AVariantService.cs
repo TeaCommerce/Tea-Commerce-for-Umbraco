@@ -72,7 +72,10 @@ namespace TeaCommerce.Umbraco.Configuration.Services {
         List<Variant.Product.Variant> productVariants = JObject.Parse( json ).SelectToken( "variants" ).ToObject<List<Variant.Product.Variant>>();
 
         foreach ( Variant.Product.Variant variant in productVariants ) {
-          PublishedContentType publishedContentType = PublishedContentType.Get( PublishedItemType.Content, variant.DocumentTypeAlias );
+          PublishedContentType publishedContentType = null;
+          if (!string.IsNullOrEmpty( variant.DocumentTypeAlias ) ) {
+            publishedContentType = PublishedContentType.Get( PublishedItemType.Content, variant.DocumentTypeAlias );
+          }
 
           variants.Add( new VariantPublishedContent<T>( variant, publishedContentType, parentContent ) );
         }
