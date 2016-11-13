@@ -5,21 +5,13 @@ using Umbraco.Core.Models.PublishedContent;
 namespace TeaCommerce.Umbraco.Configuration.Variant {
   public class VariantPublishedProperty : IPublishedProperty {
     private readonly PublishedPropertyType _propertyType;
-    private readonly object _rawValue;
-    private readonly bool _isPreview;
-    private readonly Lazy<object> _sourceValue;
-    private readonly Lazy<object> _objectValue;
-    private readonly Lazy<object> _xpathValue;
+    private readonly string _rawValue;
 
-    public VariantPublishedProperty( PublishedPropertyType propertyType, object value, bool isPreview = false ) {
+    public VariantPublishedProperty( PublishedPropertyType propertyType, string value ) {
       _propertyType = propertyType;
-      _isPreview = isPreview;
 
       _rawValue = value;
 
-      _sourceValue = new Lazy<object>( () => _propertyType.ConvertDataToSource( _rawValue, _isPreview ) );
-      _objectValue = new Lazy<object>( () => _propertyType.ConvertSourceToObject( _sourceValue.Value, _isPreview ) );
-      _xpathValue = new Lazy<object>( () => _propertyType.ConvertSourceToXPath( _sourceValue.Value, _isPreview ) );
     }
 
     public object DataValue {
@@ -27,7 +19,7 @@ namespace TeaCommerce.Umbraco.Configuration.Variant {
     }
 
     public bool HasValue {
-      get { return DataValue != null && DataValue.ToString().Trim().Length > 0; }
+      get { return _rawValue != null || string.IsNullOrWhiteSpace( _rawValue ) == false; }
     }
 
     public string PropertyTypeAlias {
@@ -35,11 +27,16 @@ namespace TeaCommerce.Umbraco.Configuration.Variant {
     }
 
     public object Value {
-      get { return _objectValue.Value; }
+      get {
+        // isPreviewing is true here since we want to preview anyway...
+        const bool isPreviewing = true;
+        var source = _propertyType.ConvertDataToSource( _rawValue, isPreviewing );
+        return _propertyType.ConvertSourceToObject( source, isPreviewing );
+      }
     }
 
     public object XPathValue {
-      get { return _xpathValue.Value; }
+      get { throw new NotImplementedException(); }
     }
   }
 }

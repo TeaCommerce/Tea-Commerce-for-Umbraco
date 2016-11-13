@@ -29,8 +29,8 @@ namespace TeaCommerce.Umbraco.Configuration.Variant {
 
       _properties = new List<IPublishedProperty>();
 
-      foreach ( JProperty property in variant.Properties ) {
-        _properties.Add( new VariantPublishedProperty( contentType.GetPropertyType( property.Name ), property.Value ) );
+      foreach ( string key in variant.Properties.Keys ) {
+        _properties.Add( new VariantPublishedProperty( contentType.GetPropertyType( key ), variant.Properties[key] ) );
       }
     }
 

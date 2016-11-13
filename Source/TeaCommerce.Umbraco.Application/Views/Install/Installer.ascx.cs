@@ -12,8 +12,6 @@ namespace TeaCommerce.Umbraco.Install.Views {
       LitStep1.Text = DeveloperTerms.Installation_StepsToComplete1;
       LitStep2.Text = DeveloperTerms.Installation_StepsToComplete2;
 
-      BtnGoToTeaCommerceSection.Text = DeveloperTerms.Installation_GoToTeaCommerceSection;
-
       LitUsefulLinks.Text = DeveloperTerms.UsefulLinks;
       LitBuyALicense.Text = DeveloperTerms.BuyALicense;
       LitDocumentation.Text = DeveloperTerms.Documentation;
