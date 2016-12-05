@@ -2,7 +2,7 @@
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 
-namespace TeaCommerce.Umbraco.Configuration.Variant {
+namespace TeaCommerce.Umbraco.Configuration.Variants.Models {
   public class VariantPublishedProperty : IPublishedProperty {
     private readonly PublishedPropertyType _propertyType;
     private readonly string _rawValue;
@@ -11,7 +11,6 @@ namespace TeaCommerce.Umbraco.Configuration.Variant {
       _propertyType = propertyType;
 
       _rawValue = value;
-
     }
 
     public object DataValue {

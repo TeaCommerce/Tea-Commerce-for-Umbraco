@@ -1,73 +1,34 @@
-using System.Globalization;
-using System.Text.RegularExpressions;
-using System.Xml.XPath;
 using Autofac;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
 using TeaCommerce.Api.Common;
 using TeaCommerce.Api.Dependency;
+using TeaCommerce.Api.InformationExtractors;
 using TeaCommerce.Api.Models;
 using TeaCommerce.Api.Services;
 using TeaCommerce.Umbraco.Configuration.Services;
-using TeaCommerce.Umbraco.Configuration.Variant.Product;
-using umbraco;
+using TeaCommerce.Umbraco.Configuration.Variants.Models;
 using Umbraco.Core;
-using Umbraco.Core.Dynamics;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 using Constants = TeaCommerce.Api.Constants;
-using TeaCommerce.Api.InformationExtractors;
-using TeaCommerce.Umbraco.Configuration.Variant;
 
 namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
-  public class ContentProductInformationExtractor : IProductInformationExtractor<IContent, VariantPublishedContent<IContent>> {
+  public class ContentProductInformationExtractor : IProductInformationExtractor<IContent, VariantPublishedContent> {
 
     protected readonly IStoreService StoreService;
     protected readonly ICurrencyService CurrencyService;
     protected readonly IVatGroupService VatGroupService;
-    protected readonly IVariantService<IContent> VariantService;
 
-    public static IProductInformationExtractor<IContent, VariantPublishedContent<IContent>> Instance { get { return DependencyContainer.Instance.Resolve<IProductInformationExtractor<IContent, VariantPublishedContent<IContent>>>(); } }
+    public static IProductInformationExtractor<IContent, VariantPublishedContent> Instance { get { return DependencyContainer.Instance.Resolve<IProductInformationExtractor<IContent, VariantPublishedContent>>(); } }
 
-    public ContentProductInformationExtractor( IStoreService storeService, ICurrencyService currencyService, IVatGroupService vatGroupService, IVariantService<IContent> variantService ) {
+    public ContentProductInformationExtractor( IStoreService storeService, ICurrencyService currencyService, IVatGroupService vatGroupService ) {
       StoreService = storeService;
       CurrencyService = currencyService;
       VatGroupService = vatGroupService;
-      VariantService = variantService;
-    }
-
-    public virtual T GetPropertyValue<T>( IContent model, string propertyAlias, VariantPublishedContent<IContent> variant = null, Func<IContent, bool> func = null ) {
-      T rtnValue = default( T );
-
-      if ( model != null && !string.IsNullOrEmpty( propertyAlias ) ) {
-        if ( variant != null ) {
-          rtnValue = variant.GetPropertyValue<T>( propertyAlias );
-        }
-        if ( CheckNullOrEmpty( rtnValue ) ) {
-          //Check if this node or ancestor has it
-          IContent currentNode = func != null ? model.Ancestors().FirstOrDefault( func ) : model;
-          if ( currentNode != null ) {
-            rtnValue = GetPropertyValueInternal<T>( currentNode, propertyAlias, func == null );
-          }
-
-          //Check if we found the value
-          if ( CheckNullOrEmpty( rtnValue ) ) {
-
-            //Check if we can find a master relation
-            string masterRelationNodeIdStr = GetPropertyValueInternal<string>( model, Constants.ProductPropertyAliases.MasterRelationPropertyAlias, true );
-            int masterRelationNodeId = 0;
-            if ( !string.IsNullOrEmpty( masterRelationNodeIdStr ) && int.TryParse( masterRelationNodeIdStr, out masterRelationNodeId ) ) {
-              rtnValue = GetPropertyValue<T>( ApplicationContext.Current.Services.ContentService.GetById( masterRelationNodeId ), propertyAlias,
-                variant, func );
-            }
-          }
-
-        }
-      }
-
-      return rtnValue;
     }
 
     protected virtual T GetPropertyValueInternal<T>( IContent content, string propertyAlias, bool recursive ) {
@@ -114,48 +75,18 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       return storeId.Value;
     }
 
-    public virtual string GetSku( IContent model, VariantPublishedContent<IContent> variant = null ) {
+    public virtual string GetSku( IContent model, VariantPublishedContent variant = null ) {
       string sku = GetPropertyValue<string>( model, Constants.ProductPropertyAliases.SkuPropertyAlias, variant );
 
       //If no sku is found - default to umbraco node id
       if ( string.IsNullOrEmpty( sku ) ) {
-        sku = model.Id.ToString( CultureInfo.InvariantCulture ) + "_" + variant.VariantId;
+        sku = model.Id.ToString( CultureInfo.InvariantCulture ) + "_" + variant.VariantIdentifier;
       }
 
       return sku;
     }
 
-    public virtual long? GetVatGroupId( IContent model, VariantPublishedContent<IContent> variant = null ) {
-      long storeId = GetStoreId( model );
-      long? vatGroupId = GetPropertyValue<long?>( model, Constants.ProductPropertyAliases.VatGroupPropertyAlias, variant );
-
-      //In umbraco a product can have a relation to a delete marked vat group
-      if ( vatGroupId != null ) {
-        VatGroup vatGroup = VatGroupService.Get( storeId, vatGroupId.Value );
-        if ( vatGroup == null || vatGroup.IsDeleted ) {
-          vatGroupId = null;
-        }
-      }
-
-      return vatGroupId;
-    }
-
-    public virtual long? GetLanguageId( IContent model ) {
-      return LanguageService.Instance.GetLanguageIdByNodePath( model.Path );
-    }
-
-    private static bool CheckNullOrEmpty<T>( T value ) {
-      if ( typeof( T ) == typeof( string ) )
-        return string.IsNullOrEmpty( value as string );
-
-      return value == null || value.Equals( default( T ) );
-    }
-
-    public string GetPropertyValue( IContent product, VariantPublishedContent<IContent> variant, string propertyAlias ) {
-      return GetPropertyValue<string>( product, Constants.ProductPropertyAliases.NamePropertyAlias, variant );
-    }
-
-    public string GetName( IContent product, VariantPublishedContent<IContent> variant ) {
+    public virtual string GetName( IContent product, VariantPublishedContent variant = null ) {
       string name = GetPropertyValue<string>( product, Constants.ProductPropertyAliases.NamePropertyAlias, variant );
 
       //If no name is found - default to the umbraco node name
@@ -174,7 +105,22 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       return name;
     }
 
-    public OriginalUnitPriceCollection GetOriginalUnitPrices( IContent product, VariantPublishedContent<IContent> variant ) {
+    public virtual long? GetVatGroupId( IContent model, VariantPublishedContent variant = null ) {
+      long storeId = GetStoreId( model );
+      long? vatGroupId = GetPropertyValue<long?>( model, Constants.ProductPropertyAliases.VatGroupPropertyAlias, variant );
+
+      //In umbraco a product can have a relation to a delete marked vat group
+      if ( vatGroupId != null ) {
+        VatGroup vatGroup = VatGroupService.Get( storeId, vatGroupId.Value );
+        if ( vatGroup == null || vatGroup.IsDeleted ) {
+          vatGroupId = null;
+        }
+      }
+
+      return vatGroupId;
+    }
+
+    public virtual OriginalUnitPriceCollection GetOriginalUnitPrices( IContent product, VariantPublishedContent variant = null ) {
       OriginalUnitPriceCollection prices = new OriginalUnitPriceCollection();
 
       foreach ( Currency currency in CurrencyService.GetAll( GetStoreId( product ) ) ) {
@@ -184,7 +130,18 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       return prices;
     }
 
-    public CustomPropertyCollection GetProperties( IContent product, VariantPublishedContent<IContent> variant ) {
+    protected bool CheckNullOrEmpty<T>( T value ) {
+      if ( typeof( T ) == typeof( string ) )
+        return string.IsNullOrEmpty( value as string );
+
+      return value == null || value.Equals( default( T ) );
+    }
+
+    public virtual long? GetLanguageId( IContent model ) {
+      return LanguageService.Instance.GetLanguageIdByNodePath( model.Path );
+    }
+
+    public virtual CustomPropertyCollection GetProperties( IContent product, VariantPublishedContent variant = null ) {
       CustomPropertyCollection properties = new CustomPropertyCollection();
 
       foreach ( string productPropertyAlias in StoreService.Get( GetStoreId( product ) ).ProductSettings.ProductPropertyAliases ) {
@@ -192,6 +149,42 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       }
 
       return properties;
+    }
+
+    public virtual string GetPropertyValue( IContent product, string propertyAlias, VariantPublishedContent variant = null ) {
+      return GetPropertyValue<string>( product, Constants.ProductPropertyAliases.NamePropertyAlias, variant );
+    }
+
+    public virtual T GetPropertyValue<T>( IContent model, string propertyAlias, VariantPublishedContent variant = null, Func<IContent, bool> func = null ) {
+      T rtnValue = default( T );
+
+      if ( model != null && !string.IsNullOrEmpty( propertyAlias ) ) {
+        if ( variant != null ) {
+          rtnValue = variant.GetPropertyValue<T>( propertyAlias );
+        }
+        if ( CheckNullOrEmpty( rtnValue ) ) {
+          //Check if this node or ancestor has it
+          IContent currentNode = func != null ? model.Ancestors().FirstOrDefault( func ) : model;
+          if ( currentNode != null ) {
+            rtnValue = GetPropertyValueInternal<T>( currentNode, propertyAlias, func == null );
+          }
+
+          //Check if we found the value
+          if ( CheckNullOrEmpty( rtnValue ) ) {
+
+            //Check if we can find a master relation
+            string masterRelationNodeIdStr = GetPropertyValueInternal<string>( model, Constants.ProductPropertyAliases.MasterRelationPropertyAlias, true );
+            int masterRelationNodeId = 0;
+            if ( !string.IsNullOrEmpty( masterRelationNodeIdStr ) && int.TryParse( masterRelationNodeIdStr, out masterRelationNodeId ) ) {
+              rtnValue = GetPropertyValue<T>( ApplicationContext.Current.Services.ContentService.GetById( masterRelationNodeId ), propertyAlias,
+                variant, func );
+            }
+          }
+
+        }
+      }
+
+      return rtnValue;
     }
   }
 }

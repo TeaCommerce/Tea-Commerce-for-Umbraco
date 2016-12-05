@@ -1,22 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Autofac;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using TeaCommerce.Api.Dependency;
-using TeaCommerce.Api.Models;
+﻿using TeaCommerce.Api.Models;
 using TeaCommerce.Api.Services;
-using Umbraco.Core.Models;
-using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Web;
-using TeaCommerce.Umbraco.Configuration.Variant;
-using TeaCommerce.Umbraco.Configuration.Variant.Product;
-using System;
+using TeaCommerce.Umbraco.Configuration.Variants.Models;
 using Umbraco.Core.Logging;
+using Umbraco.Core.Models;
 
-namespace TeaCommerce.Umbraco.Configuration.Services {
+namespace TeaCommerce.Umbraco.Configuration.Variants.Services {
 
-  public class ContentVariantService : AVariantService<IContent> {
+  public class ContentVariantService : APublishedContentVariantService<IContent> {
     public override int GetId( IContent content ) {
       return content.Id;
     }
@@ -36,8 +26,8 @@ namespace TeaCommerce.Umbraco.Configuration.Services {
       return variantsJson;
     }
 
-    public override string GetVariantProductIdentifier( IContent content, VariantPublishedContent<IContent> variant ) {
-      return content.Id + "_" + variant.VariantId;
+    public override string GetVariantProductIdentifier( IContent content, VariantPublishedContent variant ) {
+      return content.Id + "_" + variant.VariantIdentifier;
     }
   }
 }

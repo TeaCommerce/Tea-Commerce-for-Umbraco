@@ -6,9 +6,8 @@ using TeaCommerce.Api.Marketing.Models;
 using TeaCommerce.Api.Models;
 using TeaCommerce.Api.Web;
 using TeaCommerce.Umbraco.Configuration.InformationExtractors;
-using TeaCommerce.Umbraco.Configuration.Services;
-using TeaCommerce.Umbraco.Configuration.Variant;
-using TeaCommerce.Umbraco.Configuration.Variant.Product;
+using TeaCommerce.Umbraco.Configuration.Variants.Models;
+using TeaCommerce.Umbraco.Configuration.Variants.Services;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 
@@ -557,11 +556,11 @@ namespace TeaCommerce.Umbraco.Web {
     }
 
     public static Price GetPrice<T>( long storeId, T product ) {
-      return GetPrice<T>( storeId, product, null );
+      return GetPrice( storeId, product, null );
     }
 
-    public static Price GetPrice<T>( long storeId, T product, VariantPublishedContent<T> variant ) {
-      return TeaCommerceHelper.GetPrice<T, VariantPublishedContent<T>>( storeId, product, variant );
+    public static Price GetPrice<T>( long storeId, T product, VariantPublishedContent variant ) {
+      return TeaCommerceHelper.GetPrice( storeId, product, variant );
     }
 
     #endregion
@@ -578,7 +577,7 @@ namespace TeaCommerce.Umbraco.Web {
       return TeaCommerceHelper.GetStock( storeId, productIdentifier );
     }
 
-    public static decimal? GetStock<T>( long storeId, T product, VariantPublishedContent<T> variant ) {
+    public static decimal? GetStock<T>( long storeId, T product, VariantPublishedContent variant ) {
       return TeaCommerceHelper.GetStock( storeId, product, variant );
     }
 
@@ -587,7 +586,7 @@ namespace TeaCommerce.Umbraco.Web {
     #region Product information
 
     /// <summary>
-    /// Returns the value of a property on the product. Will traverse the content tree recursively to find the value. Will also use the master relation property of the product to search master products. NOTE: If you have a DynamicNode model use that instead of the string productIdentifier, which is slightly slower.
+    /// Returns the value of a property on the product. Will traverse the content tree recursively to find the value. Will also use the master relation property of the product to search master products. NOTE: If you have a IPublishedContent model use that instead of the string productIdentifier, which is slightly slower.
     /// </summary>
     /// <param name="storeId">Id of the store.</param>
     /// <param name="productIdentifier">A unique identifier of the product. E.g. the node id from Umbraco.</param>
@@ -598,9 +597,9 @@ namespace TeaCommerce.Umbraco.Web {
       ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
       UmbracoHelper umbracoHelper = new UmbracoHelper( UmbracoContext.Current );
       IPublishedContent content = umbracoHelper.TypedContent( productIdentifierObj.NodeId );
-      VariantPublishedContent<IPublishedContent> variant = PublishedContentVariantService.Instance.GetVariant( storeId, content, productIdentifierObj.VariantId );
+      VariantPublishedContent variant = PublishedContentVariantService.Instance.GetVariant( storeId, content, productIdentifierObj.VariantId );
 
-      return PublishedContentProductInformationExtractor.Instance.GetPropertyValue<T>( content, propertyAlias, variant, func );
+      return DependencyContainer.Instance.Resolve<IPublishedContentProductInformationExtractor>().GetPropertyValue<T>( content, propertyAlias, variant, func );
     }
 
     /// <summary>
@@ -612,9 +611,10 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="variantId">The id of a specific product variant</param>
     /// <param name="func">A function to filter the result.</param>
     /// <returns>The text value of the property.</returns>
-    public static T GetPropertyValue<T>( long storeId, IPublishedContent model, string propertyAlias, string variantId = null, Func<IPublishedContent, bool> func = null ) {
-      VariantPublishedContent<IPublishedContent> variant = !string.IsNullOrEmpty( variantId ) ? PublishedContentVariantService.Instance.GetVariant( storeId, model, variantId ) : null;
-      return PublishedContentProductInformationExtractor.Instance.GetPropertyValue<T>( model, propertyAlias, variant, func );
+    public static T GetPropertyValue<T>( long storeId, IPublishedContent product, string propertyAlias, string variantId = null, Func<IPublishedContent, bool> func = null ) {
+      VariantPublishedContent variant = !string.IsNullOrEmpty( variantId ) ? PublishedContentVariantService.Instance.GetVariant( storeId, product, variantId ) : null;
+
+      return DependencyContainer.Instance.Resolve<IPublishedContentProductInformationExtractor>().GetPropertyValue<T>( product, propertyAlias, variant, func );
     }
 
     #endregion
@@ -629,9 +629,9 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="variantId">The id of a specific product variant</param>
     /// <param name="onlyValid">Fetch only the valid variants. A valid variant have one of each variant type and is not a duplicate.</param>
     /// <returns></returns>
-    public static VariantPublishedContent<T> GetVariant<T>( long storeId, T model, string variantId, bool onlyValid = true ) {
-      IVariantService<T> variantService = DependencyContainer.Instance.Resolve<IVariantService<T>>();
-      return variantService.GetVariant( storeId, model, variantId, onlyValid );
+    public static VariantPublishedContent GetVariant<T>( long storeId, T product, string variantId, bool onlyValid = true ) {
+      IVariantService<T, VariantPublishedContent> variantService = DependencyContainer.Instance.Resolve<IVariantService<T, VariantPublishedContent>>();
+      return variantService.GetVariant( storeId, product, variantId, onlyValid );
     }
 
     /// <summary>
@@ -641,10 +641,14 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="model">The product as a IPublishedContent.</param>
     /// <param name="onlyValid">Fetch only the valid variants. A valid variant have one of each variant type and is not a duplicate.</param>
     /// <returns></returns>
-    public static IEnumerable<VariantPublishedContent<T>> GetVariants<T>( long storeId, T model, bool onlyValid = true ) {
-      IVariantService<T> variantService = DependencyContainer.Instance.Resolve<IVariantService<T>>();
-      return variantService.GetVariants( storeId, model, onlyValid );
+    public static IEnumerable<VariantPublishedContent> GetVariants<T>( long storeId, T product, bool onlyValid = true ) {
+      IVariantService<T, VariantPublishedContent> variantService = DependencyContainer.Instance.Resolve<IVariantService<T, VariantPublishedContent>>();
+      return variantService.GetVariants( storeId, product, onlyValid );
+    }
 
+    public static IEnumerable<VariantGroup> GetVariantGroups<T>( long storeId, T product, bool onlyValid = true ) {
+      IEnumerable<VariantPublishedContent> variants = GetVariants( storeId, product, onlyValid );
+      return GetVariantGroups( product, variants );
     }
 
     /// <summary>
@@ -652,19 +656,9 @@ namespace TeaCommerce.Umbraco.Web {
     /// </summary>
     /// <param name="variants">A collection of variants.</param>
     /// <returns></returns>
-    public static IEnumerable<VariantGroup> GetVariantGroups<T>( IEnumerable<VariantPublishedContent<T>> variants ) {
-      IVariantService<T> variantService = DependencyContainer.Instance.Resolve<IVariantService<T>>();
+    public static IEnumerable<VariantGroup> GetVariantGroups<T>( T product, IEnumerable<VariantPublishedContent> variants ) {
+      IVariantService<T, VariantPublishedContent> variantService = DependencyContainer.Instance.Resolve<IVariantService<T, VariantPublishedContent>>();
       return variantService.GetVariantGroups( variants );
-    }
-
-    /// <summary>
-    /// Will get variant information from several products. This json will mostly be used to create variant selection drop downs in the frontend
-    /// </summary>
-    /// <param name="variants"></param>
-    /// <returns>A json blob with a dictionary of products and their variants</returns>
-    public static string GetVariantJson<T>( long storeId, IEnumerable<T> productContents, bool onlyValid ) {
-      IVariantService<T> variantService = DependencyContainer.Instance.Resolve<IVariantService<T>>();
-      return variantService.GetVariantJson( storeId, productContents, onlyValid );
     }
 
     /// <summary>
@@ -672,9 +666,28 @@ namespace TeaCommerce.Umbraco.Web {
     /// </summary>
     /// <param name="variants"></param>
     /// <returns>A json blob with a dictionary of products and their variants. This dictionary will only contain a single product</returns>
-    public static string GetVariantJson<T>( long storeId, T productContents, bool onlyValid ) {
-      IVariantService<T> variantService = DependencyContainer.Instance.Resolve<IVariantService<T>>();
-      return variantService.GetVariantJson( storeId, new List<T> { productContents }, onlyValid );
+    /// 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="storeId"></param>
+    /// <param name="product"></param>
+    /// <param name="onlyValid"></param>
+    /// <returns></returns>
+    public static string GetVariantJson<T>( long storeId, T product, bool onlyValid = true ) {
+      return GetVariantJson( storeId, new List<T> { product }, onlyValid );
+    }
+
+    /// <summary>
+    /// Will get variant information from several products. This json will mostly be used to create variant selection drop downs in the frontend
+    /// </summary>
+    /// <param name="variants"></param>
+    /// <returns>A json blob with a dictionary of products and their variants</returns>
+    public static string GetVariantJson<T>( long storeId, IEnumerable<T> products, bool onlyValid = true ) {
+      IVariantService<T, VariantPublishedContent> variantService = DependencyContainer.Instance.Resolve<IVariantService<T, VariantPublishedContent>>();
+      return variantService.GetVariantJson( storeId, products, onlyValid );
     }
 
     #endregion

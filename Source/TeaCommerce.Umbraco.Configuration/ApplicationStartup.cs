@@ -28,8 +28,6 @@ namespace TeaCommerce.Umbraco.Configuration {
       Domain.AfterSave += Domain_AfterSave;
       Domain.AfterDelete += Domain_AfterDelete;
 
-      ContentService.Published += ContentService_Published;
-
       UserService.SavedUser += UserService_SavedUser;
     }
 
@@ -75,10 +73,6 @@ namespace TeaCommerce.Umbraco.Configuration {
           }
         }
       }
-    }
-
-    private void ContentService_Published( global::Umbraco.Core.Publishing.IPublishingStrategy sender, global::Umbraco.Core.Events.PublishEventArgs<global::Umbraco.Core.Models.IContent> e ) {
-      CacheService.Instance.InvalidateApplicationCache();
     }
 
     void Domain_New( Domain sender, NewEventArgs e ) {

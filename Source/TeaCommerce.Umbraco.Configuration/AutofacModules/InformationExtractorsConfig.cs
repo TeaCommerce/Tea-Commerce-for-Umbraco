@@ -2,7 +2,7 @@
 using TeaCommerce.Api.Common;
 using TeaCommerce.Api.InformationExtractors;
 using TeaCommerce.Umbraco.Configuration.InformationExtractors;
-using TeaCommerce.Umbraco.Configuration.Variant;
+using TeaCommerce.Umbraco.Configuration.Variants.Models;
 using Umbraco.Core.Models;
 
 namespace TeaCommerce.Umbraco.Configuration.AutofacModules {
@@ -11,10 +11,10 @@ namespace TeaCommerce.Umbraco.Configuration.AutofacModules {
     protected override void Load( ContainerBuilder builder ) {
       builder.MustNotBeNull( "builder" );
 
-      builder.RegisterType<ContentProductInformationExtractor>().As<IProductInformationExtractor<IContent, VariantPublishedContent<IContent>>>().PreserveExistingDefaults().InstancePerLifetimeScope();
-      builder.RegisterType<ProductInformationExtractorT>().As<IProductInformationExtractor<IPublishedContent, VariantPublishedContent<IPublishedContent>>>().PreserveExistingDefaults().InstancePerLifetimeScope();
+      builder.RegisterType<ContentProductInformationExtractor>().As<IProductInformationExtractor<IContent, VariantPublishedContent>>().PreserveExistingDefaults().InstancePerLifetimeScope();
+      builder.RegisterType<PublishedContentProductInformationExtractor>().As<IProductInformationExtractor<IPublishedContent, VariantPublishedContent>>().PreserveExistingDefaults().InstancePerLifetimeScope();
       builder.RegisterType<PublishedContentProductInformationExtractor>().As<IPublishedContentProductInformationExtractor>().PreserveExistingDefaults().InstancePerLifetimeScope();
-      builder.RegisterType<ProductInformationExtractor>().As<IProductInformationExtractor>().PreserveExistingDefaults().InstancePerLifetimeScope();
+      builder.RegisterType<PublishedContentProductInformationExtractor>().As<IProductInformationExtractor>().PreserveExistingDefaults().InstancePerLifetimeScope();
     }
 
   }
