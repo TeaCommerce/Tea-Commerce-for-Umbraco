@@ -31,7 +31,7 @@
         //teaCommerceVariantEditor
 
         var data = {
-          sku: $scope.model.skuProp !== undefined ? $scope.model.skuProp : productSkuField.val(),
+          sku: $scope.model.skuProp !== undefined ? $scope.model.skuProp : (!productSkuField && productSkuField[0] ? productSkuField.val() : ''),
           value: $scope.stock ? $scope.stock.Value : null
         };
         $http.post('backoffice/teacommerce/products/poststock?productIdentifier=' + $routeParams.id + variantId, data);
