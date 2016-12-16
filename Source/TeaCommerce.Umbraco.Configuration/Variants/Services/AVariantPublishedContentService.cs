@@ -8,7 +8,7 @@ using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 
 namespace TeaCommerce.Umbraco.Configuration.Variants.Services {
-  public abstract class APublishedContentVariantService<T> : AVariantService<T, VariantPublishedContent> {
+  public abstract class AVariantPublishedContentService<T> : AVariantService<T, VariantPublishedContent> {
 
     public override IEnumerable<VariantPublishedContent> GetVariants( long storeId, T product, bool onlyValid = true ) {
       return ParseVariantJson( GetVariantDataFromContent( storeId, product, onlyValid ) );

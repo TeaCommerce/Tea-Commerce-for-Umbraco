@@ -6,7 +6,7 @@ using Umbraco.Core.Models;
 
 namespace TeaCommerce.Umbraco.Configuration.Variants.Services {
 
-  public class ContentVariantService : APublishedContentVariantService<IContent> {
+  public class ContentVariantService : AVariantPublishedContentService<IContent> {
     public override int GetId( IContent content ) {
       return content.Id;
     }

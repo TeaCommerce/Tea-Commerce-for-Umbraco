@@ -141,7 +141,7 @@
     <Compile Include="Services\ILanguageService.cs" />
     <Compile Include="Services\LanguageService.cs" />
     <Compile Include="Variants\Services\ContentVariantService.cs" />
-    <Compile Include="Variants\Services\APublishedContentVariantService.cs" />
+    <Compile Include="Variants\Services\AVariantPublishedContentService.cs" />
     <Compile Include="Variants\Services\PublishedContentVariantService.cs" />
     <Compile Include="Variants\Models\IVariant.cs" />
     <Compile Include="Variants\Models\Specification.cs" />

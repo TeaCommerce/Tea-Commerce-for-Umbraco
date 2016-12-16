@@ -541,8 +541,8 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="storeId">Id of the store.</param>
     /// <param name="price">The price to format excl. VAT.</param>
     /// <returns>A price object.</returns>
-    public static Price FormatPrice( long storeId, decimal price, long? currencyId ) {
-      return TeaCommerceHelper.FormatPrice( storeId, price, currencyId );
+    public static Price FormatPrice( long storeId, decimal price ) {
+      return TeaCommerceHelper.FormatPrice( storeId, price );
     }
 
     /// <summary>
@@ -677,7 +677,8 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="onlyValid"></param>
     /// <returns></returns>
     public static string GetVariantJson<T>( long storeId, T product, bool onlyValid = true ) {
-      return GetVariantJson( storeId, new List<T> { product }, onlyValid );
+      IVariantService<T, VariantPublishedContent> variantService = DependencyContainer.Instance.Resolve<IVariantService<T, VariantPublishedContent>>();
+      return variantService.GetVariantJson( storeId, new List<T> { product }, onlyValid );
     }
 
     /// <summary>
