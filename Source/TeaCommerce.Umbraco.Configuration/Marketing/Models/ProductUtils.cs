@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using TeaCommerce.Api;
 using TeaCommerce.Api.Models;
 using TeaCommerce.Api.Services;
-using System.Linq;
-using TeaCommerce.Umbraco.Configuration.Variant.Product;
+using TeaCommerce.Umbraco.Configuration.Variants.Models;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 

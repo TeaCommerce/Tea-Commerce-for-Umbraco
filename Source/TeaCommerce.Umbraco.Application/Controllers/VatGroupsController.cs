@@ -1,15 +1,13 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
-using System.Xml.XPath;
+using TeaCommerce.Api.InformationExtractors;
 using TeaCommerce.Api.Serialization;
 using TeaCommerce.Api.Services;
 using TeaCommerce.Umbraco.Configuration.InformationExtractors;
-using TeaCommerce.Umbraco.Configuration.Variant.Product;
-using umbraco;
+using TeaCommerce.Umbraco.Configuration.Variants.Models;
 using Umbraco.Core;
 using Umbraco.Core.Models;
-using Umbraco.Web;
 using Umbraco.Web.Editors;
 using Umbraco.Web.Mvc;
 
@@ -22,7 +20,7 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
     public HttpResponseMessage GetAll( string pageId ) {
       ProductIdentifier productIdentifierObj = new ProductIdentifier( pageId );
       IContent content = ApplicationContext.Current.Services.ContentService.GetById( productIdentifierObj.NodeId );
-      IContentProductInformationExtractor productInformationExtractor = ContentProductInformationExtractor.Instance;
+      IProductInformationExtractor<IContent, VariantPublishedContent> productInformationExtractor = ContentProductInformationExtractor.Instance;
 
       long storeId = productInformationExtractor.GetStoreId( content );
 
@@ -38,7 +36,7 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
     public HttpResponseMessage Get( string pageId, long vatGroupId ) {
       ProductIdentifier productIdentifierObj = new ProductIdentifier( pageId );
       IContent content = ApplicationContext.Current.Services.ContentService.GetById( productIdentifierObj.NodeId );
-      IContentProductInformationExtractor productInformationExtractor = ContentProductInformationExtractor.Instance;
+      IProductInformationExtractor<IContent, VariantPublishedContent> productInformationExtractor = ContentProductInformationExtractor.Instance;
 
       long storeId = productInformationExtractor.GetStoreId( content );
 

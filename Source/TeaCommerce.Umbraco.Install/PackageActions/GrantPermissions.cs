@@ -1,12 +1,9 @@
 ﻿using System.Linq;
 using System.Xml;
-using TeaCommerce.Api.Infrastructure.Security;
-using TeaCommerce.Api.Services;
 using umbraco.cms.businesslogic.packager.standardPackageActions;
 using umbraco.interfaces;
 using Umbraco.Core;
 using Umbraco.Core.Models.Membership;
-using Umbraco.Web;
 
 namespace TeaCommerce.Umbraco.Install.PackageActions {
   public class GrantPermissions : IPackageAction {

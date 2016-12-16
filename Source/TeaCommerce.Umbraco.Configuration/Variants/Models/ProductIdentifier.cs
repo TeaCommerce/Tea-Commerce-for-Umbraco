@@ -1,5 +1,5 @@
 ﻿
-namespace TeaCommerce.Umbraco.Configuration.Variant.Product {
+namespace TeaCommerce.Umbraco.Configuration.Variants.Models {
   public class ProductIdentifier {
 
     public int NodeId { get; set; }
