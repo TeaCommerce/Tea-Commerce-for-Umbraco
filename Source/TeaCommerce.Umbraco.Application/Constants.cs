@@ -34,7 +34,6 @@
       public const string Money = "icon-coin-euro";
       public const string Store = "icon-store";
       public const string TagLabel = "icon-tag";
-      public const string TagLabelRed = "icon-tag";
       public const string Target = "icon-target";
       public const string Toolbox = "icon-settings";
       public const string TruckBoxLabel = "icon-truck";

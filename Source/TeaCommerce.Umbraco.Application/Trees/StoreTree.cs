@@ -104,8 +104,9 @@ namespace TeaCommerce.Umbraco.Application.Trees {
           foreach ( Campaign campaign in CampaignService.Instance.GetAll( CurrentStoreId ) ) {
             node = CreateNode( GetNodeIdentifier( StoreTreeNodeType.Campaign, CurrentStoreId, campaign.Id ), campaign.Name, Constants.TreeIcons.TagLabel, "campaign" );
 
-            if ( !campaign.IsActive || ( campaign.StartDate != null && campaign.StartDate > DateTime.Now ) || ( campaign.EndDate != null && campaign.EndDate < DateTime.Now ) ) {
-              node.Icon = WebUtils.GetWebResourceUrl( Constants.TreeIcons.TagLabelRed );
+            if ( !campaign.IsActive || ( campaign.StartDate != null && campaign.StartDate > DateTime.Now ) || ( campaign.EndDate != null && campaign.EndDate < DateTime.Now ) )
+            {
+                node.Style.DimNode();
             }
 
             node.Action = "javascript:(function(){" + ClientTools.Scripts.ChangeContentFrameUrl( WebUtils.GetPageUrl( Constants.Pages.EditCampaign ) + "?id=" + campaign.Id + "&storeId=" + campaign.StoreId ) + "})";
