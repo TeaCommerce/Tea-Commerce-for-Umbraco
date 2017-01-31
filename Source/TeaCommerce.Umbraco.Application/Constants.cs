@@ -13,34 +13,34 @@
     }
 
     public class TreeIcons {
-      public const string BoxLabel = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.box-label.png";
-      public const string Building = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.building.png";
-      public const string Certificate = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.certificate.png";
-      public const string ClipboardTask = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.clipboard-task.png";
-      public const string Clipboard = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.clipboard.png";
-      public const string CreditCard = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.credit-card.png";
-      public const string CreditCards = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.credit-cards.png";
-      public const string DocumentTask = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.document-task.png";
-      public const string GlobeModel = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.globe-model.png";
-      public const string LicenseKey = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.license-key.png";
-      public const string Lifebuoy = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.lifebuoy.png";
-      public const string LocaleAlternate = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.locale-alternate.png";
-      public const string Lock = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.lock.png";
-      public const string Mail = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.mail.png";
-      public const string MailStack = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.mails-stack.png";
-      public const string Map = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.map.png";
-      public const string MapPin = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.map-pin.png";
-      public const string MoneyCoin = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.money-coin.png";
-      public const string Money = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.money.png";
-      public const string Store = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.store.png";
-      public const string TagLabel = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.tag-label.png";
-      public const string TagLabelRed = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.tag-label-red.png";
-      public const string Target = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.target.png";
-      public const string Toolbox = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.toolbox.png";
-      public const string TruckBoxLabel = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.truck-box-label.png";
-      public const string User = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.user.png";
-      public const string ZoneMoney = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.zone-money.png";
-      public const string Zone = "TeaCommerce.Umbraco.Application.Content.Images.TreeIcons.zone.png";
+      public const string BoxLabel = "icon-box";
+      public const string Building = "icon-company";
+      public const string Certificate = "icon-gift";
+      public const string ClipboardTask = "icon-paste-in";
+      public const string Clipboard = "icon-paste-in";
+      public const string CreditCard = "icon-credit-card-alt";
+      public const string CreditCards = "icon-multiple-credit-cards";
+      public const string DocumentTask = "icon-invoice";
+      public const string GlobeModel = "icon-globe-inverted-europe-africa";
+      public const string LicenseKey = "icon-certificate";
+      public const string Lifebuoy = "icon-help";
+      public const string LocaleAlternate = "icon-umb-translation";
+      public const string Lock = "icon-lock";
+      public const string Mail = "icon-message";
+      public const string MailStack = "icon-mailbox";
+      public const string Map = "icon-flag-alt";
+      public const string MapPin = "icon-map-location";
+      public const string MoneyCoin = "icon-coins-euro-alt";
+      public const string Money = "icon-coin-euro";
+      public const string Store = "icon-store";
+      public const string TagLabel = "icon-tag";
+      public const string TagLabelRed = "icon-tag";
+      public const string Target = "icon-target";
+      public const string Toolbox = "icon-settings";
+      public const string TruckBoxLabel = "icon-truck";
+      public const string User = "icon-umb-user";
+      public const string ZoneMoney = "icon-legal";
+      public const string Zone = "icon-economy";
     }
 
     public class MiscIcons {
