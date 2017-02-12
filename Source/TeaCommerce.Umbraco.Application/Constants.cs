@@ -7,9 +7,8 @@
 
     public class EditorIcons {
       public const string Edit = "TeaCommerce.Umbraco.Application.Content.Images.EditorIcons.edit.gif";
-      public const string Save = "TeaCommerce.Umbraco.Application.Content.Images.EditorIcons.save.gif";
       public const string Delete = "TeaCommerce.Umbraco.Application.Content.Images.EditorIcons.delete.gif";
-      public const string Printer = "TeaCommerce.Umbraco.Application.Content.Images.EditorIcons.printer.gif";
+      public const string Calendar = "TeaCommerce.Umbraco.Application.Content.Images.EditorIcons.calSprite.gif";
     }
 
     public class TreeIcons {

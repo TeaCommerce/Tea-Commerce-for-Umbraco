@@ -39,9 +39,8 @@ using TeaCommerce.Umbraco.Application;
 //Embedded Resources
 
 [assembly: WebResource( Constants.EditorIcons.Edit, Constants.MimeTypes.GIF )]
-[assembly: WebResource( Constants.EditorIcons.Save, Constants.MimeTypes.GIF )]
 [assembly: WebResource( Constants.EditorIcons.Delete, Constants.MimeTypes.GIF )]
-[assembly: WebResource( Constants.EditorIcons.Printer, Constants.MimeTypes.GIF )]
+[assembly: WebResource(Constants.EditorIcons.Calendar, Constants.MimeTypes.GIF)]
 
 [assembly: WebResource( Constants.MiscIcons.Exclamation, Constants.MimeTypes.PNG )]
 

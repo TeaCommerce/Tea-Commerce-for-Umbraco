@@ -101,6 +101,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Content\Images\EditorIcons\edit.gif" />
     <EmbeddedResource Include="Content\Images\exclamation.png" />
+    <EmbeddedResource Include="Content\Images\EditorIcons\calSprite.gif" />
     <Content Include="Marketing\Assets\Scripts\campaign.controller.js" />
     <Content Include="Marketing\Awards\OrderLineAmountAward\order-line-amount-award.controller.js" />
     <Content Include="Marketing\Awards\OrderLineAmountAward\order-line-amount-award.html" />
