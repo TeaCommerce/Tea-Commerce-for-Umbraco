@@ -600,6 +600,18 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="product"></param>
     /// <param name="variant"></param>
     /// <returns>The stock of the product. Will be null if no stock have been provided for this product.</returns>
+    public static decimal? GetStock<T>( long storeId, T product ) {
+      return TeaCommerceHelper.GetStock( storeId, product );
+    }
+
+    /// <summary>
+    /// Gets the current stock for a specific product.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="storeId">Id of the store.</param>
+    /// <param name="product"></param>
+    /// <param name="variant"></param>
+    /// <returns>The stock of the product. Will be null if no stock have been provided for this product.</returns>
     public static decimal? GetStock<T>( long storeId, T product, VariantPublishedContent variant ) {
       return TeaCommerceHelper.GetStock( storeId, product, variant );
     }

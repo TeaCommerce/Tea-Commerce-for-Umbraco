@@ -15,8 +15,6 @@ namespace TeaCommerce.Umbraco.Configuration.AutofacModules {
       builder.RegisterType<LanguageService>().As<ILanguageService>().PreserveExistingDefaults().InstancePerLifetimeScope();
       builder.RegisterType<PublishedContentVariantService>().As<IVariantService<IPublishedContent, VariantPublishedContent>>().PreserveExistingDefaults().InstancePerLifetimeScope();
       builder.RegisterType<ContentVariantService>().As<IVariantService<IContent, VariantPublishedContent>>().PreserveExistingDefaults().InstancePerLifetimeScope();
-      builder.RegisterType<ProductService<IPublishedContent, VariantPublishedContent>>().As<IProductService<IPublishedContent, VariantPublishedContent>>().PreserveExistingDefaults().InstancePerLifetimeScope();
-      builder.RegisterType<ProductService<IContent, VariantPublishedContent>>().As<IProductService<IContent, VariantPublishedContent>>().PreserveExistingDefaults().InstancePerLifetimeScope();
     }
 
   }

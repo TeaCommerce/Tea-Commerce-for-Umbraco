@@ -14,7 +14,7 @@ using Umbraco.Web;
 using Constants = TeaCommerce.Api.Constants;
 
 namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
-  public class PublishedContentProductInformationExtractor : IProductInformationExtractor, IProductInformationExtractor<IPublishedContent, VariantPublishedContent>, IPublishedContentProductInformationExtractor {
+  public class PublishedContentProductInformationExtractor : IProductInformationExtractor, IProductInformationExtractor<IPublishedContent, VariantPublishedContent>, IPublishedContentProductInformationExtractor, IProductInformationExtractor<IPublishedContent> {
 
     private UmbracoHelper _umbracoHelper;
     protected UmbracoHelper UmbracoHelper {
@@ -96,7 +96,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
     #region IProductInformationExtractor<IPublishedContent, VariantPublishedContent>
 
-    public virtual long GetStoreId( IPublishedContent product ) {
+    public virtual long GetStoreId( IPublishedContent product, VariantPublishedContent variant ) {
       long? storeId = GetPropertyValue<long?>( product, Constants.ProductPropertyAliases.StorePropertyAlias );
       if ( storeId == null ) {
         throw new ArgumentException( "The product doesn't have a store id associated with it - remember to add the Tea Commerce store picker to your Umbraco content tree" );
@@ -160,7 +160,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       return prices;
     }
 
-    public virtual long? GetLanguageId( IPublishedContent product ) {
+    public virtual long? GetLanguageId( IPublishedContent product, VariantPublishedContent variant ) {
       return LanguageService.Instance.GetLanguageIdByNodePath( product.Path );
     }
 
@@ -176,6 +176,42 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
     public virtual string GetPropertyValue( IPublishedContent product, string propertyAlias, VariantPublishedContent variant = null ) {
       return GetPropertyValue<string>( product, propertyAlias, variant );
+    }
+
+    #endregion
+
+    #region IProductInformationExtractor<IPublishedContent>
+
+    public long GetStoreId( IPublishedContent product ) {
+      return GetStoreId( product, null );
+    }
+
+    public string GetSku( IPublishedContent product ) {
+      return GetSku( product, null );
+    }
+
+    public string GetName( IPublishedContent product ) {
+      return GetName( product, null );
+    }
+
+    public long? GetVatGroupId( IPublishedContent product ) {
+      return GetVatGroupId( product, null );
+    }
+
+    public OriginalUnitPriceCollection GetOriginalUnitPrices( IPublishedContent product ) {
+      return GetOriginalUnitPrices( product, null );
+    }
+
+    public long? GetLanguageId( IPublishedContent product ) {
+      return GetLanguageId( product, null );
+    }
+
+    public CustomPropertyCollection GetProperties( IPublishedContent product ) {
+      return GetProperties( product, null );
+    }
+
+    public string GetPropertyValue( IPublishedContent product, string propertyAlias ) {
+      return GetPropertyValue( product, propertyAlias, null );
     }
 
     #endregion
@@ -247,6 +283,5 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
       return value == null || value.Equals( default( T ) );
     }
-
   }
 }

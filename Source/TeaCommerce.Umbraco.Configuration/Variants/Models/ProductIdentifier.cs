@@ -11,7 +11,7 @@ namespace TeaCommerce.Umbraco.Configuration.Variants.Models {
         int nodeId;
         int.TryParse( nodeIdStr, out nodeId );
         NodeId = nodeId;
-        VariantId = productIdentifier.Split( '_' )[ 1 ];
+        VariantId = productIdentifier.Split( '_' )[ 1 ].Trim();
       } else {
         string nodeIdStr = productIdentifier;
         int nodeId;

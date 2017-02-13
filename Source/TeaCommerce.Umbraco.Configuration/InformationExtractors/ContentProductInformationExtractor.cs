@@ -17,7 +17,7 @@ using Constants = TeaCommerce.Api.Constants;
 
 namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
-  public class ContentProductInformationExtractor : IProductInformationExtractor<IContent, VariantPublishedContent> {
+  public class ContentProductInformationExtractor : IProductInformationExtractor<IContent, VariantPublishedContent>, IProductInformationExtractor<IContent> {
 
     protected readonly IStoreService StoreService;
     protected readonly ICurrencyService CurrencyService;
@@ -25,48 +25,15 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
     public static IProductInformationExtractor<IContent, VariantPublishedContent> Instance { get { return DependencyContainer.Instance.Resolve<IProductInformationExtractor<IContent, VariantPublishedContent>>(); } }
 
+    #region IProductInformationExtractor<IPublishedContent, VariantPublishedContent>
+
     public ContentProductInformationExtractor( IStoreService storeService, ICurrencyService currencyService, IVatGroupService vatGroupService ) {
       StoreService = storeService;
       CurrencyService = currencyService;
       VatGroupService = vatGroupService;
     }
 
-    protected virtual T GetPropertyValueInternal<T>( IContent content, string propertyAlias, bool recursive ) {
-      T rtnValue = default( T );
-
-      if ( content != null && !string.IsNullOrEmpty( propertyAlias ) ) {
-
-        if ( !recursive ) {
-          rtnValue = content.GetValue<T>( propertyAlias );
-        } else {
-          //We need to go recursive
-          IContent tempModel = content;
-          T tempProperty = default( T );
-          try {
-            tempProperty = tempModel.GetValue<T>( propertyAlias );
-          } catch { }
-          if ( !CheckNullOrEmpty( tempProperty ) ) {
-            rtnValue = tempProperty;
-          }
-
-          while ( CheckNullOrEmpty( rtnValue ) && tempModel != null && tempModel.Id > 0 ) {
-            tempModel = tempModel.Parent();
-            if ( tempModel != null ) {
-              try {
-                tempProperty = tempModel.GetValue<T>( propertyAlias );
-              } catch { }
-              if ( !CheckNullOrEmpty( tempProperty ) ) {
-                rtnValue = tempProperty;
-              }
-            }
-          }
-        }
-      }
-
-      return rtnValue;
-    }
-
-    public virtual long GetStoreId( IContent model ) {
+    public virtual long GetStoreId( IContent model , VariantPublishedContent variant ) {
       long? storeId = GetPropertyValue<long?>( model, Constants.ProductPropertyAliases.StorePropertyAlias );
       if ( storeId == null ) {
         throw new ArgumentException( "The model doesn't have a store id associated with it - remember to add the Tea Commerce store picker to your Umbraco content tree" );
@@ -137,7 +104,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       return value == null || value.Equals( default( T ) );
     }
 
-    public virtual long? GetLanguageId( IContent model ) {
+    public virtual long? GetLanguageId( IContent model, VariantPublishedContent variant ) {
       return LanguageService.Instance.GetLanguageIdByNodePath( model.Path );
     }
 
@@ -150,6 +117,44 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
       return properties;
     }
+
+    #endregion
+
+    #region IProductInformationExtractor<IPublishedContent>
+
+    public long GetStoreId( IContent product ) {
+      return GetStoreId( product, null );
+    }
+
+    public string GetSku( IContent product ) {
+      return GetSku( product, null );
+    }
+
+    public string GetName( IContent product ) {
+      return GetName( product, null );
+    }
+
+    public long? GetVatGroupId( IContent product ) {
+      return GetVatGroupId( product, null );
+    }
+
+    public OriginalUnitPriceCollection GetOriginalUnitPrices( IContent product ) {
+      return GetOriginalUnitPrices( product, null );
+    }
+
+    public long? GetLanguageId( IContent product ) {
+      return GetLanguageId( product, null );
+    }
+
+    public CustomPropertyCollection GetProperties( IContent product ) {
+      return GetProperties( product, null );
+    }
+
+    public string GetPropertyValue( IContent product, string propertyAlias ) {
+      return GetPropertyValue( product, propertyAlias, null );
+    }
+
+    #endregion
 
     public virtual string GetPropertyValue( IContent product, string propertyAlias, VariantPublishedContent variant = null ) {
       return GetPropertyValue<string>( product, Constants.ProductPropertyAliases.NamePropertyAlias, variant );
@@ -181,6 +186,41 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
             }
           }
 
+        }
+      }
+
+      return rtnValue;
+    }
+
+    protected virtual T GetPropertyValueInternal<T>( IContent content, string propertyAlias, bool recursive ) {
+      T rtnValue = default( T );
+
+      if ( content != null && !string.IsNullOrEmpty( propertyAlias ) ) {
+
+        if ( !recursive ) {
+          rtnValue = content.GetValue<T>( propertyAlias );
+        } else {
+          //We need to go recursive
+          IContent tempModel = content;
+          T tempProperty = default( T );
+          try {
+            tempProperty = tempModel.GetValue<T>( propertyAlias );
+          } catch { }
+          if ( !CheckNullOrEmpty( tempProperty ) ) {
+            rtnValue = tempProperty;
+          }
+
+          while ( CheckNullOrEmpty( rtnValue ) && tempModel != null && tempModel.Id > 0 ) {
+            tempModel = tempModel.Parent();
+            if ( tempModel != null ) {
+              try {
+                tempProperty = tempModel.GetValue<T>( propertyAlias );
+              } catch { }
+              if ( !CheckNullOrEmpty( tempProperty ) ) {
+                rtnValue = tempProperty;
+              }
+            }
+          }
         }
       }
 

@@ -30,7 +30,7 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
       IProductInformationExtractor<IContent, VariantPublishedContent> productInformationExtractor = ContentProductInformationExtractor.Instance;
       IVariantService<IContent, VariantPublishedContent> contentVariantService = ContentVariantService.Instance;
 
-      long storeId = productInformationExtractor.GetStoreId( content );
+      long storeId = productInformationExtractor.GetStoreId( content, null );
       VariantPublishedContent variant = contentVariantService.GetVariant( storeId, content, productIdentifierObj.VariantId );
 
       stock.Sku = productInformationExtractor.GetSku( content, variant );
@@ -48,7 +48,7 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
       IProductInformationExtractor<IContent, VariantPublishedContent> productInformationExtractor = ContentProductInformationExtractor.Instance;
       IVariantService<IContent, VariantPublishedContent> contentVariantService = ContentVariantService.Instance;
 
-      long storeId = productInformationExtractor.GetStoreId( content );
+      long storeId = productInformationExtractor.GetStoreId( content, null );
       VariantPublishedContent variant = contentVariantService.GetVariant( storeId, content, productIdentifierObj.VariantId );
 
       stock.Sku = !string.IsNullOrEmpty( stock.Sku ) ? stock.Sku : productInformationExtractor.GetSku( content, variant );
