@@ -1,11 +1,14 @@
 ﻿using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace TeaCommerce.Umbraco.Install.PackageActions {
-  public class MergeLanguageFile : AMergeXmlFile {
+namespace TeaCommerce.Umbraco.Install.InstallTasks {
+  public class LanguageFileInstallTask : AMergeXmlFileInstallTask {
 
-    public override string Alias() {
-      return "MergeLanguageFile";
+    public LanguageFileInstallTask( string sourceFile, string targetFile ) : base() {
+      CreateIfTargetFileNotExists = false;
+      OverwriteValues = true;
+      EmbeddedResource = true;
+      SetFiles( sourceFile, targetFile );
     }
 
     protected override void CleanFile() {

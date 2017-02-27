@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Hosting;
-using System.Xml.XPath;
 using TeaCommerce.Api.Infrastructure.Installation;
 using TeaCommerce.Api.Infrastructure.Logging;
 using TeaCommerce.Api.Models;
 using TeaCommerce.Api.Persistence;
 using TeaCommerce.Api.Persistence.Installation;
 using TeaCommerce.Api.Services;
+using TeaCommerce.Umbraco.Install.InstallTasks;
 
-namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Installation {
+namespace TeaCommerce.Umbraco.Install {
   public class Installer : IInstaller {
 
     private readonly IDatabaseFactory _databaseFactory;
@@ -20,12 +20,49 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Installation {
     private readonly IPaymentMethodService _paymentMethodService;
     private readonly IOrderService _orderService;
 
+    private readonly IList<IInstallTask> _installTasks;
+
     public Installer( IDatabaseFactory databaseFactory, IStoreService storeService, IPaymentMethodService paymentMethodService, IOrderService orderService ) {
       _databaseFactory = databaseFactory;
       _storeService = storeService;
       _paymentMethodService = paymentMethodService;
       _orderService = orderService;
       _persistenceInstaller = new PersistenceInstaller( databaseFactory );
+
+      _installTasks = new List<IInstallTask>();
+
+      //Sections
+      _installTasks.Add( new SectionInstallTask( "Tea Commerce", "teacommerce", "icon-shopping-basket-alt-2" ) );
+
+      //Trees
+      _installTasks.Add( new ApplicationTreeInstallTask( "tea-commerce-store-tree", "Stores", 0, "TeaCommerce.Umbraco.Application.Trees.StoreTree,TeaCommerce.Umbraco.Application" ) );
+      _installTasks.Add( new ApplicationTreeInstallTask( "tea-commerce-security-tree", "Security", 1, "TeaCommerce.Umbraco.Application.Trees.SecurityTree,TeaCommerce.Umbraco.Application" ) );
+      _installTasks.Add( new ApplicationTreeInstallTask( "tea-commerce-licenses-tree", "Licenses", 2, "TeaCommerce.Umbraco.Application.Trees.LicenseTree,TeaCommerce.Umbraco.Application" ) );
+      _installTasks.Add( new ApplicationTreeInstallTask( "tea-commerce-need-help-tree", "Need help?", 3, "TeaCommerce.Umbraco.Application.Trees.NeedHelpTree,TeaCommerce.Umbraco.Application" ) );
+
+      //Grant permissions
+      _installTasks.Add( new GrantPermissionsInstallTask() );
+
+      //Language files
+      _installTasks.Add( new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.da.xml", "~/umbraco/config/lang/da.xml" ) );
+      _installTasks.Add( new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.en.xml", "~/umbraco/config/lang/en.xml" ) );
+      _installTasks.Add( new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.se.xml", "~/umbraco/config/lang/se.xml" ) );
+
+      //Misc files
+      _installTasks.Add( new UIFileInstallTask( "TeaCommerce.Umbraco.Install.Content.XML.UI.xml", "~/umbraco/config/create/UI.xml" ) );
+      _installTasks.Add( new MoveFileInstallTask( "~/macroScripts/tea-commerce/email-template-confirmation.cshtml.default", "~/macroScripts/tea-commerce/email-template-confirmation.cshtml" ) { OverwriteFile = false } );
+      _installTasks.Add( new MoveFileInstallTask( "~/macroScripts/tea-commerce/email-template-payment-inconsistency.cshtml.default", "~/macroScripts/tea-commerce/email-template-payment-inconsistency.cshtml" ) { OverwriteFile = false } );
+      _installTasks.Add( new MoveFileInstallTask( "~/macroScripts/tea-commerce/edit-order.cshtml.default", "~/macroScripts/tea-commerce/edit-order.cshtml" ) { OverwriteFile = false } );
+
+      //Data type definitions
+      _installTasks.Add( new DataTypeDefinitionInstallTask( "Tea Commerce: Store picker", "TeaCommerce.StorePicker" ) );
+      _installTasks.Add( new DataTypeDefinitionInstallTask( "Tea Commerce: VAT group picker", "TeaCommerce.VatGroupPicker" ) );
+      _installTasks.Add( new DataTypeDefinitionInstallTask( "Tea Commerce: Stock management", "TeaCommerce.StockManagement" ) );
+      _installTasks.Add( new DataTypeDefinitionInstallTask( "Tea Commerce: Variant Editor", "TeaCommerce.VariantEditor" ) );
+
+      //Remove old package
+      _installTasks.Add( new RemoveOldPackageInstallTask() );
+
     }
 
     public void InstallOrUpdate() {
@@ -38,6 +75,17 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Installation {
 
       while ( currentVersion < newVersion ) {
         try {
+
+          #region Initial install
+
+          if ( currentVersion == 0 ) {
+            foreach ( IInstallTask installTask in _installTasks ) {
+              installTask.Install();
+            }
+          }
+
+          #endregion
+
           #region 2.1.0
 
           if ( currentVersion + 1 == 1 ) {
@@ -156,6 +204,10 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Installation {
     }
 
     public void Uninstall() {
+      foreach ( IInstallTask installTask in _installTasks ) {
+        installTask.Uninstall();
+      }
+
       _persistenceInstaller.Uninstall();
     }
   }

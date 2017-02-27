@@ -4,16 +4,16 @@ using umbraco.cms.businesslogic.packager.standardPackageActions;
 using umbraco.interfaces;
 
 namespace TeaCommerce.Umbraco.Install.PackageActions {
-  public class TeaCommerceInstaller : IPackageAction {
+  public class InstallPackageAction : IPackageAction {
 
     #region IPackageAction Members
 
     public string Alias() {
-      return "TeaCommerceInstaller";
+      return "InstallPackageAction";
     }
 
     public bool Execute( string packageName, XmlNode xmlData ) {
-      InstallationService.Instance.InstallOrUpdate();
+      //Don't do anything because Tea Commerce will bootstrap install because of Umbraco Cloud support
       return true;
     }
 

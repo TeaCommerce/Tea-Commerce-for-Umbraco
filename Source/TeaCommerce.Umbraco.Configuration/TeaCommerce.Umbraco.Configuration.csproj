@@ -111,7 +111,6 @@
     <Compile Include="InformationExtractors\ContentProductInformationExtractor.cs" />
     <Compile Include="InformationExtractors\IPublishedContentProductInformationExtractor.cs" />
     <Compile Include="InformationExtractors\PublishedContentProductInformationExtractor.cs" />
-    <Compile Include="Infrastructure\Installation\Installer.cs" />
     <Compile Include="Infrastructure\Logging\LoggingProvider.cs" />
     <Compile Include="Infrastructure\Ping\PingDataProvider.cs" />
     <Compile Include="Infrastructure\Security\PermissionProvider.cs" />

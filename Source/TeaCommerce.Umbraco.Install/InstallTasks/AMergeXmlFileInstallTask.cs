@@ -1,16 +1,13 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 using System.Xml;
 using System.Xml.Linq;
 using TeaCommerce.Api.Common;
-using umbraco.cms.businesslogic.packager.standardPackageActions;
-using umbraco.interfaces;
 using System.Web.Hosting;
 
-namespace TeaCommerce.Umbraco.Install.PackageActions {
-  public abstract class AMergeXmlFile : IPackageAction {
+namespace TeaCommerce.Umbraco.Install.InstallTasks {
+  public abstract class AMergeXmlFileInstallTask : IInstallTask {
 
     private bool fileMoved;
 
@@ -21,8 +18,8 @@ namespace TeaCommerce.Umbraco.Install.PackageActions {
         targetFilePath = value;
         targetFile = null;
         if ( !File.Exists( targetFilePath ) ) {
-          if ( createIfTargetFileNotExists ) {
-            if ( !embeddedResource ) {
+          if ( CreateIfTargetFileNotExists ) {
+            if ( !EmbeddedResource ) {
               File.Move( HostingEnvironment.MapPath( SourceFilePath ), targetFilePath );
             } else {
               using ( Stream input = Assembly.GetExecutingAssembly().GetManifestResourceStream( sourceFilePath ) ) {
@@ -50,10 +47,10 @@ namespace TeaCommerce.Umbraco.Install.PackageActions {
       }
     }
 
-    protected bool deleteTargetFileOnUndo;
-    protected bool createIfTargetFileNotExists = true;
-    protected bool overwriteValues;
-    protected bool embeddedResource;
+    public bool DeleteTargetFileOnUndo { get; set; }
+    public bool CreateIfTargetFileNotExists { get; set; }
+    public bool OverwriteValues { get; set; }
+    public bool EmbeddedResource { get; set; }
 
     private XDocument targetFile;
     protected XDocument TargetFile {
@@ -67,7 +64,7 @@ namespace TeaCommerce.Umbraco.Install.PackageActions {
     protected XDocument SourceFile {
       get {
         if ( sourceFile == null ) {
-          if ( embeddedResource )
+          if ( EmbeddedResource )
             sourceFile = XDocument.Load( Assembly.GetExecutingAssembly().GetManifestResourceStream( SourceFilePath ) );
           else
             sourceFile = XDocument.Load( HostingEnvironment.MapPath( SourceFilePath ) );
@@ -76,54 +73,25 @@ namespace TeaCommerce.Umbraco.Install.PackageActions {
       }
     }
 
-    public void Initialize( XmlNode xmlData ) {
-      embeddedResource = xmlData.Attributes[ "embeddedResource" ] != null && ( xmlData.Attributes[ "embeddedResource" ].Value.TryParse<bool>() ?? false );
-      deleteTargetFileOnUndo = xmlData.Attributes[ "deleteTargetFileOnUndo" ] != null && ( xmlData.Attributes[ "deleteTargetFileOnUndo" ].Value.TryParse<bool>() ?? false );
-      overwriteValues = xmlData.Attributes[ "overwriteValues" ] != null && ( xmlData.Attributes[ "overwriteValues" ].Value.TryParse<bool>() ?? false );
-      if ( xmlData.Attributes[ "createIfTargetFileNotExists" ] != null ) {
-        createIfTargetFileNotExists = ( xmlData.Attributes[ "createIfTargetFileNotExists" ].Value.TryParse<bool>() ?? true );
-      }
-      SourceFilePath = xmlData.Attributes[ "sourceFile" ].Value;
-      TargetFilePath = HostingEnvironment.MapPath( xmlData.Attributes[ "targetFile" ].Value );
+    public AMergeXmlFileInstallTask( ) {
+      CreateIfTargetFileNotExists = true;
     }
 
-    #region IPackageAction Members
-
-    public abstract string Alias();
-
-    public bool Execute( string packageName, XmlNode xmlData ) {
-      Initialize( xmlData );
-
-      if ( TargetFile != null ) {
-        XElement root = TargetFile.Root;
-        if ( root == null ) {
-          root = new XElement( SourceFile.Root.Name );
-          TargetFile.Add( root );
-        }
-        if ( !fileMoved ) {
-          MergeElement( SourceFile.Root, root );
-
-          //Save file
-          TargetFile.Save( TargetFilePath, SaveOptions.None );
-
-          if ( !embeddedResource )
-            File.Delete( HostingEnvironment.MapPath( SourceFilePath ) );
-        }
-      }
-
-      return true;
+    protected void SetFiles( string sourceFile, string targetFile ) {
+      SourceFilePath = sourceFile;
+      TargetFilePath = HostingEnvironment.MapPath( targetFile );
     }
 
     private void MergeElement( XElement sourceElement, XElement targetElement ) {
       foreach ( XAttribute sourceAttribute in sourceElement.Attributes() ) {
         XAttribute targetAttribute = targetElement.Attributes().FirstOrDefault( i => i.Name.Equals( sourceAttribute.Name ) );
-        if ( targetAttribute == null || overwriteValues )
+        if ( targetAttribute == null || OverwriteValues )
           targetElement.SetAttributeValue( sourceAttribute.Name, sourceAttribute.Value );
       }
 
       foreach ( XElement tempSourceElement in sourceElement.Elements() ) {
         XElement tempTargetElement = CheckElementExists( tempSourceElement, targetElement );
-        if ( !tempTargetElement.HasElements && overwriteValues && !string.IsNullOrEmpty( tempTargetElement.Value ) )
+        if ( !tempTargetElement.HasElements && OverwriteValues && !string.IsNullOrEmpty( tempTargetElement.Value ) )
           tempTargetElement.Value = tempSourceElement.Value;
 
         MergeElement( tempSourceElement, tempTargetElement );
@@ -141,31 +109,39 @@ namespace TeaCommerce.Umbraco.Install.PackageActions {
       return tempTargetElement;
     }
 
-    public XmlNode SampleXml() {
-      return helper.parseStringToXmlNode( string.Format( @"<Action runat=""install"" alias=""{0}"" sourceFile=""~/test2.xml"" targetFile=""~/test.xml"" overwriteValues=""false"" deleteTargetFileOnUndo=""false"" />", this.Alias() ) );
-    }
-
-    public bool Undo( string packageName, XmlNode xmlData ) {
-      Initialize( xmlData );
-
-      if ( TargetFile != null ) {
-        if ( !deleteTargetFileOnUndo ) {
-          CleanFile();
-          TargetFile.Save( TargetFilePath, SaveOptions.None );
-        } else
-          File.Delete( TargetFilePath );
-      }
-
-      return true;
-    }
-
-    #endregion
-
     protected virtual XElement FindElement( XElement parentElement, XElement sourceElement ) {
       return parentElement.Elements().FirstOrDefault( i => i.Name.Equals( sourceElement.Name ) && ( i.Attribute( "alias" ) != null ? i.Attribute( "alias" ).Value.Equals( sourceElement.Attribute( "alias" ).Value ) : true ) );
     }
 
     protected virtual void CleanFile() { }
 
+    public void Install() {
+      if ( TargetFile != null ) {
+        XElement root = TargetFile.Root;
+        if ( root == null ) {
+          root = new XElement( SourceFile.Root.Name );
+          TargetFile.Add( root );
+        }
+        if ( !fileMoved ) {
+          MergeElement( SourceFile.Root, root );
+
+          //Save file
+          TargetFile.Save( TargetFilePath, SaveOptions.None );
+
+          if ( !EmbeddedResource )
+            File.Delete( HostingEnvironment.MapPath( SourceFilePath ) );
+        }
+      }
+    }
+
+    public void Uninstall() {
+      if ( TargetFile != null ) {
+        if ( !DeleteTargetFileOnUndo ) {
+          CleanFile();
+          TargetFile.Save( TargetFilePath, SaveOptions.None );
+        } else
+          File.Delete( TargetFilePath );
+      }
+    }
   }
 }
