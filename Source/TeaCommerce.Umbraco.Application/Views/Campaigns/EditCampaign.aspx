@@ -149,5 +149,6 @@
     a.add-rule-group { font-weight: normal; }
     a.add-rule, a.add-award { position: relative; top: 5px; font-weight: normal; }
     label.no-edit { cursor: text; }
+    .umbDateTimePicker button { background-image: url(<%= TeaCommerce.Umbraco.Application.Utils.WebUtils.GetWebResourceUrl(TeaCommerce.Umbraco.Application.Constants.EditorIcons.Calendar) %>) !important;}
   </style>
 </asp:Content>
