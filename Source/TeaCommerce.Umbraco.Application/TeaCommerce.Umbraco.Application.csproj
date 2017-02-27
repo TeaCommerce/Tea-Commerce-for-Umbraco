@@ -101,12 +101,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Content\Images\EditorIcons\edit.gif" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\map-pin.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\lock.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\user.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\certificate.png" />
     <EmbeddedResource Include="Content\Images\exclamation.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\tag-label-red.png" />
+    <EmbeddedResource Include="Content\Images\EditorIcons\calSprite.gif" />
     <Content Include="Marketing\Assets\Scripts\campaign.controller.js" />
     <Content Include="Marketing\Awards\OrderLineAmountAward\order-line-amount-award.controller.js" />
     <Content Include="Marketing\Awards\OrderLineAmountAward\order-line-amount-award.html" />
@@ -159,29 +155,6 @@
     <Content Include="Views\OrderStatuses\EditOrderStatus.aspx" />
     <Content Include="Views\Shared\Partials\TemplateFileSelector.ascx" />
     <Content Include="Views\Sort\Sort.aspx" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\box-label.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\building.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\clipboard-task.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\clipboard.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\credit-card.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\credit-cards.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\document-task.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\globe-model.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\license-key.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\lifebuoy.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\locale-alternate.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\mail.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\mails-stack.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\map.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\money-coin.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\money.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\store.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\tag-label.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\target.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\toolbox.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\truck-box-label.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\zone-money.png" />
-    <EmbeddedResource Include="Content\Images\TreeIcons\zone.png" />
     <EmbeddedResource Include="Content\Images\EditorIcons\printer.gif" />
     <EmbeddedResource Include="Content\Images\EditorIcons\delete.gif" />
     <Content Include="Views\Shared\Partials\CultureCodeSelector.ascx" />
