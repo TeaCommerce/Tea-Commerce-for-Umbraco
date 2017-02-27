@@ -49,15 +49,6 @@ namespace TeaCommerce.Umbraco.Install.Views {
         protected global::umbraco.uicontrols.CodeArea CodeArea1;
         
         /// <summary>
-        /// BtnGoToTeaCommerceSection control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnGoToTeaCommerceSection;
-        
-        /// <summary>
         /// LitUsefulLinks control.
         /// </summary>
         /// <remarks>

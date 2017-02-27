@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace TeaCommerce.Umbraco.Configuration.Variant.Product {
+namespace TeaCommerce.Umbraco.Configuration.Variants.Models {
   public class VariantGroup {
-    public int Id { get; set; }
+    public string Id { get; set; }
     public string Name { get; set; }
     public List<VariantType> Attributes { get; set; }
 

@@ -575,6 +575,7 @@ function ($scope, $rootScope, $timeout, $routeParams, contentResource, editorSta
         //We add extra information the stock property editor will need
         variantProp.variantId = variant.id;
         stockProp = variantProp;
+        variantProp.isVariantProp = true;
       }
 
       //The sku property is also special
@@ -586,7 +587,7 @@ function ($scope, $rootScope, $timeout, $routeParams, contentResource, editorSta
     if (skuProp && stockProp) {
       //Add the sku to the stock property
       //If the variant have a custom sku it can also have a custom stock
-      stockProp.skuProp = skuProp.value;
+      stockProp.skuProp = skuProp;
     }
 
     variant.combinationDictionary = {};
@@ -819,15 +820,24 @@ function ($scope, $rootScope, $timeout, $routeParams, contentResource, editorSta
       $scope.variantGroups = [];
 
       var variantGroups = jQuery(data.items),
-          endCount = variantGroups.length,
+          legalVariantGroups = [],
           answersReciewed = 0;
+
+      //Check how many variant groups that is legal
+      variantGroups.each(function (i) {
+        var variantGroup = this;
+        //Run the variant group through the filters from the settings
+        if (checkDocumentTypeFromFilter(variantGroup) && checkNodeNameFromFilter(variantGroup)) {
+          legalVariantGroups.push(variantGroup);
+        }
+      });
+      var endCount = legalVariantGroups.length;
 
       //Run through each variant groups
       variantGroups.each(function (i) {
         var variantGroup = this;
         variantGroup.label = variantGroup.name;
-        //Run the variant group through the filters from the settings
-        if (checkDocumentTypeFromFilter(variantGroup) && checkNodeNameFromFilter(variantGroup)) {
+        
           //Get all variant types for the variant group
           contentResource.getChildren(variantGroup.id, $scope.options).then(function (data) {
             //The items is the variant types
@@ -844,7 +854,7 @@ function ($scope, $rootScope, $timeout, $routeParams, contentResource, editorSta
               readyVariantScaffolding();
             }
           });
-        }
+        
 
       });
     });

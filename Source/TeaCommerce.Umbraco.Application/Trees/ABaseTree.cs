@@ -37,7 +37,7 @@ namespace TeaCommerce.Umbraco.Application.Trees {
     protected XmlTreeNode AssignNodeValues( XmlTreeNode node, string nodeId, string text, string icon, string nodeType, bool hasChildNodes = false ) {
       node.NodeID = nodeId;
       node.Text = text;
-      node.Icon = WebUtils.GetWebResourceUrl( icon );
+      node.Icon = icon;
       node.NodeType = TreeAlias + "-" + nodeType;
       node.Source = hasChildNodes ? this.GetTreeServiceUrl( nodeId ) : null;
       node.Action = "javascript:(function(){})";

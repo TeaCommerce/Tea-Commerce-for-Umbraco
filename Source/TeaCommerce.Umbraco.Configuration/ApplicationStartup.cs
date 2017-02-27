@@ -1,16 +1,21 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using TeaCommerce.Api.Dependency;
 using TeaCommerce.Api.Infrastructure.Installation;
-using TeaCommerce.Umbraco.Configuration.Services;
+using TeaCommerce.Api.Infrastructure.Security;
+using TeaCommerce.Api.Models;
+using TeaCommerce.Api.Services;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.web;
 using Umbraco.Core;
+using Umbraco.Core.Events;
 using Umbraco.Core.Logging;
+using Umbraco.Core.Models.Membership;
 using Umbraco.Core.Services;
 
 namespace TeaCommerce.Umbraco.Configuration {
-  public class ApplicationStartup : ApplicationEventHandler {
+    public class ApplicationStartup : ApplicationEventHandler {
 
     protected override void ApplicationStarted( UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext ) {
       try {
@@ -18,7 +23,7 @@ namespace TeaCommerce.Umbraco.Configuration {
           Assembly.Load( "TeaCommerce.Umbraco.Configuration" ),
           Assembly.Load( "TeaCommerce.Umbraco.Install" ) );
       } catch ( Exception exp ) {
-        LogHelper.Error( GetType(), "Error loading Autofac modules", exp );
+        LogHelper.Error<ApplicationStartup>( "Error loading Autofac modules", exp );
       }
 
       //Run install/update on each application startup to support Umbraco Cloud and Nuget
@@ -28,12 +33,52 @@ namespace TeaCommerce.Umbraco.Configuration {
       Domain.AfterSave += Domain_AfterSave;
       Domain.AfterDelete += Domain_AfterDelete;
 
-      ContentService.Published += ContentService_Published;
+      UserService.SavedUser += UserService_SavedUser;
     }
 
-    private void ContentService_Published( global::Umbraco.Core.Publishing.IPublishingStrategy sender, global::Umbraco.Core.Events.PublishEventArgs<global::Umbraco.Core.Models.IContent> e ) {
-      CacheService.Instance.InvalidateApplicationCache();
-    } 
+    void UserService_SavedUser( IUserService sender, SaveEventArgs<IUser> e ) {
+      //Add all permissions to user if they have access to the Tea Commerce section, but no permissions at all in Tea Commerce
+      foreach ( IUser user in e.SavedEntities ) {
+        if ( user.AllowedSections.Contains( "teacommerce" ) ) {
+
+          //Chekc if user has no permissions in Tea Commerce
+          Permissions permissions = PermissionService.Instance.Get( user.Id.ToInvariantString() );
+          if ( permissions != null && !permissions.IsUserSuperAdmin ) {
+            bool createPermissions = permissions.GeneralPermissions.Equals( GeneralPermissionType.None );
+
+            if ( createPermissions ) {
+              foreach ( Store store in StoreService.Instance.GetAll() ) {
+                if ( permissions.StoreSpecificPermissions.ContainsKey( store.Id ) && !permissions.StoreSpecificPermissions[ store.Id ].Equals( StoreSpecificPermissionType.None ) ) {
+                  createPermissions = false;
+                  break;
+                }
+              }
+            }
+
+            if ( createPermissions ) {
+
+              //Give all general permissions
+              foreach ( GeneralPermissionType permissionType in Enum.GetValues( typeof( GeneralPermissionType ) ).Cast<GeneralPermissionType>() ) {
+                permissions.GeneralPermissions |= permissionType;
+              }
+
+              //Give all store specific permissions to all stores
+              foreach ( Store store in StoreService.Instance.GetAll() ) {
+                StoreSpecificPermissionType storePermissions = StoreSpecificPermissionType.None;
+
+                foreach ( StoreSpecificPermissionType permissionType in Enum.GetValues( typeof( StoreSpecificPermissionType ) ).Cast<StoreSpecificPermissionType>() ) {
+                  storePermissions |= permissionType;
+                }
+                permissions.StoreSpecificPermissions.Add( store.Id, storePermissions );
+              }
+
+              permissions.Save();
+            }
+
+          }
+        }
+      }
+    }
 
     void Domain_New( Domain sender, NewEventArgs e ) {
       Compatibility.Domain.InvalidateCache();
@@ -43,7 +88,7 @@ namespace TeaCommerce.Umbraco.Configuration {
       Compatibility.Domain.InvalidateCache();
     }
 
-    void Domain_AfterDelete( Domain sender, DeleteEventArgs e ) {
+    void Domain_AfterDelete( Domain sender, umbraco.cms.businesslogic.DeleteEventArgs e ) {
       Compatibility.Domain.InvalidateCache();
     }
   }

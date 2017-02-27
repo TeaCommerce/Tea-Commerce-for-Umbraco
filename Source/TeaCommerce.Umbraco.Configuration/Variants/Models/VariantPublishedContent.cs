@@ -1,48 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json.Linq;
 using Umbraco.Core;
 using Umbraco.Web.Models;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
-using TeaCommerce.Umbraco.Configuration.Variant.Product;
 
-namespace TeaCommerce.Umbraco.Configuration.Variant {
-  public class VariantPublishedContent : PublishedContentBase {
-    private readonly bool _isPreviewing;
-    private readonly string _variantId;
-    private readonly IPublishedContent _parentContent;
+namespace TeaCommerce.Umbraco.Configuration.Variants.Models {
+  public class VariantPublishedContent : PublishedContentBase, IVariant {
+    private readonly string _variantIdentifier;
     private readonly List<IPublishedProperty> _properties;
     private readonly PublishedContentType _contentType;
-    private readonly List<Combination> _combinations;
+    private readonly List<Specification> _combination;
 
-    public VariantPublishedContent( Product.Variant variant, PublishedContentType contentType, IPublishedContent parentContent = null, bool isPreviewing = false ) {
-      _parentContent = parentContent;
-      _isPreviewing = isPreviewing;
+    public VariantPublishedContent( Variant variant, PublishedContentType contentType ) {
+      _variantIdentifier = variant.Id;
       _contentType = contentType;
-      _variantId = variant.Id;
 
-      _combinations = variant.Combination;
+      _combination = variant.Combination;
       Validation = variant.Validation;
 
       _properties = new List<IPublishedProperty>();
 
-      foreach ( JProperty property in variant.Properties ) {
-        _properties.Add( new VariantPublishedProperty( contentType.GetPropertyType( property.Name ), property.Value ) );
+      foreach ( string key in variant.Properties.Keys ) {
+        _properties.Add( new VariantPublishedProperty( contentType.GetPropertyType( key ), variant.Properties[key] ) );
       }
     }
 
-    public string VariantId {
-      get { return _variantId; }
+    public string VariantIdentifier {
+      get { return _variantIdentifier; }
     }
 
-    public string ProductIdentifier {
-      get { return _parentContent.Id + "_" + _variantId; }
-    }
-
-    public List<Combination> Combinations {
-      get { return _combinations; }
+    public List<Specification> Combination {
+      get { return _combination; }
     }
 
     public VariantValidation Validation { get; private set; }
@@ -56,15 +46,15 @@ namespace TeaCommerce.Umbraco.Configuration.Variant {
     }
 
     public override DateTime CreateDate {
-      get { return _parentContent != null ? _parentContent.CreateDate : DateTime.MinValue; }
+      get { return DateTime.MinValue; }
     }
 
     public override int CreatorId {
-      get { return _parentContent != null ? _parentContent.CreatorId : 0; }
+      get { return 0; }
     }
 
     public override string CreatorName {
-      get { return _parentContent != null ? _parentContent.CreatorName : ""; }
+      get { return ""; }
     }
 
     public override string DocumentTypeAlias {
@@ -92,7 +82,7 @@ namespace TeaCommerce.Umbraco.Configuration.Variant {
     }
 
     public override bool IsDraft {
-      get { return _isPreviewing; }
+      get { return false; }
     }
 
     public override PublishedItemType ItemType {
@@ -104,15 +94,15 @@ namespace TeaCommerce.Umbraco.Configuration.Variant {
     }
 
     public override string Name {
-      get { return String.Join( " - ", _combinations.Select( c => c.Name ) ); }
+      get { return String.Join( " - ", _combination.Select( c => c.Name ) ); }
     }
 
     public override IPublishedContent Parent {
-      get { return _parentContent; }
+      get { return null; }
     }
 
     public override string Path {
-      get { return _parentContent != null ? _parentContent.Path : ""; }
+      get { return ""; }
     }
 
     public override ICollection<IPublishedProperty> Properties {
@@ -128,27 +118,27 @@ namespace TeaCommerce.Umbraco.Configuration.Variant {
     }
 
     public override DateTime UpdateDate {
-      get { return _parentContent != null ? _parentContent.UpdateDate : DateTime.MinValue; }
+      get { return DateTime.MinValue; }
     }
 
     public override string UrlName {
-      get { return _parentContent != null ? _parentContent.UrlName : ""; }
+      get { return ""; }
     }
 
     public override string Url {
-      get { return _parentContent != null ? _parentContent.Url : ""; }
+      get { return ""; }
     }
 
     public override Guid Version {
-      get { return _parentContent != null ? _parentContent.Version : Guid.Empty; }
+      get { return Guid.Empty; }
     }
 
     public override int WriterId {
-      get { return _parentContent != null ? _parentContent.WriterId : 0; }
+      get { return 0; }
     }
 
     public override string WriterName {
-      get { return _parentContent != null ? _parentContent.WriterName : ""; }
+      get { return ""; }
     }
 
   }
