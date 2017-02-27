@@ -4,7 +4,7 @@
   <info>
     <package>
       <name>Tea Commerce</name>
-      <version>3.1.0 for Umbraco 7</version>
+      <version>3.2.0 for Umbraco 7</version>
       <license url="http://teacommerce.net/license-agreement/">Commercial license</license>
       <url>http://teacommerce.net</url>
       <requirements>
@@ -43,25 +43,7 @@
   <Languages />
   <DataTypes />
   <Actions>
-    <Action runat="install" alias="AddCustomSection" appName="Tea Commerce" appAlias="teacommerce" appIcon="icon-shopping-basket-alt-2" />
-    <Action runat="install" alias="AddTree" sortOrder="0" treeAlias="tea-commerce-store-tree" treeTitle="Stores" type="TeaCommerce.Umbraco.Application.Trees.StoreTree,TeaCommerce.Umbraco.Application" />
-    <Action runat="install" alias="AddTree" sortOrder="1" treeAlias="tea-commerce-security-tree" treeTitle="Security" type="TeaCommerce.Umbraco.Application.Trees.SecurityTree,TeaCommerce.Umbraco.Application" />
-    <Action runat="install" alias="AddTree" sortOrder="2" treeAlias="tea-commerce-licenses-tree" treeTitle="Licenses" type="TeaCommerce.Umbraco.Application.Trees.LicenseTree,TeaCommerce.Umbraco.Application"/>
-    <Action runat="install" alias="AddTree" sortOrder="3" treeAlias="tea-commerce-need-help-tree" treeTitle="Need help?" type="TeaCommerce.Umbraco.Application.Trees.NeedHelpTree,TeaCommerce.Umbraco.Application" />
-    <Action runat="install" alias="GrantPermissions" />
-    <Action runat="install" alias="MergeLanguageFile" sourceFile="TeaCommerce.Umbraco.Install.Content.Resources.da.xml" createIfTargetFileNotExists="false" targetFile="~/umbraco/config/lang/da.xml" overwriteValues="true" embeddedResource="true" />
-    <Action runat="install" alias="MergeLanguageFile" sourceFile="TeaCommerce.Umbraco.Install.Content.Resources.en.xml" createIfTargetFileNotExists="false" targetFile="~/umbraco/config/lang/en.xml" overwriteValues="true" embeddedResource="true" />
-    <Action runat="install" alias="MergeLanguageFile" sourceFile="TeaCommerce.Umbraco.Install.Content.Resources.se.xml" createIfTargetFileNotExists="false" targetFile="~/umbraco/config/lang/se.xml" overwriteValues="true" embeddedResource="true" />
-    <Action runat="install" alias="MergeUIFile" sourceFile="TeaCommerce.Umbraco.Install.Content.XML.UI.xml" targetFile="~/umbraco/config/create/UI.xml" overwriteValues="true" embeddedResource="true" />
-    <Action runat="install" alias="TeaMoveFile" sourceFile="~/macroScripts/tea-commerce/email-template-confirmation.cshtml.default" targetFile="~/macroScripts/tea-commerce/email-template-confirmation.cshtml" overwriteFile="false" />
-    <Action runat="install" alias="TeaMoveFile" sourceFile="~/macroScripts/tea-commerce/email-template-payment-inconsistency.cshtml.default" targetFile="~/macroScripts/tea-commerce/email-template-payment-inconsistency.cshtml" overwriteFile="false" />
-    <Action runat="install" alias="TeaMoveFile" sourceFile="~/macroScripts/tea-commerce/edit-order.cshtml.default" targetFile="~/macroScripts/tea-commerce/edit-order.cshtml" overwriteFile="false" />
-    <Action runat="install" alias="CreateDataTypeDefinition" dataTypeDefinitionAlias="TeaCommerce.StorePicker" name="Tea Commerce: Store picker" />
-    <Action runat="install" alias="CreateDataTypeDefinition" dataTypeDefinitionAlias="TeaCommerce.VatGroupPicker" name="Tea Commerce: VAT group picker" />
-    <Action runat="install" alias="CreateDataTypeDefinition" dataTypeDefinitionAlias="TeaCommerce.StockManagement" name="Tea Commerce: Stock management" />
-    <Action runat="install" alias="CreateDataTypeDefinition" dataTypeDefinitionAlias="TeaCommerce.VariantEditor" name="Tea Commerce: Variant Editor" />
-    <Action runat="install" alias="TeaCommerceInstaller" />
-    <Action runat="install" alias="TeaRemoveOldInstallation" />
+    <Action runat="install" alias="InstallPackageAction" />
   </Actions>
   <control>/App_Plugins/TeaCommerce/Views/Install/Installer.ascx</control>
 </umbPackage>

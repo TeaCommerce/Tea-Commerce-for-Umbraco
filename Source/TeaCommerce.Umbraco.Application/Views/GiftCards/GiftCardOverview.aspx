@@ -72,5 +72,6 @@
 <asp:Content ContentPlaceHolderID="CphHead" runat="server">
   <style type="text/css">
     .licenseCheck { background: #FFF6BF; margin: 10px 0; padding: 20px; color: #5E532C; text-align: center; }
+    .umbDateTimePicker button { background-image: url(<%= TeaCommerce.Umbraco.Application.Utils.WebUtils.GetWebResourceUrl(TeaCommerce.Umbraco.Application.Constants.EditorIcons.Calendar) %>) !important;}
   </style>
 </asp:Content>

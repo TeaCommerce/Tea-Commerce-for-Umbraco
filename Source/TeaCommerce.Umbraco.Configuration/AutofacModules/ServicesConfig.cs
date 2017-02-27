@@ -1,6 +1,10 @@
 ﻿using Autofac;
 using TeaCommerce.Api.Common;
+using TeaCommerce.Api.Services;
 using TeaCommerce.Umbraco.Configuration.Services;
+using TeaCommerce.Umbraco.Configuration.Variants.Models;
+using TeaCommerce.Umbraco.Configuration.Variants.Services;
+using Umbraco.Core.Models;
 
 namespace TeaCommerce.Umbraco.Configuration.AutofacModules {
   public class ServicesConfig : Module {
@@ -8,9 +12,9 @@ namespace TeaCommerce.Umbraco.Configuration.AutofacModules {
     protected override void Load( ContainerBuilder builder ) {
       builder.MustNotBeNull( "builder" );
 
-      builder.RegisterType<CacheService>().As<ICacheService>().PreserveExistingDefaults().InstancePerLifetimeScope();
       builder.RegisterType<LanguageService>().As<ILanguageService>().PreserveExistingDefaults().InstancePerLifetimeScope();
-      builder.RegisterType<VariantService>().As<IVariantService>().PreserveExistingDefaults().InstancePerLifetimeScope();
+      builder.RegisterType<PublishedContentVariantService>().As<IVariantService<IPublishedContent, VariantPublishedContent>>().PreserveExistingDefaults().InstancePerLifetimeScope();
+      builder.RegisterType<ContentVariantService>().As<IVariantService<IContent, VariantPublishedContent>>().PreserveExistingDefaults().InstancePerLifetimeScope();
     }
 
   }

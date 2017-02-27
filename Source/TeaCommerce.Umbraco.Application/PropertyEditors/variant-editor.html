@@ -21,7 +21,7 @@
               {{variantGroup.name}}
             </div>
             <div class="variantGroup-content" ng-show="model.value.variantGroupsOpen[variantGroup.id]">
-              <div class="item" ng-repeat="item in variantGroup.items | orderBy:'name'" ng-class="{checked:item.checked}" ng-click="item.checked=!item.checked" title="{{ item.checked && 'Remove '+item.name+' from selection' || 'Add '+item.name+' to selection' }}">
+              <div class="item" ng-repeat="item in variantGroup.items" ng-class="{checked:item.checked}" ng-click="item.checked=!item.checked" title="{{ item.checked && 'Remove '+item.name+' from selection' || 'Add '+item.name+' to selection' }}">
                 <i class="icon-check"></i>
                 {{item.name}}
               </div>

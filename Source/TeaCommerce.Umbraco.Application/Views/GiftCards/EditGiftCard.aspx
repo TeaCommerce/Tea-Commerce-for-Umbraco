@@ -26,3 +26,8 @@
     </umbUIControls:Pane>
   </asp:Panel>
 </asp:Content>
+<asp:Content ContentPlaceHolderID="CphHead" runat="server">
+  <style type="text/css">
+    .umbDateTimePicker button { background-image: url(<%= TeaCommerce.Umbraco.Application.Utils.WebUtils.GetWebResourceUrl(TeaCommerce.Umbraco.Application.Constants.EditorIcons.Calendar) %>) !important;}
+  </style>
+</asp:Content>

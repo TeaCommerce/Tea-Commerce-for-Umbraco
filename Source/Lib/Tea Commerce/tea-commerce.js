@@ -685,6 +685,7 @@ if (typeof TC === 'undefined') { var TC = {}; }
     TCService.eventSubscribers = [];
 
     TCService.postToServer = function (method, formData, settings) {
+      teaLog(['Before post to the server. Method ' + method + ' is used. Check the objects for more information. These are the objects: [formData, settings]', formData, settings]);
       formData = formData || {};
       formData.isJavaScript = 'true';
 
@@ -714,8 +715,14 @@ if (typeof TC === 'undefined') { var TC = {}; }
         url: '[formPostUrl]',
         data: formData,
         async: async,
-        success: function (json, success, response) { rtnData = TCService.success(json, success, response, null, settings); },
-        error: function (json) { TCService.error(json, settings); },
+        success: function (json, success, response) {
+          rtnData = TCService.success(json, success, response, null, settings);
+          teaLog(['After post to the server. Method ' + method + ' is used. Succeeded post. Check the object for more information. Object: [returnData]', rtnData]);
+        },
+        error: function (json) {
+          TCService.error(json, settings);
+          teaLog(['After post to the server. Method ' + method + ' is used. Error occurred. Check the object for more information. Object: [json]', json]);
+        },
         cache: false,
         contentType: 'application/x-www-form-urlencoded; charset=utf-8',
         dataType: dataType
@@ -822,6 +829,7 @@ if (typeof TC === 'undefined') { var TC = {}; }
     };
 
     TCService.fireEvent = function (event, arg1, arg2, arg3) {
+      teaLog(['The event ' + event + ' was fired. Check the objects for more information. Your event hook will be called with the following objects:', arg1, arg2, arg3]);
       if (TCService.eventSubscribers[event]) {
         var i;
         for (i = 0; i < TCService.eventSubscribers[event].length; i++) {
@@ -877,6 +885,11 @@ if (typeof TC === 'undefined') { var TC = {}; }
       // prepare Options Object 
       var settingsLocal = {
         success: function (json, success, response, jQForm) {
+          if (form) {
+            teaLog(['After post to the server. Method ' + form[0].name + ' is used. Succeeded post. Check the objects for more information. These are the Objects: [json, success, response, jQForm]', json, success, response, jQForm]);
+          } else {
+            teaLog(['After post to the server. The form is empty']);
+          }
           if (!settings.dataType || settings.dataType === 'json') {
             TCService.success(json, success, response, jQForm, null);
           }
@@ -885,6 +898,12 @@ if (typeof TC === 'undefined') { var TC = {}; }
           }
         },
         error: function (json) {
+
+          if (form) {
+            teaLog(['After post to the server. Method ' + form[0].name + ' is used. Error occurred. Check the object for more information. Object: [json]', json]);
+          } else {
+            teaLog(['After post to the server. The form is empty']);
+          }
           if (settings.dataType === 'json') {
             TCService.error(json, null);
           }
@@ -893,6 +912,12 @@ if (typeof TC === 'undefined') { var TC = {}; }
           }
         },
         beforeSubmit: function (formData, jQForm, settingsLocal) {
+          if (formData) {
+            teaLog(['Before post to the server. Method ' + formData[0].name + ' is used. Check the objects for more information. These are the Objects: [formData, jQForm, settingsLocal]', formData, jQForm, settingsLocal]);
+          } else {
+            teaLog(['Before form post:', 'FormData is empty']);
+          }
+
           var calledMethods = [],
               i = 0;
           for (i = 0; i < formData.length; i++) {
@@ -930,5 +955,17 @@ if (typeof TC === 'undefined') { var TC = {}; }
 
   };
 
+  /*************************************************************
+  - LOGGING THE JAVASCRIPT
+  *************************************************************/
+  function teaLog(array) {
+    if (TC.log) {
+      array.unshift('Tea Commerce Log:');
+      console.log(array);
+    }
+  }
+
   var tcs = new TCService();
+
 })();
+

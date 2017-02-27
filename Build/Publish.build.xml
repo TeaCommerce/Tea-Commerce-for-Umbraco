@@ -41,7 +41,9 @@
 	  <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.Configuration\bin\$(Configuration)\TeaCommerce.Umbraco*.dll" />
 	  <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.Install\bin\$(Configuration)\TeaCommerce.Umbraco*.dll" />
 	  <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.Web\bin\$(Configuration)\TeaCommerce.Umbraco*.dll" />
-	  <BinFiles Include="$(LibDir)\Tea Commerce\*.dll" />
+	  <BinFiles Include="$(LibDir)\Tea Commerce\Infralution.Licensing.dll" />
+	  <BinFiles Include="$(LibDir)\Tea Commerce\Autofac.dll" />
+	  <BinFiles Include="$(LibDir)\Tea Commerce\TeaCommerce*.dll" />
 	  <BinFiles Include="$(LibDir)\Tea Commerce payment providers\*.dll" />
 	  
 	  <Resources Include="$(SourceDir)\TeaCommerce.Umbraco.Application\bin\$(Configuration)\**\TeaCommerce.Umbraco.Application.resources.dll" />

@@ -129,9 +129,6 @@
   <data name="Installation_Complete" xml:space="preserve">
     <value>Tea Commerce installerades utan problem!</value>
   </data>
-  <data name="Installation_GoToTeaCommerceSection" xml:space="preserve">
-    <value>Gå till Tea Commerce-sektionen</value>
-  </data>
   <data name="Installation_StepsToComplete1" xml:space="preserve">
     <value>Slutför installationen</value>
   </data>
@@ -141,7 +138,7 @@
     &lt;ol&gt;
       &lt;li&gt;Lägg till följande script i din html &amp;lt;head&amp;gt;-tagg.
       &lt;/li&gt;
-      &lt;li&gt;Tryck F5 eller klicka på knappen nedan för att få tillgång till Tea Commerce-sektionen
+      &lt;li&gt;Gå til brugerne sektion og give din bruger adgang til Tea Commerce sektionen
       &lt;/li&gt;
     &lt;/ol&gt;&lt;/p&gt;</value>
   </data>

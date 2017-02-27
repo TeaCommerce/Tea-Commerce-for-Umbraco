@@ -1,3 +1,11 @@
 ﻿<div ng-controller="TeaCommerce.StockManagementController">
   <input type="text" ng-model="stock.Value" class="umb-editor test" ng-disabled="ui.creating" />
+  <div ng-show="model.isVariantProp && !model.skuProp">
+    This variant uses the products general SKU.<br />
+    To make stock on this specific variant work, you need to add a property with the alias "sku" and give it a value
+  </div>
+  <div ng-show="model.isVariantProp && (model.skuProp && !model.skuProp.value)">
+    This variant uses the products general SKU.<br />
+    To make stock on this specific variant work, you need to give the SKU property a value
+  </div>
 </div>
