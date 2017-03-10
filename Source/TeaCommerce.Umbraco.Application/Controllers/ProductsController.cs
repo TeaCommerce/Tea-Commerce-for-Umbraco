@@ -1,8 +1,10 @@
 ﻿using System.Web.Http;
 using TeaCommerce.Api.Common;
+using TeaCommerce.Api.InformationExtractors;
 using TeaCommerce.Api.Services;
 using TeaCommerce.Umbraco.Configuration.InformationExtractors;
-using TeaCommerce.Umbraco.Configuration.Variant.Product;
+using TeaCommerce.Umbraco.Configuration.Variants.Models;
+using TeaCommerce.Umbraco.Configuration.Variants.Services;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Web.Editors;
@@ -20,16 +22,18 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
 
     [HttpGet]
     public Stock GetStock( string productIdentifier ) {
-      
+
       Stock stock = new Stock();
       ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
 
       IContent content = ApplicationContext.Current.Services.ContentService.GetById( productIdentifierObj.NodeId );
-      IContentProductInformationExtractor productInformationExtractor = ContentProductInformationExtractor.Instance;
+      IProductInformationExtractor<IContent, VariantPublishedContent> productInformationExtractor = ContentProductInformationExtractor.Instance;
+      IVariantService<IContent, VariantPublishedContent> contentVariantService = ContentVariantService.Instance;
 
-      long storeId = productInformationExtractor.GetStoreId( content );
+      long storeId = productInformationExtractor.GetStoreId( content, null );
+      VariantPublishedContent variant = contentVariantService.GetVariant( storeId, content, productIdentifierObj.VariantId );
 
-      stock.Sku = productInformationExtractor.GetSku( content, productIdentifierObj.VariantId );
+      stock.Sku = productInformationExtractor.GetSku( content, variant );
       decimal? stockValue = ProductService.Instance.GetStock( storeId, stock.Sku );
       stock.Value = stockValue != null ? stockValue.Value.ToString( "0.####" ) : "";
 
@@ -41,11 +45,13 @@ namespace TeaCommerce.Umbraco.Application.Controllers {
       ProductIdentifier productIdentifierObj = new ProductIdentifier( productIdentifier );
 
       IContent content = ApplicationContext.Current.Services.ContentService.GetById( productIdentifierObj.NodeId );
-      IContentProductInformationExtractor productInformationExtractor = ContentProductInformationExtractor.Instance;
+      IProductInformationExtractor<IContent, VariantPublishedContent> productInformationExtractor = ContentProductInformationExtractor.Instance;
+      IVariantService<IContent, VariantPublishedContent> contentVariantService = ContentVariantService.Instance;
 
-      long storeId = productInformationExtractor.GetStoreId( content );
+      long storeId = productInformationExtractor.GetStoreId( content, null );
+      VariantPublishedContent variant = contentVariantService.GetVariant( storeId, content, productIdentifierObj.VariantId );
 
-      stock.Sku = !string.IsNullOrEmpty( stock.Sku ) ? stock.Sku : productInformationExtractor.GetSku( content, productIdentifierObj.VariantId );
+      stock.Sku = !string.IsNullOrEmpty( stock.Sku ) ? stock.Sku : productInformationExtractor.GetSku( content, variant );
 
       ProductService.Instance.SetStock( storeId, stock.Sku, !string.IsNullOrEmpty( stock.Value ) ? stock.Value.ParseToDecimal() : null );
     }

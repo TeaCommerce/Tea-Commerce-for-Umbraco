@@ -170,6 +170,10 @@
         .pager a:hover {
           text-decoration: none;
         }
+
+        .umbDateTimePicker button {
+            background-image: url(<%= TeaCommerce.Umbraco.Application.Utils.WebUtils.GetWebResourceUrl(TeaCommerce.Umbraco.Application.Constants.EditorIcons.Calendar) %>) !important;
+        }
   </style>
   <script type="text/javascript">
     jQuery(function () {

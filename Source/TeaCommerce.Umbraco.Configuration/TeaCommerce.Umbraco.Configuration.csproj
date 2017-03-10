@@ -109,10 +109,8 @@
     <Compile Include="AutofacModules\InfrastructureConfig.cs" />
     <Compile Include="Compatibility\Domain.cs" />
     <Compile Include="InformationExtractors\ContentProductInformationExtractor.cs" />
-    <Compile Include="InformationExtractors\IContentProductInformationExtractor.cs" />
     <Compile Include="InformationExtractors\IPublishedContentProductInformationExtractor.cs" />
     <Compile Include="InformationExtractors\PublishedContentProductInformationExtractor.cs" />
-    <Compile Include="Infrastructure\Installation\Installer.cs" />
     <Compile Include="Infrastructure\Logging\LoggingProvider.cs" />
     <Compile Include="Infrastructure\Ping\PingDataProvider.cs" />
     <Compile Include="Infrastructure\Security\PermissionProvider.cs" />
@@ -131,23 +129,24 @@
     <Compile Include="Marketing\Services\ManifestService.cs" />
     <Compile Include="PaymentProviders\HashSecretProvider.cs" />
     <Compile Include="PaymentProviders\PaymentProviderUriResolver.cs" />
-    <Compile Include="InformationExtractors\ProductInformationExtractor.cs" />
     <Compile Include="Persistence\DatabaseFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyEditors\VariantEditorPropertyEditor.cs" />
-    <Compile Include="Services\CacheService.cs" />
-    <Compile Include="Services\ICacheService.cs" />
-    <Compile Include="Services\IVariantService.cs" />
+    <Compile Include="Variants\Services\AVariantService.cs" />
+    <Compile Include="Variants\Services\IVariantService.cs" />
     <Compile Include="Services\ILanguageService.cs" />
     <Compile Include="Services\LanguageService.cs" />
-    <Compile Include="Services\VariantService.cs" />
-    <Compile Include="Variant\Product\Combination.cs" />
-    <Compile Include="Variant\Product\ProductIdentifier.cs" />
-    <Compile Include="Variant\Product\Variant.cs" />
-    <Compile Include="Variant\Product\VariantType.cs" />
-    <Compile Include="Variant\Product\VariantGroup.cs" />
-    <Compile Include="Variant\VariantPublishedContent.cs" />
-    <Compile Include="Variant\VariantPublishedProperty.cs" />
+    <Compile Include="Variants\Services\ContentVariantService.cs" />
+    <Compile Include="Variants\Services\AVariantPublishedContentService.cs" />
+    <Compile Include="Variants\Services\PublishedContentVariantService.cs" />
+    <Compile Include="Variants\Models\IVariant.cs" />
+    <Compile Include="Variants\Models\Specification.cs" />
+    <Compile Include="Variants\Models\ProductIdentifier.cs" />
+    <Compile Include="Variants\Models\Variant.cs" />
+    <Compile Include="Variants\Models\VariantType.cs" />
+    <Compile Include="Variants\Models\VariantGroup.cs" />
+    <Compile Include="Variants\Models\VariantPublishedContent.cs" />
+    <Compile Include="Variants\Models\VariantPublishedProperty.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

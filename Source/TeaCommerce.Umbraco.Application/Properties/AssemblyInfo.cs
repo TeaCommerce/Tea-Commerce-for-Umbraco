@@ -34,43 +34,13 @@ using TeaCommerce.Umbraco.Application;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 [assembly: AssemblyVersion( "3.0.0.0" )]
-[assembly: AssemblyFileVersion( "3.1.4.0" )]
+[assembly: AssemblyFileVersion( "3.2.0.0" )]
 
 //Embedded Resources
 
 [assembly: WebResource( Constants.EditorIcons.Edit, Constants.MimeTypes.GIF )]
-[assembly: WebResource( Constants.EditorIcons.Save, Constants.MimeTypes.GIF )]
 [assembly: WebResource( Constants.EditorIcons.Delete, Constants.MimeTypes.GIF )]
-[assembly: WebResource( Constants.EditorIcons.Printer, Constants.MimeTypes.GIF )]
-
-[assembly: WebResource( Constants.TreeIcons.BoxLabel, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.Building, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.Certificate, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.ClipboardTask, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.Clipboard, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.CreditCard, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.CreditCards, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.DocumentTask, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.GlobeModel, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.LicenseKey, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.Lifebuoy, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.LocaleAlternate, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.Lock, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.Mail, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.MailStack, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.Map, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.MapPin, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.MoneyCoin, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.Money, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.Store, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.TagLabel, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.TagLabelRed, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.Target, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.Toolbox, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.TruckBoxLabel, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.User, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.ZoneMoney, Constants.MimeTypes.PNG )]
-[assembly: WebResource( Constants.TreeIcons.Zone, Constants.MimeTypes.PNG )]
+[assembly: WebResource(Constants.EditorIcons.Calendar, Constants.MimeTypes.GIF)]
 
 [assembly: WebResource( Constants.MiscIcons.Exclamation, Constants.MimeTypes.PNG )]
 

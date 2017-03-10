@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Reflection;
 using TeaCommerce.Api.Dependency;
+using TeaCommerce.Api.Infrastructure.Installation;
 using TeaCommerce.Api.Infrastructure.Security;
 using TeaCommerce.Api.Models;
 using TeaCommerce.Api.Services;
-using TeaCommerce.Umbraco.Configuration.Services;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.web;
 using Umbraco.Core;
@@ -15,20 +15,23 @@ using Umbraco.Core.Models.Membership;
 using Umbraco.Core.Services;
 
 namespace TeaCommerce.Umbraco.Configuration {
-  public class ApplicationStartup : ApplicationEventHandler {
+    public class ApplicationStartup : ApplicationEventHandler {
 
     protected override void ApplicationStarted( UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext ) {
       try {
-        DependencyContainer.Configure( Assembly.Load( "TeaCommerce.Umbraco.Configuration" ) );
+        DependencyContainer.Configure( 
+          Assembly.Load( "TeaCommerce.Umbraco.Configuration" ),
+          Assembly.Load( "TeaCommerce.Umbraco.Install" ) );
       } catch ( Exception exp ) {
         LogHelper.Error<ApplicationStartup>( "Error loading Autofac modules", exp );
       }
 
+      //Run install/update on each application startup to support Umbraco Cloud and Nuget
+      InstallationService.Instance.InstallOrUpdate();
+
       Domain.New += Domain_New;
       Domain.AfterSave += Domain_AfterSave;
       Domain.AfterDelete += Domain_AfterDelete;
-
-      ContentService.Published += ContentService_Published;
 
       UserService.SavedUser += UserService_SavedUser;
     }
@@ -75,10 +78,6 @@ namespace TeaCommerce.Umbraco.Configuration {
           }
         }
       }
-    }
-
-    private void ContentService_Published( global::Umbraco.Core.Publishing.IPublishingStrategy sender, global::Umbraco.Core.Events.PublishEventArgs<global::Umbraco.Core.Models.IContent> e ) {
-      CacheService.Instance.InvalidateApplicationCache();
     }
 
     void Domain_New( Domain sender, NewEventArgs e ) {

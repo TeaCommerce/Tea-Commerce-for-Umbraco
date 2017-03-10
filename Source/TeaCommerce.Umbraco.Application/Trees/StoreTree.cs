@@ -105,7 +105,7 @@ namespace TeaCommerce.Umbraco.Application.Trees {
             node = CreateNode( GetNodeIdentifier( StoreTreeNodeType.Campaign, CurrentStoreId, campaign.Id ), campaign.Name, Constants.TreeIcons.TagLabel, "campaign" );
 
             if ( !campaign.IsActive || ( campaign.StartDate != null && campaign.StartDate > DateTime.Now ) || ( campaign.EndDate != null && campaign.EndDate < DateTime.Now ) ) {
-              node.Icon = WebUtils.GetWebResourceUrl( Constants.TreeIcons.TagLabelRed );
+              node.Style.DimNode();
             }
 
             node.Action = "javascript:(function(){" + ClientTools.Scripts.ChangeContentFrameUrl( WebUtils.GetPageUrl( Constants.Pages.EditCampaign ) + "?id=" + campaign.Id + "&storeId=" + campaign.StoreId ) + "})";
@@ -221,7 +221,7 @@ namespace TeaCommerce.Umbraco.Application.Trees {
           break;
         case StoreTreeNodeType.SettingsCountry:
           #region Render tree
-          long countryId = long.Parse( NodeKey.Split( new[] { '_' }, StringSplitOptions.RemoveEmptyEntries )[ 2 ] );
+          long countryId = long.Parse( NodeKey.Split( new[] { '_' }, StringSplitOptions.RemoveEmptyEntries )[2] );
           foreach ( CountryRegion countryRegion in CountryRegionService.Instance.GetAll( CurrentStoreId, countryId ) ) {
             node = CreateNode( GetNodeIdentifier( StoreTreeNodeType.SettingsCountryRegion, CurrentStoreId, countryRegion.Id ), countryRegion.Name, Constants.TreeIcons.Map, "settings-country-region" );
             node.Action = "javascript:(function(){" + ClientTools.Scripts.ChangeContentFrameUrl( WebUtils.GetPageUrl( Constants.Pages.EditCountryRegion ) + "?id=" + countryRegion.Id + "&storeId=" + countryRegion.StoreId ) + "})";
@@ -267,7 +267,7 @@ namespace TeaCommerce.Umbraco.Application.Trees {
 
     protected long CurrentStoreId {
       get {
-        return long.Parse( NodeKey.Split( new[] { '_' } )[ 1 ] );
+        return long.Parse( NodeKey.Split( new[] { '_' } )[1] );
       }
     }
 
