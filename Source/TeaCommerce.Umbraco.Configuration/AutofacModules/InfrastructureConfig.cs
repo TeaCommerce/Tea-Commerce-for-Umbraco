@@ -16,7 +16,7 @@ namespace TeaCommerce.Umbraco.Configuration.AutofacModules {
       builder.MustNotBeNull( "builder" );
 
       builder.RegisterType<LoggingProvider>().As<ILoggingProvider>().PreserveExistingDefaults().InstancePerLifetimeScope();
-      builder.RegisterType<PingDataProvider>().As<IPingDataProvider>().PreserveExistingDefaults().InstancePerLifetimeScope();
+      builder.RegisterType<CmsPingDataProvider>().As<ICmsPingDataProvider>().PreserveExistingDefaults().InstancePerLifetimeScope();
       builder.RegisterType<PermissionProvider>().As<IPermissionProvider>().PreserveExistingDefaults().InstancePerLifetimeScope();
       builder.RegisterType<TemplateRenderer>().As<ITemplateRenderer>().PreserveExistingDefaults().InstancePerLifetimeScope();
       builder.RegisterType<TemplateFileLocator>().As<ITemplateFileLocator>().PreserveExistingDefaults().InstancePerLifetimeScope();
