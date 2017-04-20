@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -12,25 +13,16 @@ using umbraco.cms.businesslogic.packager;
 using Umbraco.Core.Configuration;
 
 namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Ping {
-  public class PingDataProvider : IPingDataProvider {
+  public class CmsPingDataProvider : ICmsPingDataProvider {
 
     private readonly IDatabaseFactory _databaseFactory;
 
-    public PingDataProvider( IDatabaseFactory databaseFactory ) {
+    public CmsPingDataProvider( IDatabaseFactory databaseFactory ) {
       _databaseFactory = databaseFactory;
     }
 
-    public string GetDomain() {
-      string domain = "";
-
-      if ( HttpContext.Current != null ) {
-        domain = HttpContext.Current.Request.Url.Host + ( !HttpContext.Current.Request.Url.IsDefaultPort ? ":" + HttpContext.Current.Request.Url.Port.ToString( CultureInfo.InvariantCulture ) : "" );
-      }
-      return domain;
-    }
-
-    public PingData GetPingData() {
-      PingData pingData = null;
+    public CmsPingData GetPingData() {
+      CmsPingData pingData = null;
 
       InstalledPackage package = InstalledPackage.GetAllInstalledPackages().SingleOrDefault( ip => ip.Data.Name.Equals( "Tea Commerce" ) || ip.Data.Name.Equals( "teacommerce" ) );
 
@@ -61,7 +53,7 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Ping {
           renderingEngines.Add( "XSLT" );
         }
 
-        pingData = new PingData( teaCommerceVersion, cms, cmsVersion, databaseTechnology, technology ) {
+        pingData = new CmsPingData( teaCommerceVersion, cms, cmsVersion, databaseTechnology, technology ) {
           RenderingEngines = renderingEngines
         };
       }

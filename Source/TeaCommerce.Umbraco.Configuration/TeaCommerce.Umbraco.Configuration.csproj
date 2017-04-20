@@ -112,7 +112,7 @@
     <Compile Include="InformationExtractors\IPublishedContentProductInformationExtractor.cs" />
     <Compile Include="InformationExtractors\PublishedContentProductInformationExtractor.cs" />
     <Compile Include="Infrastructure\Logging\LoggingProvider.cs" />
-    <Compile Include="Infrastructure\Ping\PingDataProvider.cs" />
+    <Compile Include="Infrastructure\Ping\CmsPingDataProvider.cs" />
     <Compile Include="Infrastructure\Security\PermissionProvider.cs" />
     <Compile Include="Infrastructure\Templating\TemplateContext.cs" />
     <Compile Include="Infrastructure\Templating\TemplateFileLocator.cs" />

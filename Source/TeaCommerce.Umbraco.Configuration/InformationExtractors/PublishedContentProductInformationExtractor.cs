@@ -19,7 +19,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
     private UmbracoHelper _umbracoHelper;
     protected UmbracoHelper UmbracoHelper {
       get {
-        return _umbracoHelper = _umbracoHelper ??  new UmbracoHelper( UmbracoContext.Current );
+        return _umbracoHelper = _umbracoHelper ?? new UmbracoHelper( UmbracoContext.Current );
       }
     }
 
@@ -103,14 +103,14 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
       }
 
       return storeId.Value;
-    }    
+    }
 
     public virtual string GetSku( IPublishedContent product, VariantPublishedContent variant = null ) {
       string sku = GetPropertyValue<string>( product, Constants.ProductPropertyAliases.SkuPropertyAlias, variant, recursive: variant == null );
 
       //If no sku is found - default to umbraco node id
       if ( string.IsNullOrEmpty( sku ) ) {
-        sku = product.Id.ToString( CultureInfo.InvariantCulture ) + "_" + variant.VariantIdentifier;
+        sku = product.Id.ToString( CultureInfo.InvariantCulture ) + ( variant != null ? "_" + variant.VariantIdentifier : "" );
       }
 
       return sku;

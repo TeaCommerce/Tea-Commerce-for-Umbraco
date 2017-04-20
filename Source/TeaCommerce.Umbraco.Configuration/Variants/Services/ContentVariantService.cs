@@ -27,7 +27,7 @@ namespace TeaCommerce.Umbraco.Configuration.Variants.Services {
     }
 
     public override string GetVariantProductIdentifier( IContent content, VariantPublishedContent variant ) {
-      return content.Id + "_" + variant.VariantIdentifier;
+      return content.Id + ( variant != null ? "_" + variant.VariantIdentifier : "" );
     }
   }
 }
