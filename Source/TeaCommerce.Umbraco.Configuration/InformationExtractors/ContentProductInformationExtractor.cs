@@ -47,7 +47,7 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
 
       //If no sku is found - default to umbraco node id
       if ( string.IsNullOrEmpty( sku ) ) {
-        sku = model.Id.ToString( CultureInfo.InvariantCulture ) + "_" + variant.VariantIdentifier;
+        sku = model.Id.ToString( CultureInfo.InvariantCulture ) + ( variant != null ? "_" + variant.VariantIdentifier : "" );
       }
 
       return sku;
