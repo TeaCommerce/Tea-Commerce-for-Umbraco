@@ -562,7 +562,7 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="storeId">Id of the store.</param>
     /// <param name="product">A product.</param>
     /// <returns>A price object.</returns>
-    public static Price GetPrice<T>( long storeId, T product ) {
+    public static Price GetPrice<T>( long storeId, T product ) where T : class {
       return GetPrice( storeId, product, null );
     }
 
@@ -574,7 +574,7 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="product">A product.</param>
     /// <param name="variant">A variant.</param>
     /// <returns>A price object.</returns>
-    public static Price GetPrice<T>( long storeId, T product, VariantPublishedContent variant ) {
+    public static Price GetPrice<T>( long storeId, T product, VariantPublishedContent variant ) where T : class {
       return TeaCommerceHelper.GetPrice( storeId, product, variant );
     }
 
@@ -600,7 +600,7 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="product"></param>
     /// <param name="variant"></param>
     /// <returns>The stock of the product. Will be null if no stock have been provided for this product.</returns>
-    public static decimal? GetStock<T>( long storeId, T product ) {
+    public static decimal? GetStock<T>( long storeId, T product ) where T : class {
       return TeaCommerceHelper.GetStock( storeId, product );
     }
 
@@ -612,7 +612,7 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="product"></param>
     /// <param name="variant"></param>
     /// <returns>The stock of the product. Will be null if no stock have been provided for this product.</returns>
-    public static decimal? GetStock<T>( long storeId, T product, VariantPublishedContent variant ) {
+    public static decimal? GetStock<T>( long storeId, T product, VariantPublishedContent variant ) where T : class {
       return TeaCommerceHelper.GetStock( storeId, product, variant );
     }
 
@@ -664,7 +664,7 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="variantId">The id of a specific product variant</param>
     /// <param name="onlyValid">Fetch only the valid variants. A valid variant have one of each variant type and is not a duplicate.</param>
     /// <returns></returns>
-    public static VariantPublishedContent GetVariant<T>( long storeId, T product, string variantId, bool onlyValid = true ) {
+    public static VariantPublishedContent GetVariant<T>( long storeId, T product, string variantId, bool onlyValid = true ) where T : class {
       IVariantService<T, VariantPublishedContent> variantService = DependencyContainer.Instance.Resolve<IVariantService<T, VariantPublishedContent>>();
       return variantService.GetVariant( storeId, product, variantId, onlyValid );
     }
@@ -676,12 +676,12 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="model">The product as a IPublishedContent.</param>
     /// <param name="onlyValid">Fetch only the valid variants. A valid variant have one of each variant type and is not a duplicate.</param>
     /// <returns></returns>
-    public static IEnumerable<VariantPublishedContent> GetVariants<T>( long storeId, T product, bool onlyValid = true ) {
+    public static IEnumerable<VariantPublishedContent> GetVariants<T>( long storeId, T product, bool onlyValid = true ) where T : class {
       IVariantService<T, VariantPublishedContent> variantService = DependencyContainer.Instance.Resolve<IVariantService<T, VariantPublishedContent>>();
       return variantService.GetVariants( storeId, product, onlyValid );
     }
 
-    public static IEnumerable<VariantGroup> GetVariantGroups<T>( long storeId, T product, bool onlyValid = true ) {
+    public static IEnumerable<VariantGroup> GetVariantGroups<T>( long storeId, T product, bool onlyValid = true ) where T : class {
       IEnumerable<VariantPublishedContent> variants = GetVariants( storeId, product, onlyValid );
       return GetVariantGroups( product, variants );
     }
@@ -691,7 +691,7 @@ namespace TeaCommerce.Umbraco.Web {
     /// </summary>
     /// <param name="variants">A collection of variants.</param>
     /// <returns></returns>
-    public static IEnumerable<VariantGroup> GetVariantGroups<T>( T product, IEnumerable<VariantPublishedContent> variants ) {
+    public static IEnumerable<VariantGroup> GetVariantGroups<T>( T product, IEnumerable<VariantPublishedContent> variants ) where T : class {
       IVariantService<T, VariantPublishedContent> variantService = DependencyContainer.Instance.Resolve<IVariantService<T, VariantPublishedContent>>();
       return variantService.GetVariantGroups( variants );
     }
@@ -711,7 +711,7 @@ namespace TeaCommerce.Umbraco.Web {
     /// <param name="product"></param>
     /// <param name="onlyValid"></param>
     /// <returns></returns>
-    public static string GetVariantJson<T>( long storeId, T product, bool onlyValid = true ) {
+    public static string GetVariantJson<T>( long storeId, T product, bool onlyValid = true ) where T : class {
       IVariantService<T, VariantPublishedContent> variantService = DependencyContainer.Instance.Resolve<IVariantService<T, VariantPublishedContent>>();
       return variantService.GetVariantJson( storeId, new List<T> { product }, onlyValid );
     }
@@ -721,7 +721,7 @@ namespace TeaCommerce.Umbraco.Web {
     /// </summary>
     /// <param name="variants"></param>
     /// <returns>A json blob with a dictionary of products and their variants</returns>
-    public static string GetVariantJson<T>( long storeId, IEnumerable<T> products, bool onlyValid = true ) {
+    public static string GetVariantJson<T>( long storeId, IEnumerable<T> products, bool onlyValid = true ) where T : class {
       IVariantService<T, VariantPublishedContent> variantService = DependencyContainer.Instance.Resolve<IVariantService<T, VariantPublishedContent>>();
       return variantService.GetVariantJson( storeId, products, onlyValid );
     }
