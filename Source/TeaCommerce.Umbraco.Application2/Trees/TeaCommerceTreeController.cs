@@ -9,6 +9,8 @@ using TeaCommerce.Api.Marketing.Models;
 using TeaCommerce.Api.Marketing.Services;
 using TeaCommerce.Api.Infrastructure.Security;
 using umbraco.BusinessLogic.Actions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TeaCommerce.Umbraco.Application2.Trees {
 
@@ -75,12 +77,28 @@ namespace TeaCommerce.Umbraco.Application2.Trees {
           currentStoreId = GetCurrentStoreId( id );
 
           treeNode = CreateTreeNode( GetNodeIdentifier( Constants.Trees.OrderStatuses, currentStoreId ), id, queryStrings, "TODO: Order statuses", "", true );
+          treeNodes.Add( treeNode );
+          treeNode = CreateTreeNode( GetNodeIdentifier( Constants.Trees.ShippingMethods, currentStoreId ), id, queryStrings, "TODO: Shipping methods", "", true );
+          treeNodes.Add( treeNode );
+          treeNode = CreateTreeNode( GetNodeIdentifier( Constants.Trees.PaymentMethods, currentStoreId ), id, queryStrings, "TODO: Payment methods", "", true );
+          treeNodes.Add( treeNode );
+          treeNode = CreateTreeNode( GetNodeIdentifier( Constants.Trees.Internationalization, currentStoreId ), id, queryStrings, "TODO: Internationalization", "", true );
           //node = CreateNode( GetNodeIdentifier( StoreTreeNodeType.SettingsOrderStatuses, CurrentStoreId ), CommonTerms.OrderStatuses, Constants.TreeIcons.ClipboardTask, "settings-order-statuses", true );
           //node.Menu.Add( ActionNew.Instance );
           //node.Menu.Add( new SortOrderStatusesAction() );
           //node.Menu.Add( ContextMenuSeperator.Instance );
           //node.Menu.Add( ActionRefresh.Instance );
           treeNodes.Add( treeNode );
+          break;
+        case Constants.Trees.Internationalization:
+          currentStoreId = GetCurrentStoreId( id );
+          treeNode = CreateTreeNode( GetNodeIdentifier( Constants.Trees.Countries, currentStoreId ), id, queryStrings, "TODO: Countries", "", true );
+          treeNodes.Add( treeNode );
+          treeNode = CreateTreeNode( GetNodeIdentifier( Constants.Trees.Currencies, currentStoreId ), id, queryStrings, "TODO: Currencies", "", true );
+          treeNodes.Add( treeNode );
+          treeNode = CreateTreeNode( GetNodeIdentifier( Constants.Trees.VatGroups, currentStoreId ), id, queryStrings, "TODO: Vat Groups", "", true );
+          treeNodes.Add( treeNode );
+
           break;
         case Constants.Trees.OrderStatuses:
           currentStoreId = GetCurrentStoreId( id );
@@ -93,6 +111,62 @@ namespace TeaCommerce.Umbraco.Application2.Trees {
             //node = CreateNode( GetNodeIdentifier( StoreTreeNodeType.SettingsOrderStatus, CurrentStoreId, orderStatus.Id ), orderStatus.Name, Constants.TreeIcons.DocumentTask, "settings-order-status" );
             //node.Action = "javascript:(function(){" + ClientTools.Scripts.ChangeContentFrameUrl( WebUtils.GetPageUrl( Constants.Pages.EditOrderStatus ) + "?id=" + orderStatus.Id + "&storeId=" + orderStatus.StoreId ) + "})";
             //node.Menu.Add( ActionDelete.Instance );
+            treeNodes.Add( treeNode );
+          }
+          break;
+        case Constants.Trees.Countries:
+          currentStoreId = GetCurrentStoreId( id );
+          foreach ( Country country in CountryService.Instance.GetAll( 1 ) ) {//TODO: hardcoded id
+
+            treeNode = CreateTreeNode( GetNodeIdentifier( Constants.Trees.Country, currentStoreId, country.Id ), id, queryStrings, country.Name, "", CountryRegionService.Instance.GetAll( currentStoreId, country.Id ).Any() );
+
+            treeNode.RoutePath = "/teacommerce2/teacommerce2/country-edit/" + currentStoreId + "-" + country.Id;
+
+            treeNodes.Add( treeNode );
+          }
+          break;
+        case Constants.Trees.Country:
+          currentStoreId = GetCurrentStoreId( id );
+          foreach ( CountryRegion region in CountryRegionService.Instance.GetAll( 1, GetCurrentCountryId( id ) ) ) {
+            treeNode = CreateTreeNode( GetNodeIdentifier( Constants.Trees.CountryRegion, currentStoreId ), id, queryStrings, region.Name, "" );
+            treeNode.RoutePath = "/teacommerce2/teacommerce2/countryRegion-edit/" + currentStoreId + "-" + region.Id;
+
+            treeNodes.Add( treeNode );
+          }
+          break;
+        case Constants.Trees.Currencies:
+          currentStoreId = GetCurrentStoreId( id );
+          foreach ( Currency currency in CurrencyService.Instance.GetAll( 1 ) ) {
+            treeNode = CreateTreeNode( GetNodeIdentifier( Constants.Trees.Currency, currentStoreId ), id, queryStrings, currency.Name, "" );
+            treeNode.RoutePath = "/teacommerce2/teacommerce2/currency-edit/" + currentStoreId + "-" + currency.Id;
+
+            treeNodes.Add( treeNode );
+          }
+          break;
+        case Constants.Trees.ShippingMethods:
+          currentStoreId = GetCurrentStoreId( id );
+          foreach ( ShippingMethod shippingMethod in ShippingMethodService.Instance.GetAll( 1 ) ) {
+            treeNode = CreateTreeNode( GetNodeIdentifier( Constants.Trees.ShippingMethod, currentStoreId ), id, queryStrings, shippingMethod.Name, "" );
+            treeNode.RoutePath = "/teacommerce2/teacommerce2/shippingMethod-edit/" + currentStoreId + "-" + shippingMethod.Id;
+
+            treeNodes.Add( treeNode );
+          }
+          break;
+        case Constants.Trees.PaymentMethods:
+          currentStoreId = GetCurrentStoreId( id );
+          foreach ( PaymentMethod paymentMethod in PaymentMethodService.Instance.GetAll( 1 ) ) {
+            treeNode = CreateTreeNode( GetNodeIdentifier( Constants.Trees.PaymentMethod, currentStoreId ), id, queryStrings, paymentMethod.Name, "" );
+            treeNode.RoutePath = "/teacommerce2/teacommerce2/paymentMethod-edit/" + currentStoreId + "-" + paymentMethod.Id;
+
+            treeNodes.Add( treeNode );
+          }
+          break;
+        case Constants.Trees.VatGroups:
+          currentStoreId = GetCurrentStoreId( id );
+          foreach ( VatGroup vatGroups in VatGroupService.Instance.GetAll( 1 ) ) {
+            treeNode = CreateTreeNode( GetNodeIdentifier( Constants.Trees.VatGroup, currentStoreId ), id, queryStrings, vatGroups.Name, "" );
+            treeNode.RoutePath = "/teacommerce2/teacommerce2/vatGroup-edit/" + currentStoreId + "-" + vatGroups.Id;
+
             treeNodes.Add( treeNode );
           }
           break;
@@ -126,7 +200,11 @@ namespace TeaCommerce.Umbraco.Application2.Trees {
     }
 
     private long GetCurrentStoreId( string id ) {
-      return long.Parse( id.Split( new[] { '-' } )[ 1 ] );
+      return long.Parse( id.Split( new[] { '-' } )[1] );
+    }
+
+    private long GetCurrentCountryId( string id ) {
+      return long.Parse( id.Split( new[] { '-' } )[2] );
     }
 
     private string GetCurrentNodeType( string id ) {
@@ -137,7 +215,7 @@ namespace TeaCommerce.Umbraco.Application2.Trees {
       if ( strArray.Length == 0 )
         return id;
 
-      return strArray[ 0 ];
+      return strArray[0];
     }
 
     #endregion

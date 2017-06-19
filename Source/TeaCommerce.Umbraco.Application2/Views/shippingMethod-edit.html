@@ -1,0 +1,92 @@
+﻿<!--TODO: hvad med novalidate samt ng-show="loaded" -->
+
+<form novalidate name="contentForm" ng-controller="TeaCommerce.ShippingMethod.EditController" ng-submit="save()" val-form-manager>
+
+<umb-panel>
+	<umb-editor-view umb-tabs>
+		<umb-editor-header name="shippingMethod.name"
+						   tabs="contentTabs.tabs"
+						   hide-icon="true"
+						   hide-description="true"
+						   hide-alias="true" >
+		</umb-editor-header>
+
+		<umb-editor-container>
+
+			<umb-tabs-content class="form-horizontal" view="true">
+
+				<umb-tab id="tab1" rel="tab1">
+				{{shippingMethod}}
+					<umb-control-group label="Alias">
+						<input type="text" ng-model="shippingMethod.alias" class="umb-editor umb-textstring" />
+					</umb-control-group>
+					<umb-control-group label="SKU">
+						<input type="text" ng-model="shippingMethod.sku" class="umb-editor umb-textstring" />
+					</umb-control-group>
+					<umb-control-group label="Vat group">
+						<select class="umb-editor umb-dropdown" ng-model="paymentMethod.vatGroupId" ng-options="vatGroup.id as vatGroup.name for vatGroup in vatGroups">
+							<option value="">---</option>
+						</select>				
+					</umb-control-group>
+					<umb-control-group label="Image">
+						
+						<ul class="unstyled list-icons" ng-if="node">
+							<li>
+								<i class="icon icon-delete red hover-show pull-right" ng-click="removePicture()"></i>
+
+								<i class="icon {{node.icon}} hover-hide"></i>
+								<a href ng-click="openMediaPicker()" prevent-default>
+									<!--<img src="{{node.properties[2].value}}" alt="" height="200px" width="200px" /> Only for fun--> 
+									<!--<div ng-show="thumbnail != ''">
+										<umb-image-thumbnail 
+											width="{{width}}"
+											height="{{height}}"
+											src="thumbnail"			
+											max-size="100"	
+											/>
+									</div>-->
+									{{node.name}}-
+								</a>
+							</li>
+						</ul>
+						<ul class="unstyled list-icons" ng-if="!shippingMethod.imageIdentifier">
+							<li>
+								<i class="icon icon-add blue"></i>
+								<a href ng-click="openMediaPicker()" prevent-default>
+									Select
+								</a>
+							</li>
+						</ul>
+					</umb-control-group>
+				</umb-tab>
+				<umb-tab id="tab2" rel="tab2">
+				countries
+				</umb-tab>
+					
+			</umb-tabs-content>
+
+		</umb-editor-container>
+
+		<umb-editor-footer>
+
+			<umb-editor-footer-content-left>
+			
+			</umb-editor-footer-content-left>
+
+			<umb-editor-footer-content-right>
+			
+				<umb-button type="button"
+					action="save()"
+					state="page.saveButtonState"
+					button-style="success"
+					shortcut="ctrl+s"
+					label="save">
+					
+				</umb-button>
+
+			</umb-editor-footer-content-right>
+
+		</umb-editor-footer>
+    </umb-editor-view>
+</umb-panel>
+</form>

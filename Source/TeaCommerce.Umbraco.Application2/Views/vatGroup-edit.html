@@ -1,0 +1,51 @@
+﻿<!--TODO: hvad med novalidate samt ng-show="loaded" -->
+
+<form novalidate name="contentForm" ng-controller="TeaCommerce.VatGroup.EditController" ng-submit="save()" val-form-manager>
+
+<umb-panel>
+	<umb-editor-view umb-tabs>
+		<umb-editor-header name="vatGroup.name"
+						   tabs="contentTabs.tabs"
+						   hide-icon="true"
+						   hide-description="true"
+						   hide-alias="true" >
+		</umb-editor-header>
+
+		<umb-editor-container>
+
+			<umb-tabs-content class="form-horizontal" view="true">
+
+				<umb-tab id="tab1" rel="tab1">
+				{{vatGroup}}
+					<umb-control-group label="VAT rate">
+						<input type="text" ng-model="vatGroup.vatRate" class="umb-editor umb-textstring" /> % <!--Where the number from?-->
+					</umb-control-group>
+				</umb-tab>
+					
+			</umb-tabs-content>
+
+		</umb-editor-container>
+
+		<umb-editor-footer>
+
+			<umb-editor-footer-content-left>
+			
+			</umb-editor-footer-content-left>
+
+			<umb-editor-footer-content-right>
+			
+				<umb-button type="button"
+					action="save()"
+					state="page.saveButtonState"
+					button-style="success"
+					shortcut="ctrl+s"
+					label="save">
+					
+				</umb-button>
+
+			</umb-editor-footer-content-right>
+
+		</umb-editor-footer>
+    </umb-editor-view>
+</umb-panel>
+</form>

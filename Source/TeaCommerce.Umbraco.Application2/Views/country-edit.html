@@ -1,0 +1,59 @@
+﻿<!--TODO: hvad med novalidate samt ng-show="loaded" -->
+
+<form novalidate name="contentForm" ng-controller="TeaCommerce.Country.EditController" ng-submit="save()" val-form-manager>
+
+<umb-panel>
+	<umb-editor-view umb-tabs>
+		<umb-editor-header name="country.name"
+						   tabs="contentTabs.tabs"
+						   hide-icon="true"
+						   hide-description="true"
+						   hide-alias="true" >
+		</umb-editor-header>
+
+		<umb-editor-container>
+
+			<umb-tabs-content class="form-horizontal" view="true">
+
+				<umb-tab id="tab1" rel="tab1">
+					<umb-control-group label="Region code">
+						<input type="text" ng-model="country.regionCode" class="umb-editor umb-textstring" />
+					</umb-control-group>
+					<umb-control-group label="Default currency">
+						<select class="umb-editor umb-dropdown" ng-model="country.defaultCurrencyId" ng-options="currency.id as currency.name for currency in currencies" /> 
+					</umb-control-group>
+					<umb-control-group label="Default shipping method">
+						<select class="umb-editor umb-dropdown" ng-model="country.defaultShippingMethodId" ng-options="shippingMethod.id as shippingMethod.name for shippingMethod in shippingMethods" /> 
+					</umb-control-group>
+					<umb-control-group label="Default payment method">
+						<select class="umb-editor umb-dropdown" ng-model="country.defaultPaymentMethodId" ng-options="paymentMethod.id as paymentMethod.name for paymentMethod in paymentMethods" /> 
+					</umb-control-group>
+				</umb-tab>
+				
+			</umb-tabs-content>
+
+		</umb-editor-container>
+
+		<umb-editor-footer>
+
+			<umb-editor-footer-content-left>
+			
+			</umb-editor-footer-content-left>
+
+			<umb-editor-footer-content-right>
+			
+				<umb-button type="button"
+					action="save()"
+					state="page.saveButtonState"
+					button-style="success"
+					shortcut="ctrl+s"
+					label="save">
+					
+				</umb-button>
+
+			</umb-editor-footer-content-right>
+
+		</umb-editor-footer>
+    </umb-editor-view>
+</umb-panel>
+</form>

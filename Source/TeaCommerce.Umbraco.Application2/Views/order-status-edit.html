@@ -1,16 +1,17 @@
 ﻿<!--TODO: hvad med novalidate samt ng-show="loaded" -->
-<div ng-controller="TeaCommerce.OrderStatus.EditController">
-  <h1>Test</h1>
-</div>
-<!--<form novalidate name="contentForm" ng-controller="TeaCommerce.OrderStatus.EditController" ng-submit="save()" val-form-manager>
-  <umb-panel>
+
+<form novalidate name="contentForm" ng-controller="TeaCommerce.OrderStatus.EditController" ng-submit="save()" val-form-manager>
+
+  <!--<umb-panel>
   <umb-header tabs="content.tabs">
     <div class="span7">
-      <umb-content-name placeholder="@placeholders_entername" ng-model="content.name"/>
+      <umb-content-name placeholder="@placeholders_entername" ng-model="model.name"/>
     </div>
   </umb-header>
   
   <umb-tab-view>
+  <h1>Test</h1>
+  
     <umb-tab id="tab1" rel="tab1">
       <umb-pane>
         <h1>Common</h1>
@@ -29,5 +30,149 @@
     </umb-tab>
   </umb-tab-view>
 
+</umb-panel>-->
+<!--<umb-panel> alt workish
+	<umb-header tabs="content.tabs">
+		<div class="umb-headline-editor-wrapper span12 ng-scope">
+			<h1 class="ng-binding">My custom section {{id}}</h1>
+		</div>
+	</umb-header>
+	
+	<umb-tab-view>
+		<umb-tab id="tab1" rel="tab1">
+			<div class="umb-pane">
+				<p>Name: <input ng-model="orderStatus.name"/> {{orderStatus.name}}</p>
+				<br/>
+				<p>Alias: <input ng-model="orderStatus.alias"/> {{orderStatus.alias}}</p>
+				<br/>
+				<p>Recalculate finalized order: <input type="checkbox" ng-model="orderStatus.recalculateFinalizedOrder"/> {{orderStatus.recalculateFinalizedOrder}}</p>
+				<br/>
+			</div>
+		</umb-tab>
+		
+		<umb-tab id="tab2" rel="tab2">
+			<div class="umb-pane">
+				This is tab content for tab 2
+			</div>
+		</umb-tab>
+
+		<div class="umb-tab-buttons umb-editor-drawer">
+			<div class="umb-editor-drawer-content" ng-transclude>
+				<div class="umb-editor-drawer-content__left-side" ng-transclude>
+					stores / lol
+				</div>
+				<div class="umb-editor-drawer-content__right-side" ng-transclude>
+					<button ng-click="save()" data-hotkey="ctrl+s" class="btn umb-button__button btn-success">Save</button>
+				</div>
+			</div>
+		</div>
+	</umb-tab-view>
+</umb-panel>-->
+<umb-panel>
+	<umb-editor-view umb-tabs>
+		<umb-editor-header name="orderStatus.name"
+						   tabs="contentTabs.tabs"
+						   hide-icon="true"
+						   hide-description="true"
+						   hide-alias="true" >
+		</umb-editor-header>
+
+		<!--<umb-header tabs="contentTabs.tabs">
+			<div class="umb-headline-editor-wrapper span12 ng-scope">
+				<h1 class="ng-binding">My custom section {{id}}</h1>
+			</div>
+		</umb-header>-->
+		<umb-editor-container>
+
+			<umb-tabs-content class="form-horizontal" view="true">
+				<!--<umb-tab id="tab{{tab.id}}" ng-repeat="tab in content.tabs" rel="{{tab.id}}">
+
+					<umb-property ng-repeat="property in tab.properties" property="property">
+						<umb-editor model="property"></umb-editor>
+					</umb-property>
+					
+				</umb-tab>-->
+				<umb-tab id="tab1" rel="tab1">
+				<umb-control-group label="Alias">
+					<input type="text" ng-model="orderStatus.alias" class="umb-editor umb-textstring" />
+				</umb-control-group>
+				<umb-control-group label="Recalculate finalized order">
+					<input type="checkbox" ng-model="orderStatus.recalculateFinalizedOrder" />
+				</umb-control-group>
+				<!--<div class="umb-pane">
+					<umb-property>
+						<label class="control-label" for="body_TxtName">Name:</label>
+						<div class="controls controls-row">
+							<input id="body_TxtName" ng-model="orderStatus.name" class="umb-editor umb-textstring"/>
+						</div>
+					</umb-property>
+					<umb-property>
+						<label class="control-label" for="body_TxtAlias">Alias:</label>
+						<div class="controls controls-row">
+							<input id="body_TxtAlias" ng-model="orderStatus.alias" class="guiInputText guiInputStandardSize"/>
+						</div>
+					</umb-property>
+					<umb-property>
+						<label class="control-label" for="body_checkRecalFO">Recalculate finalized order:</label>
+						<div class="controls controls-row">
+							<input type="checkbox" id="body_checkRecalFO" ng-model="orderStatus.recalculateFinalizedOrder" class="guiInputText guiInputStandardSize"/>
+						</div>
+					</umb-property>
+				</div>-->
+				</umb-tab>
+				<umb-tab id="tab2" rel="tab2">
+					Tab 2 content
+				</umb-tab>
+			</umb-tabs-content>
+
+		</umb-editor-container>
+
+		<umb-editor-footer>
+
+			<umb-editor-footer-content-left>
+
+				<!--<ol class="umb-breadcrumbs">
+					<li>
+						<a href="#"class="umb-breadcrumbs__ancestor">Home</a>
+					</li>
+					<li class="active">
+						OrderStatus
+					</li>
+				</ol>-->
+				<!--<umb-breadcrumbs ng-if="routeParams && routeParams.length > 0"
+								 routeParams="routeParams"
+								 entity-type="content">
+								 
+				</umb-breadcrumbs>
+
+				<ul class="umb-breadcrumbs">
+					<li class="umb-breadcrumbs__ancestor" ng-repeat="ancestor in ancestors">
+
+						<a ng-if="!$last" href="#/{{entityType}}/{{entityType}}/edit/{{ancestor.id}}" class="umb-breadcrumbs__ancestor-link">{{ancestor.name}}</a>
+						<span ng-if="!$last" class="umb-breadcrumbs__seperator">&#47;</span>
+
+						<span class="umb-breadcrumbs__ancestor-text" ng-if="$last">{{ancestor.name}}</span>
+
+					</li>
+				</ul>-->
+
+				
+			</umb-editor-footer-content-left>
+
+			<umb-editor-footer-content-right>
+			
+				<umb-button type="button"
+					action="save()"
+					state="page.saveButtonState"
+					button-style="success"
+					shortcut="ctrl+s"
+					label="save">
+					
+				</umb-button>
+
+			</umb-editor-footer-content-right>
+
+		</umb-editor-footer>
+    </umb-editor-view>
 </umb-panel>
-</form>-->
+</form>

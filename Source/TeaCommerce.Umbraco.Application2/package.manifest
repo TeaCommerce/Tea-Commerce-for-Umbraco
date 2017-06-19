@@ -1,5 +1,11 @@
 ﻿{
   javascript: [
-    '~/App_Plugins/teacommerce2/backoffice/teacommerce2/order-status-edit.controller.js'
+    '~/App_Plugins/teacommerce2/backoffice/teacommerce2/order-status-edit.controller.js',
+    '~/App_Plugins/teacommerce2/backoffice/teacommerce2/country-edit.controller.js',
+    '~/App_Plugins/teacommerce2/backoffice/teacommerce2/currency-edit.controller.js',
+    '~/App_Plugins/teacommerce2/backoffice/teacommerce2/shippingMethod-edit.controller.js',
+    '~/App_Plugins/teacommerce2/backoffice/teacommerce2/paymentMethod-edit.controller.js',
+    '~/App_Plugins/teacommerce2/backoffice/teacommerce2/vatGroup-edit.controller.js',
+    '~/App_Plugins/teacommerce2/backoffice/teacommerce2/countryRegion-edit.controller.js'
   ]
 }

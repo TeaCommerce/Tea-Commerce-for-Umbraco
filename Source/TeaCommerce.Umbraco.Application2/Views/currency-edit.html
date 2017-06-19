@@ -1,0 +1,76 @@
+﻿<!--TODO: hvad med novalidate samt ng-show="loaded" -->
+
+<form novalidate name="contentForm" ng-controller="TeaCommerce.Currency.EditController" ng-submit="save()" val-form-manager>
+
+<umb-panel>
+	<umb-editor-view umb-tabs>
+		<umb-editor-header name="currency.name"
+						   tabs="contentTabs.tabs"
+						   hide-icon="true"
+						   hide-description="true"
+						   hide-alias="true" >
+		</umb-editor-header>
+
+		<umb-editor-container>
+
+			<umb-tabs-content class="form-horizontal" view="true">
+
+				<umb-tab id="tab1" rel="tab1">
+					<umb-control-group label="ISO code">
+						<input type="text" ng-model="currency.isoCode" class="umb-editor umb-textstring" />
+					</umb-control-group>
+					<umb-control-group label="Price property alias">
+						<input type="text" ng-model="currency.pricePropertyAlias" class="umb-editor umb-textstring" />
+					</umb-control-group>
+					<umb-control-group label="Culture name">
+						<select class="umb-editor umb-dropdown" ng-model="currency.cultureName" ng-options="culture.id as culture.name for culture in cultures" />
+					</umb-control-group>
+					<umb-control-group label="Use specific symbol">
+						<input type="checkbox" ng-model="settings.chkSpecificSymbol" /> <!--Don't know if right?-->
+					</umb-control-group>
+					<div ng-if="settings.chkSpecificSymbol">
+					<umb-control-group label="Symbol" description="e.g. USD">
+						<input type="text" ng-model="currency.symbol" class="umb-editor umb-textstring" />
+					</umb-control-group>
+					<umb-control-group label="Symbol placement">
+						<label><input type="radio" ng-model="currency.symbolPlacement" name="placement" value="right" /> Right</label><br/>
+						<label><input type="radio" ng-model="currency.symbolPlacement" name="placement" value="left"  /> Left</label>
+					</umb-control-group>
+					</div>
+				</umb-tab>
+				<umb-tab id="tab2" rel="tab2">
+					<umb-control-group> <!--Needs its label removed-->
+						<label><input type="checkbox" ng-click="toggleSelectionAll()" ng-model="settings.toggleStatus"/>Select/Deselect all</label><br/>
+						<div ng-repeat="country in countries">
+							<label><input type="checkbox" ng-checked="currency.allowedInFollowingCountries.indexOf(country.id) > -1" ng-disabled="country.defaultCurrencyId===currency.id" ng-click="toggleSelection(country.id); optionToggled()" value="{{currency.allowedInFollowingCountries.indexOf(country.id) > -1}}" />{{country.name}}</label>
+						</div>
+					</umb-control-group>
+				</umb-tab>
+					
+			</umb-tabs-content>
+
+		</umb-editor-container>
+
+		<umb-editor-footer>
+
+			<umb-editor-footer-content-left>
+			
+			</umb-editor-footer-content-left>
+
+			<umb-editor-footer-content-right>
+			
+				<umb-button type="button"
+					action="save()"
+					state="page.saveButtonState"
+					button-style="success"
+					shortcut="ctrl+s"
+					label="save">
+					
+				</umb-button>
+
+			</umb-editor-footer-content-right>
+
+		</umb-editor-footer>
+    </umb-editor-view>
+</umb-panel>
+</form>
