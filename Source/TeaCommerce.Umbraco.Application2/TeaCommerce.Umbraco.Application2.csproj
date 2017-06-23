@@ -71,6 +71,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\order-status-delete.html" />
     <Content Include="Views\paymentMethod-edit.html" />
     <Content Include="Views\countryRegion-edit.html" />
     <Content Include="Views\countryRegion-edit.controller.js" />

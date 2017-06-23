@@ -176,10 +176,11 @@ namespace TeaCommerce.Umbraco.Application2.Trees {
 
     protected override MenuItemCollection GetMenuForNode( string id, FormDataCollection queryStrings ) {
       MenuItemCollection menuItems = new MenuItemCollection();
+      MenuItem menuItem;
 
       switch ( GetCurrentNodeType( id ) ) {
         case Constants.Trees.OrderStatuses:
-          MenuItem menuItem = new MenuItem( ActionNew.Instance );
+          menuItem = new MenuItem( ActionNew.Instance );
           menuItem.LaunchDialogView( "/App_Plugins/" + Constants.Applications.TeaCommerce + "/backoffice/" + Constants.Trees.TeaCommerce + "/order-status-create.html", "Create" ); //TODO: oversæt
           //menuItem.NavigateToRoute( "/" + Constants.Applications.TeaCommerce + "/" + Constants.Trees.TeaCommerce + "/store-edit/-1?create" );
           menuItems.Items.Add( menuItem );
@@ -187,6 +188,12 @@ namespace TeaCommerce.Umbraco.Application2.Trees {
           //TODO: sort
           menuItems.Items.Add<ActionSort>( "Sort" ); //TODO: oversæt
           menuItems.Items.Add<RefreshNode, ActionRefresh>( "Reload", true ); //TODO: oversæt
+          break;
+        case Constants.Trees.OrderStatus:
+          menuItem = new MenuItem( ActionDelete.Instance );
+          menuItem.LaunchDialogView( "/App_Plugins/" + Constants.Applications.TeaCommerce + "/backoffice/" + Constants.Trees.TeaCommerce + "/order-status-delete.html", "Delete"); //TODO: oversæt
+          //menuItem.NavigateToRoute( "/" + Constants.Applications.TeaCommerce + "/" + Constants.Trees.TeaCommerce + "/store-edit/-1?create" );
+          menuItems.Items.Add( menuItem );
           break;
       }
 
