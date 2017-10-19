@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TeaCommerce.Api.Infrastructure.Caching;
-using umbraco.BusinessLogic;
+using Umbraco.Core;
 
 namespace TeaCommerce.Umbraco.Configuration.Compatibility {
   public static class Domain {
@@ -14,13 +14,11 @@ namespace TeaCommerce.Umbraco.Configuration.Compatibility {
       if ( domains == null ) {
         domains = new List<umbraco.cms.businesslogic.web.Domain>();
 
-        using ( var dr = Application.SqlHelper.ExecuteReader( "select id, domainName from umbracoDomains" ) ) {
-          while ( dr.Read() ) {
-            var domainName = dr.GetString( "domainName" );
-            var domainId = dr.GetInt( "id" );
-            if ( domains.All( d => d.Name != domainName ) ) {
-              domains.Add( new umbraco.cms.businesslogic.web.Domain( domainId ) );
-            }
+        List<dynamic> result = ApplicationContext.Current.DatabaseContext.Database.Fetch<dynamic>( "select id, domainName from umbracoDomains" );
+
+        foreach ( dynamic domain in result ) {
+          if ( domains.All( d => d.Name != domain.domainName ) ) {
+            domains.Add( new umbraco.cms.businesslogic.web.Domain( domain.domainId ) );
           }
         }
 

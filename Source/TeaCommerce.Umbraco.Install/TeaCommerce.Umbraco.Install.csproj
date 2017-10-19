@@ -83,6 +83,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Content\Resources\en_us.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Content Include="package.xml">
       <SubType>Designer</SubType>
     </Content>

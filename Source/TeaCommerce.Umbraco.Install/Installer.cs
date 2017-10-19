@@ -46,6 +46,7 @@ namespace TeaCommerce.Umbraco.Install {
       //Language files
       _installTasks.Add( new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.da.xml", "~/umbraco/config/lang/da.xml" ) );
       _installTasks.Add( new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.en.xml", "~/umbraco/config/lang/en.xml" ) );
+      _installTasks.Add( new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.en_us.xml", "~/umbraco/config/lang/en_us.xml" ) );
       _installTasks.Add( new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.se.xml", "~/umbraco/config/lang/se.xml" ) );
 
       //Misc files
