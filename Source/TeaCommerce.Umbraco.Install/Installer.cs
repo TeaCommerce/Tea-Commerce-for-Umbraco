@@ -61,9 +61,6 @@ namespace TeaCommerce.Umbraco.Install {
       _installTasks.Add( new DataTypeDefinitionInstallTask( "Tea Commerce: Stock management", "TeaCommerce.StockManagement" ) );
       _installTasks.Add( new DataTypeDefinitionInstallTask( "Tea Commerce: Variant Editor", "TeaCommerce.VariantEditor" ) );
 
-      //Remove old package
-      _installTasks.Add( new RemoveOldPackageInstallTask() );
-
     }
 
     public void InstallOrUpdate() {
@@ -201,6 +198,8 @@ namespace TeaCommerce.Umbraco.Install {
           break;
         }
       }
+
+      new RemoveOldPackageInstallTask().Install();
 
     }
 

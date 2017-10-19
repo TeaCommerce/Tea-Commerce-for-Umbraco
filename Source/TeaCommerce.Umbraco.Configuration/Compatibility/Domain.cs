@@ -18,7 +18,7 @@ namespace TeaCommerce.Umbraco.Configuration.Compatibility {
 
         foreach ( dynamic domain in result ) {
           if ( domains.All( d => d.Name != domain.domainName ) ) {
-            domains.Add( new umbraco.cms.businesslogic.web.Domain( domain.domainId ) );
+            domains.Add( new umbraco.cms.businesslogic.web.Domain( domain.id ) );
           }
         }
 
