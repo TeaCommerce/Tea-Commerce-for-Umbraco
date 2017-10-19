@@ -31,7 +31,7 @@
         });
 
         var data = {
-          sku: $scope.model.isVariantProp ? $scope.model.skuProp.value : (!productSkuField && productSkuField[0] ? productSkuField.val() : ''),
+          sku: $scope.model.isVariantProp ? $scope.model.skuProp.value : (!!productSkuField && productSkuField[0] ? productSkuField.val() : ''),
           value: $scope.stock ? $scope.stock.Value : null
         };
         $http.post('backoffice/teacommerce/products/poststock?productIdentifier=' + $routeParams.id + variantId, data);
