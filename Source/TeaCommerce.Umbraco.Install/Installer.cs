@@ -43,14 +43,7 @@ namespace TeaCommerce.Umbraco.Install {
       //Grant permissions
       _installTasks.Add( new GrantPermissionsInstallTask() );
 
-      //Language files
-      _installTasks.Add( new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.da.xml", "~/umbraco/config/lang/da.xml" ) );
-      _installTasks.Add( new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.en.xml", "~/umbraco/config/lang/en.xml" ) );
-      _installTasks.Add( new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.en_us.xml", "~/umbraco/config/lang/en_us.xml" ) );
-      _installTasks.Add( new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.se.xml", "~/umbraco/config/lang/se.xml" ) );
-
       //Misc files
-      _installTasks.Add( new UIFileInstallTask( "TeaCommerce.Umbraco.Install.Content.XML.UI.xml", "~/umbraco/config/create/UI.xml" ) );
       _installTasks.Add( new MoveFileInstallTask( "~/macroScripts/tea-commerce/email-template-confirmation.cshtml.default", "~/macroScripts/tea-commerce/email-template-confirmation.cshtml" ) { OverwriteFile = false } );
       _installTasks.Add( new MoveFileInstallTask( "~/macroScripts/tea-commerce/email-template-payment-inconsistency.cshtml.default", "~/macroScripts/tea-commerce/email-template-payment-inconsistency.cshtml" ) { OverwriteFile = false } );
       _installTasks.Add( new MoveFileInstallTask( "~/macroScripts/tea-commerce/edit-order.cshtml.default", "~/macroScripts/tea-commerce/edit-order.cshtml" ) { OverwriteFile = false } );
@@ -199,6 +192,14 @@ namespace TeaCommerce.Umbraco.Install {
         }
       }
 
+      //Language files
+      new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.da.xml", "~/umbraco/config/lang/da.xml" ).Install();
+      new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.en.xml", "~/umbraco/config/lang/en.xml" ).Install();
+      new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.en_us.xml", "~/umbraco/config/lang/en_us.xml" ).Install();
+      new LanguageFileInstallTask( "TeaCommerce.Umbraco.Install.Content.Resources.se.xml", "~/umbraco/config/lang/se.xml" ).Install();
+      new UIFileInstallTask( "TeaCommerce.Umbraco.Install.Content.XML.UI.xml", "~/umbraco/config/create/UI.xml" ).Install();
+
+      //Fix package file
       new RemoveOldPackageInstallTask().Install();
 
     }
