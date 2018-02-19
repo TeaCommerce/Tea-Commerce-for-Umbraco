@@ -49,6 +49,33 @@ namespace TeaCommerce.Umbraco.Application.Views.Orders {
         protected global::System.Web.UI.WebControls.HyperLink HypTrialMode;
         
         /// <summary>
+        /// PnOrderStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::umbraco.uicontrols.Pane PnOrderStatus;
+        
+        /// <summary>
+        /// PPnlOrderStatusAlias control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::umbraco.uicontrols.PropertyPanel PPnlOrderStatusAlias;
+        
+        /// <summary>
+        /// TxtOrderStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label TxtOrderStatus;
+        
+        /// <summary>
         /// PnSearchCriteria control.
         /// </summary>
         /// <remarks>

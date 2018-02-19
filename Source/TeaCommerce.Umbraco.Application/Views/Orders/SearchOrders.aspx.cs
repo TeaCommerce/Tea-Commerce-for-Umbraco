@@ -19,19 +19,19 @@ namespace TeaCommerce.Umbraco.Application.Views.Orders {
   public partial class SearchOrders : UmbracoProtectedPage {
 
     //Must be protected to give the UI file access
-    protected long StoreId { get { return long.Parse( HttpContext.Current.Request.QueryString[ "storeId" ] ); } }
+    protected long StoreId { get { return long.Parse( HttpContext.Current.Request.QueryString["storeId"] ); } }
 
     private long? _currentPage;
     private long CurrentPage {
       get {
         if ( _currentPage == null )
-          _currentPage = (long)ViewState[ "CurrentPage" ];
+          _currentPage = (long)ViewState["CurrentPage"];
 
         return _currentPage.Value;
       }
       set {
         if ( value == 1 || ( value > 1 && value <= MaxPages ) )
-          ViewState[ "CurrentPage" ] = _currentPage = value;
+          ViewState["CurrentPage"] = _currentPage = value;
       }
     }
 
@@ -39,12 +39,12 @@ namespace TeaCommerce.Umbraco.Application.Views.Orders {
     private long MaxPages {
       get {
         if ( _maxPages == null )
-          _maxPages = (long)ViewState[ "MaxPages" ];
+          _maxPages = (long)ViewState["MaxPages"];
 
         return _maxPages.Value;
       }
       set {
-        ViewState[ "MaxPages" ] = _maxPages = value;
+        ViewState["MaxPages"] = _maxPages = value;
       }
     }
 
@@ -84,7 +84,7 @@ namespace TeaCommerce.Umbraco.Application.Views.Orders {
 
     protected override void OnLoad( EventArgs e ) {
       base.OnLoad( e );
-      
+
       if ( !IsPostBack ) {
         PnlLicenseCheck.Visible = !LicenseService.Instance.ValidateLicenseFeatures( Feature.Basic );
 
@@ -96,14 +96,16 @@ namespace TeaCommerce.Umbraco.Application.Views.Orders {
 
         #region Load search filters in session
 
-        string orderNumber = (string)Session[ "Search_OrderNumber" ];
-        string firstName = (string)Session[ "Search_FirstName" ];
-        string lastName = (string)Session[ "Search_LastName" ];
-        PaymentState? paymentStatus = (PaymentState?)Session[ "Search_PaymentStatus" ];
-        bool? orderStage = (bool?)Session[ "Search_OrderStage" ];
-        long? pageSize = (long?)Session[ "Search_PageSize" ];
-        DateTime? startDate = (DateTime?)Session[ "Search_StartDate" ];
-        DateTime? endDate = (DateTime?)Session[ "Search_EndDate" ];
+        string orderNumber = (string)Session["Search_OrderNumber"];
+        string firstName = (string)Session["Search_FirstName"];
+        string lastName = (string)Session["Search_LastName"];
+        PaymentState? paymentStatus = (PaymentState?)Session["Search_PaymentStatus"];
+        bool? orderStage = (bool?)Session["Search_OrderStage"];
+        long? pageSize = (long?)Session["Search_PageSize"];
+        DateTime? startDate = (DateTime?)Session["Search_StartDate"];
+        DateTime? endDate = (DateTime?)Session["Search_EndDate"];
+        string orderStatusAlias = OrderStatusService.Instance.Get( StoreId, long.Parse( HttpContext.Current.Request.QueryString["orderStatusId"] ) ).Alias;
+        orderStatusAlias = orderStatusAlias.First().ToString().ToUpper() + orderStatusAlias.Substring( 1 );
 
         TxtOrderNumber.Text = orderNumber;
         TxtFirstName.Text = firstName;
@@ -112,6 +114,7 @@ namespace TeaCommerce.Umbraco.Application.Views.Orders {
         DrpOrderStages.Items.TrySelectByValue( orderStage );
         DrpPageSize.Items.TrySelectByValue( pageSize );
         DPStart.DateTime = startDate ?? DateTime.MinValue;
+        TxtOrderStatus.Text = orderStatusAlias;
 
         if ( endDate != null ) {
           DPEnd.DateTime = endDate.Value.AddDays( -1 );
@@ -172,7 +175,7 @@ namespace TeaCommerce.Umbraco.Application.Views.Orders {
       string orderNumber = TxtOrderNumber.Text;
       string firstName = TxtFirstName.Text;
       string lastName = TxtLastName.Text;
-      long orderStatusId = long.Parse( HttpContext.Current.Request.QueryString[ "orderStatusId" ] );
+      long orderStatusId = long.Parse( HttpContext.Current.Request.QueryString["orderStatusId"] );
       PaymentState? paymentState = PaymentStatusSelectorControl.SelectedValue.TryParse<PaymentState>();
       bool? orderStage = DrpOrderStages.SelectedValue.TryParse<bool>();
       long pageSize = long.Parse( DrpPageSize.SelectedValue );
@@ -181,14 +184,14 @@ namespace TeaCommerce.Umbraco.Application.Views.Orders {
 
       #region Save search filters in session
 
-      Session[ "Search_OrderNumber" ] = orderNumber;
-      Session[ "Search_FirstName" ] = firstName;
-      Session[ "Search_LastName" ] = lastName;
-      Session[ "Search_PaymentStatus" ] = paymentState;
-      Session[ "Search_OrderStage" ] = orderStage;
-      Session[ "Search_PageSize" ] = pageSize;
-      Session[ "Search_StartDate" ] = startDate;
-      Session[ "Search_EndDate" ] = endDate;
+      Session["Search_OrderNumber"] = orderNumber;
+      Session["Search_FirstName"] = firstName;
+      Session["Search_LastName"] = lastName;
+      Session["Search_PaymentStatus"] = paymentState;
+      Session["Search_OrderStage"] = orderStage;
+      Session["Search_PageSize"] = pageSize;
+      Session["Search_StartDate"] = startDate;
+      Session["Search_EndDate"] = endDate;
 
       #endregion
 

@@ -17,6 +17,13 @@
       <asp:Literal ID="LitTrialMode" runat="server"></asp:Literal>
       <asp:HyperLink ID="HypTrialMode" runat="server" NavigateUrl="http://www.teacommerce.net" Target="_blank"></asp:HyperLink>
     </asp:Panel>
+
+    <umbUIControls:Pane ID="PnOrderStatus" runat="server">
+      <umbUIControls:PropertyPanel ID="PPnlOrderStatusAlias" runat="server">
+        <asp:Label ID="TxtOrderStatus" runat="server" class="OrderStatusTitle" />
+      </umbUIControls:PropertyPanel>
+    </umbUIControls:Pane>
+
     <umbUIControls:Pane ID="PnSearchCriteria" runat="server">
       <umbUIControls:PropertyPanel ID="PPnlOrderNumber" runat="server">
         <asp:TextBox ID="TxtOrderNumber" runat="server" CssClass="guiInputText guiInputStandardSize" />
@@ -71,7 +78,7 @@
     </div>
     <umbUIControls:Pane ID="PnSearchResult" runat="server" Visible="false">
       <tc:DataboundListView ID="LvOrders" runat="server">
-        <Layouttemplate>
+        <layouttemplate>
           <table width="100%" rules="rows">
             <thead>
               <tr>
@@ -102,8 +109,8 @@
               <asp:PlaceHolder ID="itemPlaceHolder" runat="server" />
             </tbody>
           </table>
-        </Layouttemplate>
-        <Itemtemplate>
+        </layouttemplate>
+        <itemtemplate>
           <tr>
             <td>
               <asp:CheckBox ID="ChkSelect" runat="server" CssClass="orderSelect" />
@@ -130,50 +137,36 @@
               <%# Eval("TotalPrice.Value.WithVatFormatted" ) %>
             </td>
           </tr>
-        </Itemtemplate>
+        </itemtemplate>
       </tc:DataboundListView>
       <asp:Panel ID="PnlPager" runat="server" CssClass="pager">
-        <asp:LinkButton ID="LBtnFirstPage" runat="server" OnClick="LBtnFirstPage_Click" Text="|<" /><asp:LinkButton
-          ID="LBtnPreviousPage" runat="server" OnClick="LBtnPreviousPage_Click" Text="<" />
-        <asp:Literal ID="LitCurrentPage" runat="server" />&nbsp;/&nbsp;<asp:Literal ID="LitMaxPages"
-          runat="server" /><asp:LinkButton ID="LBtnNextPage" runat="server" OnClick="LBtnNextPage_Click"
-            Text=">" /><asp:LinkButton ID="LBtnLastPage" runat="server" OnClick="LBtnLastPage_Click"
-              Text=">|" />
+        <asp:LinkButton ID="LBtnFirstPage" runat="server" OnClick="LBtnFirstPage_Click" Text="|<" />
+<asp:LinkButton
+  ID="LBtnPreviousPage" runat="server" OnClick="LBtnPreviousPage_Click" Text="<" />
+        <asp:Literal ID="LitCurrentPage" runat="server" />&nbsp;/&nbsp;
+<asp:Literal ID="LitMaxPages"
+  runat="server" />
+<asp:LinkButton ID="LBtnNextPage" runat="server" OnClick="LBtnNextPage_Click"
+  Text=">" />
+<asp:LinkButton ID="LBtnLastPage" runat="server" OnClick="LBtnLastPage_Click"
+  Text=">|" />
       </asp:Panel>
     </umbUIControls:Pane>
   </asp:Panel>
 </asp:Content>
 <asp:Content ContentPlaceHolderID="CphHead" runat="server">
   <style type="text/css">
-    .licenseCheck {
-      background: #FFF6BF;
-      margin: 10px 0;
-      padding: 20px;
-      color: #5E532C;
-      text-align: center;
-    }
+    .licenseCheck { background: #FFF6BF; margin: 10px 0; padding: 20px; color: #5E532C; text-align: center; }
 
-    .pager {
-      background: #E8E8E8;
-      font-size: 11px;
-      padding: 3px 15px 3px 0;
-      text-align: right;
-    }
+    .pager { background: #E8E8E8; font-size: 11px; padding: 3px 15px 3px 0; text-align: right; }
 
-      .pager a {
-        display: inline-block;
-        margin: 0px 3px;
-        color: #000;
-        text-decoration: none;
-      }
+    .pager a { display: inline-block; margin: 0px 3px; color: #000; text-decoration: none; }
 
-        .pager a:hover {
-          text-decoration: none;
-        }
+    .pager a:hover { text-decoration: none; }
 
-        .umbDateTimePicker button {
-            background-image: url(<%= TeaCommerce.Umbraco.Application.Utils.WebUtils.GetWebResourceUrl(TeaCommerce.Umbraco.Application.Constants.EditorIcons.Calendar) %>) !important;
-        }
+    .OrderStatusTitle { font-size: 28px; font-weight: 700; }
+
+    .umbDateTimePicker button { background-image: url(<%= TeaCommerce.Umbraco.Application.Utils.WebUtils.GetWebResourceUrl(TeaCommerce.Umbraco.Application.Constants.EditorIcons.Calendar) %>) !important; }
   </style>
   <script type="text/javascript">
     jQuery(function () {
