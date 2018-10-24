@@ -29,4 +29,4 @@ Go to Tea Commerce's [documentation portal](https://documentation.teacommerce.ne
 The Tea Commerce team is more than happy to help you! Whether it is a question about implementation, use of the system or possibilities with Tea Commerce. Learn more about this posibility at the [Tea Commerce website](https://teacommerce.net/). You can also ask the friendly Umbraco community your questions at the [support forum](https://our.umbraco.org/projects/website-utilities/tea-commerce/tea-commerce-support).
 
 ##Contribute
-If you want to help - GREAT! You can contribute directly to the project here at GitHub. All help is greatly appriciated, both pull requests, bug reporting, enhancements etc. The employees from [webbureau](https://teasolutions.dk/) Tea Solutions is already contributing.
+If you want to help - GREAT! You can contribute directly to the project here at GitHub. All help is greatly appreciated, both pull requests, bug reporting, enhancements etc. The employees from [webbureau](https://teasolutions.dk/) Tea Solutions is already contributing.
