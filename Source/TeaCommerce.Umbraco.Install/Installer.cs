@@ -62,9 +62,9 @@ namespace TeaCommerce.Umbraco.Install {
       Database database = _databaseFactory.Get();
 
       int currentVersion = database.ExecuteScalar<int>( "SELECT SpecialActionsVersion FROM TeaCommerce_Version" );
-      int newVersion = 5;
+      int targetVersion = 6;
 
-      while ( currentVersion < newVersion ) {
+      while ( currentVersion < targetVersion) {
         try {
 
           #region Initial install
@@ -184,8 +184,45 @@ namespace TeaCommerce.Umbraco.Install {
 
           #endregion
 
-          currentVersion++;
-          database.Execute( "UPDATE TeaCommerce_Version SET SpecialActionsVersion=@0", currentVersion );
+          #region 3.2.5
+
+          if (currentVersion + 1 == 6)
+          {
+            #region Remove old payment provider dependencies
+
+            // The latest payment provider build merges 3rd party dependencies
+            // into the core payment providers DLL in order to prevent conflicts
+
+            var oldPaymentProvider3rdPartyDlls = new string [] {
+              "Klarna.Checkout.dll",
+              "Paynova.Api.Client.dll",
+              "Stripe.net.dll"
+            };
+
+            try
+            {
+              foreach (var dll in oldPaymentProvider3rdPartyDlls)
+              {
+                var dllPath = HostingEnvironment.MapPath("~/bin/" + dll);
+                if (dllPath != null && File.Exists(dllPath))
+                {
+                  File.Delete(dllPath);
+                }
+              }
+            }
+            catch (IOException exp)
+            {
+              // If it can't delete the dlls, it's not the end of the world
+              // so there is no point failing the upgrade
+              LoggingService.Instance.Error<Installer>("Non critical Tea Commerce upgrade fail", exp);
+            }
+
+            #endregion
+          }
+
+          #endregion
+
+          database.Execute( "UPDATE TeaCommerce_Version SET SpecialActionsVersion=@0", targetVersion);
         } catch ( Exception exp ) {
           LoggingService.Instance.Error<Installer>( "Tea Commerce installation failed", exp );
           break;
