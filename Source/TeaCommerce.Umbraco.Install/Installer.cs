@@ -223,7 +223,7 @@ namespace TeaCommerce.Umbraco.Install {
           #endregion
 
           currentVersion++;
-          database.Execute( "UPDATE TeaCommerce_Version SET SpecialActionsVersion=@0", currentVersion);
+          database.Execute( "UPDATE TeaCommerce_Version SET SpecialActionsVersion=@0", currentVersion );
         } catch ( Exception exp ) {
           LoggingService.Instance.Error<Installer>( "Tea Commerce installation failed", exp );
           break;
