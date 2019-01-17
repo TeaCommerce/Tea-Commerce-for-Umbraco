@@ -65,6 +65,12 @@ namespace TeaCommerce.Umbraco.Install {
       int stepTargetVersion = 0;
       int targetVersion = 6;
 
+      // Loop from the current version to the target version 
+      // one step at a time, performing any upgrade steps. 
+      // At each step we also update the SpecialActionsVersion 
+      // in the TeaCommerce_Version database table. 
+      // If any step fails, we log the failure, but carry on 
+      // to the next step.
       while ( currentVersion < targetVersion) {
         try
         {
