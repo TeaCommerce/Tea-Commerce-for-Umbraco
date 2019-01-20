@@ -514,7 +514,6 @@ namespace TeaCommerce.Umbraco.Application.Views.PaymentMethods {
         TextBox txtKey = new TextBox();
         txtKey.ID = "TxtKey";
         txtKey.CssClass = "control-label";
-        txtKey.Attributes.CssStyle.Add("word-break", "break-word");
         pnlWrap.Controls.Add( txtKey );
 
         Panel pnlPropertyItemContent = new Panel();
