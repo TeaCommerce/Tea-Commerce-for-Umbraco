@@ -507,12 +507,14 @@ namespace TeaCommerce.Umbraco.Application.Views.PaymentMethods {
         Label lblKey = new Label();
         lblKey.ID = "LblKey";
         lblKey.CssClass = "control-label";
+        lblKey.Attributes.CssStyle.Add("word-break", "break-word");
         lblKey.AssociatedControlID = "TxtValue";
         pnlWrap.Controls.Add( lblKey );
 
         TextBox txtKey = new TextBox();
         txtKey.ID = "TxtKey";
         txtKey.CssClass = "control-label";
+        txtKey.Attributes.CssStyle.Add("word-break", "break-word");
         pnlWrap.Controls.Add( txtKey );
 
         Panel pnlPropertyItemContent = new Panel();
