@@ -261,6 +261,7 @@
     <Compile Include="Controllers\VatGroupsController.cs" />
     <Compile Include="Controllers\StoresController.cs" />
     <Compile Include="Controllers\CampaignsController.cs" />
+    <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="Resources\CommonTerms.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

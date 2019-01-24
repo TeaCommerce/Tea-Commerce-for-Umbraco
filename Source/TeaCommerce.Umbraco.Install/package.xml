@@ -1,49 +1,49 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <umbPackage>
-  <files />
-  <info>
-    <package>
-      <name>Tea Commerce</name>
-      <version>3.2.5 for Umbraco 7</version>
-      <license url="http://teacommerce.net/license-agreement/">Commercial license</license>
-      <url>http://teacommerce.net</url>
-      <requirements>
-        <major>7</major>
-        <minor>1</minor>
-        <patch>0</patch>
-      </requirements>
-    </package>
-    <author>
-      <name>Tea Commerce</name>
-      <website>http://teacommerce.net</website>
-    </author>
-    <readme>
-      Thanks for choosing Tea Commerce.
+    <info>
+        <package>
+            <name>Tea Commerce</name>
+            <version>0.0.0 for Umbraco 7</version>
+            <license url="http://teacommerce.net/license-agreement/">Commercial license</license>
+            <url>http://teacommerce.net</url>
+            <requirements>
+                <major>7</major>
+                <minor>1</minor>
+                <patch>0</patch>
+            </requirements>
+        </package>
+        <author>
+            <name>Tea Commerce</name>
+            <website>http://teacommerce.net</website>
+        </author>
+        <readme>
+            Thanks for choosing Tea Commerce.
 
-      We hope you will be pleased with our product and use it to create a fantastic e-commerce solution.
+            We hope you will be pleased with our product and use it to create a fantastic e-commerce solution.
 
-      UPDATING
-      Always check the revision history before updating:
-      http://documentation.teacommerce.net/revision-history/
+            UPDATING
+            Always check the revision history before updating:
+            http://documentation.teacommerce.net/revision-history/
 
-      SUPPORT
-      The Tea Commerce team is always ready to help you!
-      http://teacommerce.net/ressources/support/
+            SUPPORT
+            The Tea Commerce team is always ready to help you!
+            http://teacommerce.net/ressources/support/
 
-      Tea Commerce
-      info@teacommerce.net
-      +45 82 307 306
-    </readme>
-  </info>
-  <DocumentTypes />
-  <Templates />
-  <Stylesheets />
-  <Macros />
-  <DictionaryItems />
-  <Languages />
-  <DataTypes />
-  <Actions>
-    <Action runat="install" alias="InstallPackageAction" />
-  </Actions>
-  <control>/App_Plugins/TeaCommerce/Views/Install/Installer.ascx</control>
+            Tea Commerce
+            info@teacommerce.net
+            +45 82 307 306
+        </readme>
+    </info>
+    <DocumentTypes />
+    <Templates />
+    <Stylesheets />
+    <Macros />
+    <DictionaryItems />
+    <Languages />
+    <DataTypes />
+    <Actions>
+        <Action runat="install" alias="InstallPackageAction" />
+    </Actions>
+    <control>/App_Plugins/TeaCommerce/Views/Install/Installer.ascx</control>
+    <files />
 </umbPackage>

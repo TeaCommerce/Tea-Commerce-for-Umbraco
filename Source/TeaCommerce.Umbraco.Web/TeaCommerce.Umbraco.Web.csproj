@@ -66,6 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="TemplateContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestExtensions.cs" />

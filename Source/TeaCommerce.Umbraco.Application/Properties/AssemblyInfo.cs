@@ -24,18 +24,6 @@ using TeaCommerce.Umbraco.Application;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid( "ec5ec8dc-3733-4991-b246-45d8e1ebd1f0" )]
 
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Revision and Build Numbers 
-// by using the '*' as shown below:
-[assembly: AssemblyVersion( "3.0.0.0" )]
-[assembly: AssemblyFileVersion( "3.2.5.0" )]
-
 //Embedded Resources
 
 [assembly: WebResource( Constants.EditorIcons.Edit, Constants.MimeTypes.GIF )]
