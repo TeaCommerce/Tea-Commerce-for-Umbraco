@@ -23,15 +23,14 @@
 
             UPDATING
             Always check the revision history before updating:
-            http://documentation.teacommerce.net/revision-history/
+            https://docs.teacommerce.net/changelog/
 
             SUPPORT
             The Tea Commerce team is always ready to help you!
-            http://teacommerce.net/ressources/support/
+            https://our.umbraco.com/packages/website-utilities/tea-commerce/tea-commerce-support/
 
             Tea Commerce
             info@teacommerce.net
-            +45 82 307 306
         </readme>
     </info>
     <DocumentTypes />
