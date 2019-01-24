@@ -26,6 +26,7 @@
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,7 +48,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da" />
+    <Reference Include="Autofac">
+      <HintPath>..\Lib\TeaCommerce\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="businesslogic">
       <HintPath>..\Lib\Umbraco\businesslogic.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
@@ -82,13 +85,13 @@
       <HintPath>..\Lib\Umbraco\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.XML" />
-    <Reference Include="TeaCommerce.Api, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="TeaCommerce.Api, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Tea Commerce\TeaCommerce.Api.dll</HintPath>
+      <HintPath>..\Lib\TeaCommerce\TeaCommerce.Api.dll</HintPath>
     </Reference>
-    <Reference Include="TeaCommerce.Api.Web, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="TeaCommerce.Api.Web, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Tea Commerce\TeaCommerce.Api.Web.dll</HintPath>
+      <HintPath>..\Lib\TeaCommerce\TeaCommerce.Api.Web.dll</HintPath>
     </Reference>
     <Reference Include="umbraco">
       <HintPath>..\Lib\Umbraco\umbraco.dll</HintPath>
