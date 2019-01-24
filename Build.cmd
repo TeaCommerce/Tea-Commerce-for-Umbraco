@@ -1,4 +1,5 @@
 @ECHO off
+SETLOCAL
 
 REM Parse command line arg if present
 SET ARG1=%~1
@@ -19,6 +20,7 @@ REM Trigger the build
 CALL Build\Tools\NuGet\NuGet.exe restore Source\TeaCommerceForUmbraco.sln
 CALL "%programfiles(x86)%\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\amd64\MsBuild.exe" Build\Project.Build.xml
 
+ENDLOCAL
 IF %ERRORLEVEL% NEQ 0 GOTO err
 EXIT /B 0
 :err
