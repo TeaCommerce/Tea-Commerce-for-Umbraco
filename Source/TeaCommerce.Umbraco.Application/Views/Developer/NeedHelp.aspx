@@ -20,15 +20,15 @@
           <ul class="links">
             <li><a href="http://www.teacommerce.net/en/support/how-to-buy-a-license.aspx" target="_blank">
               <asp:Literal ID="LitBuyALicense" runat="server" /></a></li>
-            <li><a href="https://documentation.teacommerce.net/" target="_blank">
+            <li><a href="https://docs.teacommerce.net/" target="_blank">
               <asp:Literal ID="LitDocumentation" runat="server" /></a></li>
             <li><a href="http://our.umbraco.org/projects/website-utilities/tea-commerce/tea-commerce-support"
               target="_blank">
               <asp:Literal ID="LitSupportForum" runat="server" /></a></li>
-            <li><a href="http://www.teacommerce.net/en/products/tea-commerce-starter-kit.aspx"
+            <li><a href="https://teacommerce.net/resources/packages/starter-kit/"
               target="_blank">
               <asp:Literal ID="LitStarterKit" runat="server" /></a></li>
-            <li><a href="http://www.teacommerce.net/en/documentation/revision-history.aspx" target="_blank">
+            <li><a href="https://docs.teacommerce.net/changelog/" target="_blank">
               <asp:Literal ID="LitRevisionHistory" runat="server" /></a></li>
           </ul>
         </p>
