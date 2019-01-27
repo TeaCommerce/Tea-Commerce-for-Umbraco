@@ -195,7 +195,7 @@ namespace TeaCommerce.Umbraco.Install {
 
           #region 3.2.5
 
-          if ( stepTargetVersion == 6)
+          if ( stepTargetVersion == 6 )
           {
             #region Remove old payment provider dependencies
 
