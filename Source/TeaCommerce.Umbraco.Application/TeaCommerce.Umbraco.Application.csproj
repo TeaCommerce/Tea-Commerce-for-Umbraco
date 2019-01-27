@@ -250,6 +250,20 @@
     <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\TeaCommerceCacheRefresherBase.cs" />
+    <Compile Include="Caching\TeaCommercePingServiceCacheRefresher.cs" />
+    <Compile Include="Caching\TeaCommerceEmailTemplateCacheRefresher.cs" />
+    <Compile Include="Caching\TeaCommerceCountryRegionCacheRefresher.cs" />
+    <Compile Include="Caching\TeaCommerceCountryCacheRefresher.cs" />
+    <Compile Include="Caching\TeaCommerceCampaignCacheRefresher.cs" />
+    <Compile Include="Caching\TeaCommerceVatGroupCacheRefresher.cs" />
+    <Compile Include="Caching\TeaCommerceShippingMethodCacheRefresher.cs" />
+    <Compile Include="Caching\TeaCommercePaymentMethodCacheRefresher.cs" />
+    <Compile Include="Caching\TeaCommerceOrderStatusCacheRefresher.cs" />
+    <Compile Include="Caching\TeaCommerceOrderCacheRefresher.cs" />
+    <Compile Include="Caching\TeaCommerceCurrencyCacheRefresher.cs" />
+    <Compile Include="Caching\TeaCommerceStoreCacheRefresher.cs" />
+    <Compile Include="Caching\UmbracoRuntimeCacheService.cs" />
     <Compile Include="Common\ControlExtensions.cs" />
     <Compile Include="Common\ListItemCollectionExtensions.cs" />
     <Compile Include="Constants.cs" />
