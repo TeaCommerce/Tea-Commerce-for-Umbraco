@@ -37,7 +37,7 @@ namespace TeaCommerce.Umbraco.Application.Caching
 
         public void SetCacheValue(string cacheKey, object cacheValue, TimeSpan cacheDuration)
         {
-            _runtimeCache.InsertCacheItem($"TeaCommerce_{cacheKey}", () => cacheValue, cacheDuration);
+            _runtimeCache.InsertCacheItem($"TeaCommerce_{cacheKey}", () => cacheValue, cacheDuration, true);
         }
     }
 }
