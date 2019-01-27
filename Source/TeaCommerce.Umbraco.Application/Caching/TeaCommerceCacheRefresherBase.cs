@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Autofac;
+using System;
+using TeaCommerce.Api.Dependency;
+using TeaCommerce.Api.Infrastructure.Caching;
 using umbraco.interfaces;
 using Umbraco.Core.Cache;
 
 namespace TeaCommerce.Umbraco.Application.Caching
 {
-    public abstract class TeaCommerceCacheRefresherBase<TInstanceType, TModelType> : CacheRefresherBase<TInstanceType>
+    public abstract class TeaCommerceCacheRefresherBase<TInstanceType> : CacheRefresherBase<TInstanceType>
         where TInstanceType : ICacheRefresher
     {
-        public int GetStoreId(TModelType model)
+        protected ICacheService CacheService => DependencyContainer.Instance.Resolve<ICacheService>();
+
+        public override void Refresh(Guid Id)
         {
-            //Application.
-            return 1;
+            throw new NotImplementedException();
         }
     }
 }

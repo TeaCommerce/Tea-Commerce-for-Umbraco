@@ -1,54 +1,37 @@
 ﻿using System;
-using Umbraco.Core.Cache;
 
 namespace TeaCommerce.Umbraco.Application.Caching
 {
-    public class TeaCommerceShippingMethodCacheRefresher : CacheRefresherBase<TeaCommerceShippingMethodCacheRefresher>
+    public class TeaCommerceShippingMethodCacheRefresher : TeaCommerceCacheRefresherBase<TeaCommerceShippingMethodCacheRefresher>
     {
         public override Guid UniqueIdentifier => Constants.DistributedCache.ShippingMethodCacheRefresherGuid;
 
         public override string Name => "Tea Commerce Shipping Method cache refresher";
 
-        protected override TeaCommerceShippingMethodCacheRefresher Instance
-        {
-            get { return this; }
-        }
+        protected override TeaCommerceShippingMethodCacheRefresher Instance => this;
 
         public override void Refresh(int Id)
         {
+            // Id = storeId
             ClearCache(Id);
             base.Refresh(Id);
         }
 
-        public override void Refresh(Guid Id)
+        public override void RefreshAll()
         {
             throw new NotImplementedException();
         }
 
-        public override void RefreshAll()
-        {
-            ClearCache();
-            base.RefreshAll();
-        }
-
         public override void Remove(int Id)
         {
+            // Id = storeId
             ClearCache(Id);
             base.Remove(Id);
         }
 
-        protected void ClearCache(int? Id = null)
+        protected void ClearCache(int storeId)
         {
-            if (Id.HasValue)
-            {
-                // TODO: Get storeId from entity ID
-                // TODO: Clear store specific cache
-            }
-            else
-            {
-                // TODO: Get all storeIds
-                // TODO: Clear all store caches
-            }
+            CacheService.Invalidate($"ShippingMethods-{storeId}");
         }
     }
 }

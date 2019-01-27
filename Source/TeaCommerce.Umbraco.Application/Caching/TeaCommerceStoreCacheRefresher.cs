@@ -6,7 +6,7 @@ using Umbraco.Core.Cache;
 
 namespace TeaCommerce.Umbraco.Application.Caching
 {
-    public class TeaCommerceStoreCacheRefresher : CacheRefresherBase<TeaCommerceStoreCacheRefresher>
+    public class TeaCommerceStoreCacheRefresher : TeaCommerceCacheRefresherBase<TeaCommerceStoreCacheRefresher>
     {
         public override Guid UniqueIdentifier => Constants.DistributedCache.StoreCacheRefresherGuid;
 
@@ -14,18 +14,14 @@ namespace TeaCommerce.Umbraco.Application.Caching
 
         protected override TeaCommerceStoreCacheRefresher Instance => this;
 
-        protected ICacheService CacheService => DependencyContainer.Instance.Resolve<ICacheService>();
-
         public override void Refresh(int Id)
         {
-            ClearCache();
-            base.Refresh(Id);
+            throw new NotImplementedException();
         }
 
         public override void Refresh(Guid Id)
         {
-            ClearCache();
-            base.Refresh(Id);
+            throw new NotImplementedException();
         }
 
         public override void RefreshAll()
@@ -36,8 +32,7 @@ namespace TeaCommerce.Umbraco.Application.Caching
 
         public override void Remove(int Id)
         {
-            ClearCache();
-            base.Remove(Id);
+            throw new NotImplementedException();
         }
 
         protected void ClearCache()
