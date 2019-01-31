@@ -751,8 +751,11 @@ function ($scope, $rootScope, $timeout, $routeParams, contentResource, editorSta
     if ($scope.settings.docTypeAlias) {
       //There's a document type from the settings to load
       contentResource.getScaffold(-20, $scope.settings.docTypeAlias).then(function (data) {
-        // Remove the last tab
-        $scope.doctype = data.tabs.pop();
+
+        // Remove the generic properties tab
+        if (data.tabs && data.tabs.length > 0 && data.tabs[data.tabs.length - 1].id == 0) {
+          data.tabs.pop();
+        }
 
         //Run through all tabs and get all properties for the variants
         for (var t = 0; t < data.tabs.length; t++) {
