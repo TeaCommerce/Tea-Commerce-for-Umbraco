@@ -91,6 +91,12 @@
       <tc:TemplateFileSelectionList ID="TemplateFileSelectionListControl" runat="server" />
     </umbUIControls:PropertyPanel>
   </umbUIControls:Pane>
+  <script>
+    var queryString = window.location.getParams();
+    var id = queryString["id"];
+    UmbClientMgr.mainTree().setActiveTreeType("tea-commerce-store-tree");
+    UmbClientMgr.mainTree().syncTree("-1,Store_" + id + "_" + id);
+  </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="CphHead" runat="server">
   <script type="text/javascript">
