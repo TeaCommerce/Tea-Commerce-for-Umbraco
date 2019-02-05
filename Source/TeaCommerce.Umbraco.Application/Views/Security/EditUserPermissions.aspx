@@ -52,4 +52,9 @@
       </umbUIControls:PropertyPanel>
     </umbUIControls:Pane>
   </asp:Panel>
+  <script>
+    var queryString = window.location.getParams();
+    UmbClientMgr.mainTree().setActiveTreeType("tea-commerce-security-tree");
+    UmbClientMgr.mainTree().syncTree("-1,User_" + queryString["id"]);
+  </script>
 </asp:Content>
