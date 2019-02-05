@@ -35,4 +35,8 @@
       </div>
     </umbUIControls:Pane>
   </asp:Panel>
+  <script>
+    UmbClientMgr.mainTree().setActiveTreeType("tea-commerce-need-help-tree");
+    UmbClientMgr.mainTree().syncTree("-1,NeedHelp");
+  </script>
 </asp:Content>
