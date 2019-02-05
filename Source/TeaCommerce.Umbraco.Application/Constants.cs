@@ -42,7 +42,7 @@ namespace TeaCommerce.Umbraco.Application
             public const string Target = "icon-target";
             public const string Toolbox = "icon-settings";
             public const string TruckBoxLabel = "icon-truck";
-            public const string User = "icon-umb-user";
+            public const string User = "icon-umb-users";
             public const string ZoneMoney = "icon-legal";
             public const string Zone = "icon-economy";
         }
