@@ -11,7 +11,7 @@ namespace TeaCommerce.Umbraco.Application.Caching
         where TInstanceType : ICacheRefresher
     {
         protected ICacheService CacheService => DependencyContainer.Instance.Resolve<ICacheService>();
-
+        
         public override void Refresh(Guid Id)
         {
             throw new NotImplementedException();

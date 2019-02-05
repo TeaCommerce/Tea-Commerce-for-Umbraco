@@ -8,7 +8,7 @@ namespace TeaCommerce.Umbraco.Application.Caching
 
         public override string Name => "Tea Commerce Country cache refresher";
 
-        protected override TeaCommerceCountryCacheRefresher Instance => this
+        protected override TeaCommerceCountryCacheRefresher Instance => this;
 
         public override void Refresh(int Id)
         {
