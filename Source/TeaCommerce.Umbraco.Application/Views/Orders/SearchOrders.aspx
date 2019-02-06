@@ -142,6 +142,19 @@
       </asp:Panel>
     </umbUIControls:Pane>
   </asp:Panel>
+  <script>
+    var queryString = window.location.getParams();
+    var storeId = queryString["storeId"];
+    var id = queryString["orderStatusId"];
+    var path = [
+        "-1",
+        "Store_" + storeId + "_" + storeId,
+        "Orders_" + storeId,
+        "OrderStatus_" + storeId + "_" + id
+    ];
+    UmbClientMgr.mainTree().setActiveTreeType("tea-commerce-store-tree");
+    UmbClientMgr.mainTree().syncTree(path.join(","));
+  </script>
 </asp:Content>
 <asp:Content ContentPlaceHolderID="CphHead" runat="server">
   <style type="text/css">

@@ -82,6 +82,19 @@
       </div>
     </div>
   </asp:Panel>
+  <script>
+    var queryString = window.location.getParams();
+    var storeId = queryString["storeId"];
+    var id = queryString["id"];
+    var path = [
+      "-1",
+      "Store_" + storeId + "_" + storeId,
+      "Campaigns_" + storeId,
+      "Campaign_" + storeId + "_" + id
+    ];
+    UmbClientMgr.mainTree().setActiveTreeType("tea-commerce-store-tree");
+    UmbClientMgr.mainTree().syncTree(path.join(","));
+  </script>
 </asp:Content>
 <asp:Content runat="server" ContentPlaceHolderID="CphHead">
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>

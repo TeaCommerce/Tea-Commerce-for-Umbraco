@@ -224,7 +224,7 @@ namespace TeaCommerce.Umbraco.Application.Trees {
           long countryId = long.Parse( NodeKey.Split( new[] { '_' }, StringSplitOptions.RemoveEmptyEntries )[2] );
           foreach ( CountryRegion countryRegion in CountryRegionService.Instance.GetAll( CurrentStoreId, countryId ) ) {
             node = CreateNode( GetNodeIdentifier( StoreTreeNodeType.SettingsCountryRegion, CurrentStoreId, countryRegion.Id ), countryRegion.Name, Constants.TreeIcons.Map, "settings-country-region" );
-            node.Action = "javascript:(function(){" + ClientTools.Scripts.ChangeContentFrameUrl( WebUtils.GetPageUrl( Constants.Pages.EditCountryRegion ) + "?id=" + countryRegion.Id + "&storeId=" + countryRegion.StoreId ) + "})";
+            node.Action = "javascript:(function(){" + ClientTools.Scripts.ChangeContentFrameUrl( WebUtils.GetPageUrl( Constants.Pages.EditCountryRegion ) + "?id=" + countryRegion.Id + "&storeId=" + countryRegion.StoreId + "&countryId=" + countryId) + "})";
             node.Menu.Add( ActionDelete.Instance );
             tree.Add( node );
           }

@@ -19,4 +19,21 @@
         CssClass="guiInputText guiInputStandardSize" AppendDataBoundItems="true" />
     </umbUIControls:PropertyPanel>
   </umbUIControls:Pane>
+  <script>
+    var queryString = window.location.getParams();
+    var storeId = queryString["storeId"];
+    var countryId = queryString["countryId"];
+    var id = queryString["id"];
+    var path = [
+      "-1",
+      "Store_" + storeId + "_" + storeId,
+      "Settings_" + storeId,
+      "SettingsInternationalization_" + storeId,
+      "SettingsCountries_" + storeId,
+      "SettingsCountry_" + storeId + "_" + countryId,
+      "SettingsCountryRegion_" + storeId + "_" + id
+    ];
+    UmbClientMgr.mainTree().setActiveTreeType("tea-commerce-store-tree");
+    UmbClientMgr.mainTree().syncTree(path.join(","), true);
+  </script>
 </asp:Content>

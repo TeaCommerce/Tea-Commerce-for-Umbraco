@@ -55,6 +55,19 @@
         CssClass="btnRefund" />
     </umbUIControls:PropertyPanel>
   </umbUIControls:Pane>
+  <%--<script>
+    var queryString = window.location.getParams();
+    var storeId = queryString["storeId"];
+    var orderStatusId = $("select[name*=OrderStatusSelectorControl]").val();
+    var path = [
+      "-1",
+      "Store_" + storeId + "_" + storeId,
+      "Orders_" + storeId,
+      "OrderStatus_" + storeId + "_" + orderStatusId
+    ];
+    UmbClientMgr.mainTree().setActiveTreeType("tea-commerce-store-tree");
+    UmbClientMgr.mainTree().syncTree(path.join(","));
+  </script>--%>
 </asp:Content>
 <asp:Content ContentPlaceHolderID="CphHead" runat="server">
   <style type="text/css" media="print">

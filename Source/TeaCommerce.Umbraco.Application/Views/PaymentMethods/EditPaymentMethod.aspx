@@ -160,6 +160,20 @@
       </umbUIControls:PropertyPanel>
     </umbUIControls:Pane>
   </asp:Panel>
+  <script>
+    var queryString = window.location.getParams();
+    var storeId = queryString["storeId"];
+    var id = queryString["id"];
+    var path = [
+      "-1",
+      "Store_" + storeId + "_" + storeId,
+      "Settings_" + storeId,
+      "SettingsPaymentMethods_" + storeId,
+      "SettingsPaymentMethod_" + storeId + "_" + id
+    ];
+    UmbClientMgr.mainTree().setActiveTreeType("tea-commerce-store-tree");
+    UmbClientMgr.mainTree().syncTree(path.join(","), true);
+  </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="CphHead" runat="server">
   <style type="text/css">
