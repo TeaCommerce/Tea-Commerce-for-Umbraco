@@ -119,7 +119,7 @@
         <ItemGroup>
             <CopyFiles Include="$(ArtifactsFilesDir)\**\*" />
         </ItemGroup>
-        <Copy SourceFiles="@(CopyFiles)" DestinationFolder="$(ArtifactsTempDir)" />
+        <Copy SourceFiles="@(CopyFiles)" DestinationFolder="$(ArtifactsTempDir)\%(RecursiveDir)" />
     </Target>
   
     <!-- MOVE RESOURCE FILES -->
