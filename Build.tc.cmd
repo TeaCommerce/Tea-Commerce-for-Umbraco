@@ -5,6 +5,9 @@ SET ARG1=%~1
 SET ARG2=%~2
 SET ARG3=%~3
 
+SET /P NA1=Have you pulled down the latest source for each repo?
+SET /P NA2=Have your updated the version.txt file in each repo?
+
 IF NOT "%ARG1%" == "" SET BUILD_CONFIG=%ARG1:~-1%
 IF "%ARG1%" == "" SET /P BUILD_CONFIG=Please select the build configuration to use (r = Release, d = Debug [Default]):
 IF "%BUILD_CONFIG%" == "" SET BUILD_CONFIG=d
