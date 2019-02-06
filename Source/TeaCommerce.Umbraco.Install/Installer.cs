@@ -193,7 +193,7 @@ namespace TeaCommerce.Umbraco.Install {
 
           #endregion
 
-          #region 3.1.0
+          #region 3.3.0
 
           if ( stepTargetVersion == 6 )
           {
