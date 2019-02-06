@@ -195,16 +195,16 @@
       width: 300px;
     }
 
-      .propertyItemContent input.button {
-        float: right;
-        margin-left: 5px;
-      }
+    .propertyItemContent input.button {
+      float: right;
+      margin-left: 5px;
+    }
 
-      .propertyItemContent span {
-        float: left;
-        height: 10px;
-        padding: 3px;
-      }
+    .propertyItemContent span {
+      float: left;
+      height: 10px;
+      padding: 3px;
+    }
 
     .notice {
       margin-top: 7px;
@@ -216,6 +216,10 @@
       display: inline-block;
       padding-left: 3px;
       margin-bottom: 5px;
+    }
+
+    label.control-label {
+      word-wrap: break-word;
     }
   </style>
   <script type="text/javascript" src='<%= TeaCommerce.Umbraco.Application.Utils.WebUtils.GetWebResourceUrl(TeaCommerce.Umbraco.Application.Constants.Scripts.Default) %>'></script>
