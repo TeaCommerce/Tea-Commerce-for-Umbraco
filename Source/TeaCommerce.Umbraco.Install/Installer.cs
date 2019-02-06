@@ -63,7 +63,7 @@ namespace TeaCommerce.Umbraco.Install {
 
       int currentVersion = database.ExecuteScalar<int>( "SELECT SpecialActionsVersion FROM TeaCommerce_Version" );
       int stepTargetVersion = 0;
-      int targetVersion = 6;
+      int targetVersion = 5;
 
       // Loop from the current version to the target version 
       // one step at a time, performing any upgrade steps. 
@@ -195,30 +195,35 @@ namespace TeaCommerce.Umbraco.Install {
 
           #region 3.3.0
 
-          if ( stepTargetVersion == 6 )
-          {
-            #region Remove old payment provider dependencies
+          // We were going to attempt to delete payment provider 3rd party DLL's
+          // but on second thoughs, we decided to leave them and add nodes in the 
+          // changelog as it's not detramental if they remain, but could cause
+          // problems if the app pool recycles mid delete
+          //
+          //if ( stepTargetVersion == 6 )
+          //{
+          //  #region Remove old payment provider dependencies
 
-            // The latest payment provider build merges 3rd party dependencies
-            // into the core payment providers DLL in order to prevent conflicts
+          //  // The latest payment provider build merges 3rd party dependencies
+          //  // into the core payment providers DLL in order to prevent conflicts
 
-            var oldPaymentProvider3rdPartyDlls = new string [] {
-              "Klarna.Checkout.dll",
-              "Paynova.Api.Client.dll",
-              "Stripe.net.dll"
-            };
+          //  var oldPaymentProvider3rdPartyDlls = new string [] {
+          //    "Klarna.Checkout.dll",
+          //    "Paynova.Api.Client.dll",
+          //    "Stripe.net.dll"
+          //  };
 
-            foreach (var dll in oldPaymentProvider3rdPartyDlls)
-            {
-              var dllPath = HostingEnvironment.MapPath("~/bin/" + dll);
-              if (dllPath != null && File.Exists(dllPath))
-              {
-                File.Delete(dllPath);
-              }
-            }
+          //  foreach (var dll in oldPaymentProvider3rdPartyDlls)
+          //  {
+          //    var dllPath = HostingEnvironment.MapPath("~/bin/" + dll);
+          //    if (dllPath != null && File.Exists(dllPath))
+          //    {
+          //      File.Delete(dllPath);
+          //    }
+          //  }
 
-            #endregion
-          }
+          //  #endregion
+          //}
 
           #endregion
           
