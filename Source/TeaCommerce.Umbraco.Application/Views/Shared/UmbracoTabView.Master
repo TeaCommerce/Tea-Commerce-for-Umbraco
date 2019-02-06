@@ -13,7 +13,13 @@
         (function ($) {
             $(function () {
                 // Fix legacy tree pickers not preventing defaults and thus causing errors
-                $("body").on("click", ".umb-tree-picker .buttons a", function (e) { e.preventDefault(); });
+                $("body").on("click", ".umb-tree-picker .buttons a", function (e) { 
+                    e.preventDefault(); 
+                    var self = this;
+                    setTimeout(function () {
+                        $(self).closest(".umb-tree-picker").find("> input[type=hidden]").val("");
+                    }, 100);
+                });
             })
         }) (jQuery);
     </script>
