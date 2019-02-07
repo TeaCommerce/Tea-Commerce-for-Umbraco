@@ -15,12 +15,12 @@
               <span ng-show="checkIfAllVariantTypesAreUnchecked()">- Select all variant types -</span>
             </a>
           </div>
-          <div class="variantGroup control-group umb-control-group" ng-class="{open:model.value.variantGroupsOpen[variantGroup.id]}" ng-repeat="variantGroup in variantGroups | orderBy:'name'">
+          <div class="variantGroup control-group umb-control-group" ng-class="{open:variantGroupsOpenState[variantGroup.id]}" ng-repeat="variantGroup in variantGroups | orderBy:'name'">
             <div class="handle noSelect pointer" ng-click="setVariantGroupClosedState(variantGroup)">
               <i class="toggle btn btn-nostyles btn-mini icon-navigation-down"></i>
               {{variantGroup.name}}
             </div>
-            <div class="variantGroup-content" ng-show="model.value.variantGroupsOpen[variantGroup.id]">
+            <div class="variantGroup-content" ng-show="variantGroupsOpenState[variantGroup.id]">
               <div class="item" ng-repeat="item in variantGroup.items" ng-class="{checked:item.checked}" ng-click="item.checked=!item.checked" title="{{ item.checked && 'Remove '+item.name+' from selection' || 'Add '+item.name+' to selection' }}">
                 <i class="icon-check"></i>
                 {{item.name}}
