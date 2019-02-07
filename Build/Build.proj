@@ -1,0 +1,30 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Prepare;PackageUmbraco;PackageNuget" ToolsVersion="14.0">
+
+    <!-- IMPORTS -->
+    <PropertyGroup>
+        <MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\Tools\MSBuildCommunityTasks</MSBuildCommunityTasksPath>
+	</PropertyGroup>
+  
+    <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
+	
+    <!-- PROPERTIES -->
+    <PropertyGroup>
+
+        <BuildConfig>$(BUILD_CONFIG)</BuildConfig>
+        <BuildConfig Condition="'$(BuildConfig)'==''">Debug</BuildConfig>
+		<BuildTimestamp>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</BuildTimestamp>
+
+		<RootDir>$(MSBuildProjectDirectory)\..</RootDir>
+        <SourceDir>$(RootDir)\Source</SourceDir>
+        <LibDir>$(SourceDir)\Lib</LibDir>
+        <ArtifactsDir>$(RootDir)\Artifacts</ArtifactsDir>
+        <ArtifactsFilesDir>$(ArtifactsDir)\Files</ArtifactsFilesDir>
+
+    </PropertyGroup>
+
+	<!-- Import Sub Tasks -->
+    <Import Project="Build.Prepare.targets"/>
+    <Import Project="Build.Package.Umbraco.targets"/>
+    <Import Project="Build.Package.Nuget.targets"/>
+  
+</Project>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>TeaCommerce</id>
+    <version>0.0.0</version>
+    <authors>Outfield Digital Ltd</authors>
+    <owners>Outfield Digital Ltd</owners>
+    <projectUrl>https://www.teacommerce.net</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/TeaCommerce/Tea-Commerce-for-Umbraco/master/Assets/logo_64.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Ecommerce package for Umbraco CMS</description>
+    <summary>Ecommerce package for Umbraco CMS</summary>
+    <copyright>Outfield Digital Ltd</copyright>
+    <licenseUrl>https://teacommerce.net/license-agreement/</licenseUrl>
+    <language>en-GB</language>
+    <tags>umbraco ecommerce</tags>
+    <dependencies>
+      <dependency id="TeaCommerce.Core" version="1.0.0" />
+    </dependencies>
+  </metadata>
+  <files></files>
+</package>

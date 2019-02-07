@@ -18,7 +18,7 @@ if "%BUILD_CONFIG%" == "r" (
 
 REM Trigger the build
 CALL Build\Tools\NuGet\NuGet.exe restore Source\TeaCommerceForUmbraco.sln
-CALL "%programfiles(x86)%\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\amd64\MsBuild.exe" Build\Project.Build.xml
+CALL "%programfiles(x86)%\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\amd64\MsBuild.exe" Build\Build.proj
 
 ENDLOCAL
 IF %ERRORLEVEL% NEQ 0 GOTO err
