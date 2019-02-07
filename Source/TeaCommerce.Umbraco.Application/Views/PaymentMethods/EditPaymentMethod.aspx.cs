@@ -507,6 +507,7 @@ namespace TeaCommerce.Umbraco.Application.Views.PaymentMethods {
         Label lblKey = new Label();
         lblKey.ID = "LblKey";
         lblKey.CssClass = "control-label";
+        lblKey.Attributes.CssStyle.Add("word-break", "break-word");
         lblKey.AssociatedControlID = "TxtValue";
         pnlWrap.Controls.Add( lblKey );
 

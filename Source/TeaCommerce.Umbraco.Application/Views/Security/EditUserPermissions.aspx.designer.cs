@@ -31,15 +31,6 @@ namespace TeaCommerce.Umbraco.Application.Views.Security {
         protected global::umbraco.uicontrols.PropertyPanel PPnlAccessSecurity;
         
         /// <summary>
-        /// ImgAccessSecurity control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImgAccessSecurity;
-        
-        /// <summary>
         /// ChkAccessSecurity control.
         /// </summary>
         /// <remarks>
@@ -58,15 +49,6 @@ namespace TeaCommerce.Umbraco.Application.Views.Security {
         protected global::umbraco.uicontrols.PropertyPanel PPnlAccessLicenses;
         
         /// <summary>
-        /// ImgAccessLicenses control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImgAccessLicenses;
-        
-        /// <summary>
         /// ChkAccessLicenses control.
         /// </summary>
         /// <remarks>
@@ -83,15 +65,6 @@ namespace TeaCommerce.Umbraco.Application.Views.Security {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::umbraco.uicontrols.PropertyPanel PPnlCreateAndDeleteStore;
-        
-        /// <summary>
-        /// ImgCreateAndDeleteStore control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImgCreateAndDeleteStore;
         
         /// <summary>
         /// ChkCreateAndDeleteStore control.

@@ -46,4 +46,8 @@
       </p>
     </asp:Panel>
   </asp:Panel>
+  <script>
+    UmbClientMgr.mainTree().setActiveTreeType("tea-commerce-licenses-tree");
+    UmbClientMgr.mainTree().syncTree("-1,License");
+  </script>
 </asp:Content>

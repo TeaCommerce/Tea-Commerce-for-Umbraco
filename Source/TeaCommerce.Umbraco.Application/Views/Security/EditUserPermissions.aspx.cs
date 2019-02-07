@@ -47,12 +47,9 @@ namespace TeaCommerce.Umbraco.Application.Views.Security {
       AddTab( CommonTerms.Common, PnlCommon, SaveButton_Clicked );
 
       PPnlAccessSecurity.Text = StoreTerms.Security;
-      ImgAccessSecurity.ImageUrl = WebUtils.GetWebResourceUrl( Constants.TreeIcons.Lock );
       PPnlAccessLicenses.Text = DeveloperTerms.Licenses;
-      ImgAccessLicenses.ImageUrl = WebUtils.GetWebResourceUrl( Constants.TreeIcons.LicenseKey );
       PPnlCreateAndDeleteStore.Text = CommonTerms.CreateAndDeleteStore;
-      ImgCreateAndDeleteStore.ImageUrl = WebUtils.GetWebResourceUrl( Constants.TreeIcons.Store );
-
+      
       PnStoreSpecificPermissions.Text = CommonTerms.Stores;
       PPnlStoreSpecificPermissions.Text = CommonTerms.StoreSpecificPermissions;
     }
@@ -82,18 +79,15 @@ namespace TeaCommerce.Umbraco.Application.Views.Security {
     protected void LvStores_ItemDataBound( object sender, ListViewItemEventArgs e ) {
       Store store = (Store)( e.Item as ListViewDataItem ).DataItem;
 
-      e.Item.FindControl<Image>( "ImgAccessStore" ).ImageUrl = WebUtils.GetWebResourceUrl( Constants.TreeIcons.Store );
       CheckBox chkAccessStore = e.Item.FindControl<CheckBox>( "ChkAccessStore" );
       chkAccessStore.Text = store.Name;
       chkAccessStore.Checked = permissions != null && permissions.HasPermission( StoreSpecificPermissionType.AccessStore, store.Id );
 
-      e.Item.FindControl<Image>( "ImgMarketing" ).ImageUrl = WebUtils.GetWebResourceUrl( Constants.TreeIcons.Target );
       CheckBox chkMarketing = e.Item.FindControl<CheckBox>( "ChkMarketing" );
       chkMarketing.Text = CommonTerms.Marketing;
       chkMarketing.Checked = permissions != null && permissions.HasPermission( StoreSpecificPermissionType.AccessMarketing, store.Id );
       e.Item.FindControl<Panel>( "PnlMarketing" ).Visible = currentUserPermissions.HasPermission( StoreSpecificPermissionType.AccessMarketing, store.Id );
 
-      e.Item.FindControl<Image>( "ImgAccessSettings" ).ImageUrl = WebUtils.GetWebResourceUrl( Constants.TreeIcons.Toolbox );
       CheckBox chkAccessSettings = e.Item.FindControl<CheckBox>( "ChkAccessSettings" );
       chkAccessSettings.Text = CommonTerms.Settings;
       chkAccessSettings.Checked = permissions != null && permissions.HasPermission( StoreSpecificPermissionType.AccessSettings, store.Id );

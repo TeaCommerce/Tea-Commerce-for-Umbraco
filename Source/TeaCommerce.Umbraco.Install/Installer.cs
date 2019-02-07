@@ -62,10 +62,19 @@ namespace TeaCommerce.Umbraco.Install {
       Database database = _databaseFactory.Get();
 
       int currentVersion = database.ExecuteScalar<int>( "SELECT SpecialActionsVersion FROM TeaCommerce_Version" );
-      int newVersion = 5;
+      int stepTargetVersion = 0;
+      int targetVersion = 5;
 
-      while ( currentVersion < newVersion ) {
-        try {
+      // Loop from the current version to the target version 
+      // one step at a time, performing any upgrade steps. 
+      // At each step we also update the SpecialActionsVersion 
+      // in the TeaCommerce_Version database table. 
+      // If any step fails, we log the failure, but carry on 
+      // to the next step.
+      while ( currentVersion < targetVersion) {
+        try
+        {
+          stepTargetVersion = currentVersion + 1;
 
           #region Initial install
 
@@ -79,7 +88,7 @@ namespace TeaCommerce.Umbraco.Install {
 
           #region 2.1.0
 
-          if ( currentVersion + 1 == 1 ) {
+          if ( stepTargetVersion == 1 ) {
             #region Auto set current cart and order number for all stores
             foreach ( Store store in _storeService.GetAll() ) {
               store.CurrentCartNumber = database.ExecuteScalar<long>( "SELECT COUNT(Id) FROM TeaCommerce_Order WHERE StoreId=@0", store.Id );
@@ -93,7 +102,7 @@ namespace TeaCommerce.Umbraco.Install {
 
           #region 2.1.1
 
-          if ( currentVersion + 1 == 2 ) {
+          if ( stepTargetVersion == 2 ) {
             #region Correct wrong order properties for sage pay orders
             foreach ( Store store in _storeService.GetAll() ) {
               List<long> sagePayPaymentMethodIds = _paymentMethodService.GetAll( store.Id ).Where( p => p.PaymentProviderAlias == "SagePay" ).Select( p => p.Id ).ToList();
@@ -126,7 +135,7 @@ namespace TeaCommerce.Umbraco.Install {
 
           #region 2.2
 
-          if ( currentVersion + 1 == 3 ) {
+          if ( stepTargetVersion == 3 ) {
             //Had to remove the deletion of TeaCommerce.PaymentProviders.dll and TeaCommerce.PaymentProviders.XmlSerializers.dll
           }
 
@@ -134,7 +143,7 @@ namespace TeaCommerce.Umbraco.Install {
 
           #region 2.3.2
 
-          if ( currentVersion + 1 == 3 ) {
+          if ( stepTargetVersion == 3 ) {
             #region Remove order xml cache because properties was wrongly serialized
             string teaCommerceAppDataPath = HostingEnvironment.MapPath( "~/App_Data/tea-commerce" );
             if ( teaCommerceAppDataPath != null ) {
@@ -152,7 +161,7 @@ namespace TeaCommerce.Umbraco.Install {
 
           #region 3.0.0
 
-          if ( currentVersion + 1 == 4 ) {
+          if ( stepTargetVersion == 4 ) {
             #region Remove old javascript API file
             string javaScriptApiFile = HostingEnvironment.MapPath( "~/scripts/tea-commerce.min.js" );
             if ( javaScriptApiFile != null && File.Exists( javaScriptApiFile ) ) {
@@ -184,11 +193,47 @@ namespace TeaCommerce.Umbraco.Install {
 
           #endregion
 
-          currentVersion++;
-          database.Execute( "UPDATE TeaCommerce_Version SET SpecialActionsVersion=@0", currentVersion );
+          #region 3.3.0
+
+          // We were going to attempt to delete payment provider 3rd party DLL's
+          // but on second thoughs, we decided to leave them and add nodes in the 
+          // changelog as it's not detramental if they remain, but could cause
+          // problems if the app pool recycles mid delete
+          //
+          //if ( stepTargetVersion == 6 )
+          //{
+          //  #region Remove old payment provider dependencies
+
+          //  // The latest payment provider build merges 3rd party dependencies
+          //  // into the core payment providers DLL in order to prevent conflicts
+
+          //  var oldPaymentProvider3rdPartyDlls = new string [] {
+          //    "Klarna.Checkout.dll",
+          //    "Paynova.Api.Client.dll",
+          //    "Stripe.net.dll"
+          //  };
+
+          //  foreach (var dll in oldPaymentProvider3rdPartyDlls)
+          //  {
+          //    var dllPath = HostingEnvironment.MapPath("~/bin/" + dll);
+          //    if (dllPath != null && File.Exists(dllPath))
+          //    {
+          //      File.Delete(dllPath);
+          //    }
+          //  }
+
+          //  #endregion
+          //}
+
+          #endregion
+          
+          database.Execute( "UPDATE TeaCommerce_Version SET SpecialActionsVersion=@0", stepTargetVersion );
         } catch ( Exception exp ) {
-          LoggingService.Instance.Error<Installer>( "Tea Commerce installation failed", exp );
+          LoggingService.Instance.Error<Installer>( $"Tea Commerce upgrade step {stepTargetVersion} failed", exp );
           break;
+        } finally {
+          // Update current version whether a step succeeds or fails
+          currentVersion = stepTargetVersion;
         }
       }
 

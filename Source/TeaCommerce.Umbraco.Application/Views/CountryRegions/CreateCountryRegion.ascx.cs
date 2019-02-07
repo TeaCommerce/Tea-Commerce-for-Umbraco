@@ -24,7 +24,7 @@ namespace TeaCommerce.Umbraco.Application.Views.CountryRegions {
         CountryRegion countryRegion = new CountryRegion( StoreId, TxtName.Text, _countryId );
         countryRegion.Save();
 
-        Redirect( WebUtils.GetPageUrl( Constants.Pages.EditCountryRegion ) + "?id=" + countryRegion.Id + "&storeId=" + countryRegion.StoreId );
+        Redirect( WebUtils.GetPageUrl( Constants.Pages.EditCountryRegion ) + "?id=" + countryRegion.Id + "&storeId=" + countryRegion.StoreId + "&countryId=" + _countryId );
       }
 
     }

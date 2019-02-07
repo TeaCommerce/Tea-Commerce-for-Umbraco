@@ -68,6 +68,17 @@
       </tc:DataboundListView>      
     </umbUIControls:Pane>
   </asp:Panel>
+  <script>
+    var queryString = window.location.getParams();
+    var storeId = queryString["storeId"];
+    var path = [
+      "-1",
+      "Store_" + storeId + "_" + storeId,
+      "GiftCards_" + storeId
+    ];
+    UmbClientMgr.mainTree().setActiveTreeType("tea-commerce-store-tree");
+    UmbClientMgr.mainTree().syncTree(path.join(","), true);
+  </script>
 </asp:Content>
 <asp:Content ContentPlaceHolderID="CphHead" runat="server">
   <style type="text/css">

@@ -35,21 +35,23 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da" />
+    <Reference Include="Autofac">
+      <HintPath>..\Lib\TeaCommerce\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="interfaces">
       <HintPath>..\Lib\Umbraco\interfaces.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages">
+      <HintPath>..\Lib\Umbraco\System.Web.WebPages.dll</HintPath>
+    </Reference>
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TeaCommerce.Api, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Tea Commerce\TeaCommerce.Api.dll</HintPath>
+    <Reference Include="TeaCommerce.Api">
+      <HintPath>..\Lib\TeaCommerce\TeaCommerce.Api.dll</HintPath>
     </Reference>
-    <Reference Include="TeaCommerce.Api.Web, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Tea Commerce\TeaCommerce.Api.Web.dll</HintPath>
+    <Reference Include="TeaCommerce.Api.Web">
+      <HintPath>..\Lib\TeaCommerce\TeaCommerce.Api.Web.dll</HintPath>
     </Reference>
     <Reference Include="umbraco">
       <HintPath>..\Lib\Umbraco\umbraco.dll</HintPath>
@@ -64,6 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="TemplateContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestExtensions.cs" />

@@ -39,7 +39,8 @@ namespace TeaCommerce.Umbraco.Application.Trees {
       node.Text = text;
       node.Icon = icon;
       node.NodeType = TreeAlias + "-" + nodeType;
-      node.Source = hasChildNodes ? this.GetTreeServiceUrl( nodeId ) : null;
+      node.Source = this.GetTreeServiceUrl( nodeId );
+      node.HasChildren = hasChildNodes;
       node.Action = "javascript:(function(){})";
       return node;
     }
