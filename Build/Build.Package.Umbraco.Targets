@@ -14,7 +14,7 @@
 
     <!-- COPY FILES -->
     <Target Name="CopyFilesToUmbracoFiles">
-        <ItemGroup>
+        <ItemGroup> 
             <CopyFiles Include="$(ArtifactsFilesDir)\**\*" />
         </ItemGroup>
         <Copy SourceFiles="@(CopyFiles)" DestinationFolder="$(ArtifactsUmbracoFilesDir)\%(RecursiveDir)" />
