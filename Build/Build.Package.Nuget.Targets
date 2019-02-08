@@ -1,0 +1,91 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Main" ToolsVersion="14.0">
+
+    <!-- IMPORTS -->
+    <PropertyGroup>
+    	<MSBuildNugetTasksPath>$(MSBuildProjectDirectory)\tools\MSBuildNugetTasks</MSBuildNugetTasksPath>
+    </PropertyGroup>
+  
+    <Import Project="$(MSBuildNugetTasksPath)\MSBuild.Nuget.Tasks.Targets" />
+
+    <!-- PROPERTIES -->
+    <PropertyGroup>
+        <ArtifactsNugetFilesDir>$(ArtifactsDir)\NugetFiles</ArtifactsNugetFilesDir>
+    </PropertyGroup>
+ 
+    <!-- COPY FILES -->
+    <Target Name="CopyFilesToNugetFiles">
+        <ItemGroup>
+            <BinFiles Include="$(ArtifactsFilesDir)\bin\**\*" />
+            <ContentFiles Include="$(ArtifactsFilesDir)\**\*" Exclude="$(ArtifactsFilesDir)\bin\**\*" />
+        </ItemGroup>
+        <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(ArtifactsNugetFilesDir)\lib\net45\%(RecursiveDir)" 
+            Condition="!$([System.Text.RegularExpressions.Regex]::IsMatch('%(FileName)', `^(TeaCommerce.PaymentProvider|^Autofac$)`))" />
+        <Copy SourceFiles="@(ContentFiles)" DestinationFolder="$(ArtifactsNugetFilesDir)\content\%(RecursiveDir)" />
+    </Target>
+  
+    <!-- COPY MANIFESTS -->
+    <Target Name="CopyNugetPackageManifests" DependsOnTargets="CopyFilesToNugetFiles">
+        <Copy SourceFiles="$(MSBuildProjectDirectory)\package.core.nuspec" DestinationFolder="$(ArtifactsNugetFilesDir)" />
+        <Copy SourceFiles="$(MSBuildProjectDirectory)\package.nuspec" DestinationFolder="$(ArtifactsNugetFilesDir)" />
+    </Target>
+  
+    <!-- ADD FILES TO PACKAGE MANIFEST -->
+    <Target Name="UpdateNugetPackageManifest" DependsOnTargets="CopyNugetPackageManifests">
+
+        <ItemGroup>
+			<CoreNuGetManifestFiles Include="$(ArtifactsNugetFilesDir)\**\*" Exclude="$(ArtifactsNugetFilesDir)\package.nuspec;$(ArtifactsNugetFilesDir)\package.core.nuspec;$(ArtifactsNugetFilesDir)\content\**\*.*" />
+			<WebNuGetManifestFiles Include="$(ArtifactsNugetFilesDir)\**\*" Exclude="$(ArtifactsNugetFilesDir)\package.nuspec;$(ArtifactsNugetFilesDir)\package.core.nuspec;$(ArtifactsNugetFilesDir)\lib\**\*.*;" />
+		</ItemGroup>
+		
+        <!-- Core -->
+		<MSBuild.NuGet.Tasks.ManifestUpdate
+			ManifestFile="$(ArtifactsNugetFilesDir)\package.core.nuspec"
+			WorkingDirectory="$(ArtifactsNugetFilesDir)"
+			Files="@(CoreNuGetManifestFiles)" />
+
+		<!-- Web -->
+		<MSBuild.NuGet.Tasks.ManifestUpdate
+			ManifestFile="$(ArtifactsNugetFilesDir)\package.nuspec"
+			WorkingDirectory="$(ArtifactsNugetFilesDir)"
+			Files="@(WebNuGetManifestFiles)" />
+
+		<!-- Update the core dependency version. Have to use XMLUpdate as MSBuild.Nuget doesn't support this yet -->
+		<XmlUpdate
+			Prefix="nu"
+			Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
+			XmlFileName="$(ArtifactsNugetFilesDir)\package.nuspec"
+			XPath="/nu:package/nu:metadata/nu:dependencies/nu:dependency[@id='TeaCommerce.Core']/@version"
+			Value="$(InformationalBuildVersion)" />
+
+    </Target>
+  
+    <!-- PACKAGE FILES -->
+    <Target Name="PackageNugetFiles" DependsOnTargets="UpdateNugetPackageManifest">
+
+		<!-- NuGet Core -->
+		<MSBuild.NuGet.Tasks.Pack NuGetExePath="$(MSBuildProjectDirectory)\tools\Nuget\NuGet.exe"
+			ManifestFile="$(ArtifactsNugetFilesDir)\package.core.nuspec"
+			BasePath="$(ArtifactsNugetFilesDir)"
+			Version="$(InformationalBuildVersion.Replace('+','.'))"
+			OutputDirectory="$(ArtifactsDir)"
+			Symbols="false"  />
+
+		<!-- NuGet Web -->
+		<MSBuild.NuGet.Tasks.Pack NuGetExePath="$(MSBuildProjectDirectory)\tools\Nuget\NuGet.exe"
+			ManifestFile="$(ArtifactsNugetFilesDir)\package.nuspec"
+			BasePath="$(ArtifactsNugetFilesDir)"
+			Version="$(InformationalBuildVersion.Replace('+','.'))"
+			OutputDirectory="$(ArtifactsDir)"
+			Symbols="false" />
+
+    </Target>
+  
+    <!-- CLEANUP FILES -->
+    <Target Name="CleanupNugetFiles" DependsOnTargets="PackageNugetFiles">
+        <RemoveDir Directories="$(ArtifactsNugetFilesDir)" />
+    </Target>
+
+    <!-- Main -->
+	<Target Name="PackageNuget" DependsOnTargets="CleanupNugetFiles"></Target>
+  
+</Project>
