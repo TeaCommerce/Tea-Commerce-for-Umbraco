@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Prepare;PackageUmbraco;PackageNuget" ToolsVersion="14.0">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="BuildOnly" ToolsVersion="14.0">
 
     <!-- IMPORTS -->
     <PropertyGroup>
@@ -22,9 +22,15 @@
 
     </PropertyGroup>
 
-	<!-- Import Sub Tasks -->
+	<!-- IMPORT SUB TASKS -->
     <Import Project="Build.Prepare.targets"/>
     <Import Project="Build.Package.Umbraco.targets"/>
     <Import Project="Build.Package.Nuget.targets"/>
-  
+
+    <!-- BUILD TARGET -->
+	<Target Name="BuildOnly" DependsOnTargets="Prepare" />
+	<Target Name="BuildAndPackageUmbraco" DependsOnTargets="Prepare;PackageUmbraco" />
+	<Target Name="BuildAndPackageNuget" DependsOnTargets="Prepare;PackageNuget" />
+	<Target Name="BuildAndPackageAll" DependsOnTargets="Prepare;PackageUmbraco;PackageNuget" />
+
 </Project>

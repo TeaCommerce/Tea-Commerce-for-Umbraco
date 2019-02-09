@@ -20,8 +20,8 @@
 			<BuildVersion>@(Version)</BuildVersion>
 			<BuildVersionMajor>$(BuildVersion.Split('.')[0])</BuildVersionMajor>
 			<BuildVersionMinor>$(BuildVersion.Split('.')[1])</BuildVersionMinor>
-            <InformationalBuildVersion>$(BuildVersion)</InformationalBuildVersion>
-            <InformationalBuildVersion Condition="'$(BuildConfig)'=='Debug'">$(BuildVersion)-alpha+$(BuildTimestamp)</InformationalBuildVersion>
+            <BuildInformationalVersion>$(BuildVersion)</BuildInformationalVersion>
+            <BuildInformationalVersion Condition="'$(BuildConfig)'=='Debug'">$(BuildVersion)-alpha+$(BuildTimestamp)</BuildInformationalVersion>
 		</PropertyGroup>
     </Target> 
 
@@ -35,7 +35,7 @@
 				<_Parameter1>$(BuildVersionMajor).$(BuildVersionMinor).*</_Parameter1>
 			</AssemblyAttributes>
 			<AssemblyAttributes Include="AssemblyInformationalVersion">
-				<_Parameter1>$(InformationalBuildVersion)</_Parameter1>
+				<_Parameter1>$(BuildInformationalVersion)</_Parameter1>
 			</AssemblyAttributes>
 		</ItemGroup>
 		<WriteCodeFragment Language="C#" 
@@ -60,13 +60,8 @@
     <!-- COPY FILES -->
     <Target Name="CopyFiles" DependsOnTargets="Compile">
         <ItemGroup>
-            <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.Application\bin\$(BuildConfig)\TeaCommerce.Umbraco*.dll" />
-            <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.Configuration\bin\$(BuildConfig)\TeaCommerce.Umbraco*.dll" />
-            <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.Install\bin\$(BuildConfig)\TeaCommerce.Umbraco*.dll" />
-            <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.Web\bin\$(BuildConfig)\TeaCommerce.Umbraco*.dll" />
-            <BinFiles Include="$(LibDir)\TeaCommerce\Infralution.Licensing.dll" />
-            <BinFiles Include="$(LibDir)\TeaCommerce\Autofac.dll" />
-            <BinFiles Include="$(LibDir)\TeaCommerce\TeaCommerce*.dll" />
+            <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.*\bin\$(BuildConfig)\TeaCommerce.Umbraco*.dll" />
+            <BinFiles Include="$(LibDir)\TeaCommerce\*.dll" />
             <BinFiles Include="$(LibDir)\TeaCommercePaymentProviders\*.dll" />
             <Resources Include="$(SourceDir)\TeaCommerce.Umbraco.Application\bin\$(BuildConfig)\**\TeaCommerce.Umbraco.Application.resources.dll" />
             <Views Include="$(SourceDir)\TeaCommerce.Umbraco.Application\Views\**\*.ascx;$(SourceDir)\TeaCommerce.Umbraco.Application\Views\**\*.aspx;$(SourceDir)\TeaCommerce.Umbraco.Application\Views\**\*.Master" />
@@ -74,7 +69,7 @@
             <Marketing Include="$(SourceDir)\TeaCommerce.Umbraco.Application\Marketing\**\*.*" />
             <MacroScripts Include="$(SourceDir)\TeaCommerce.Umbraco.Install\Content\Razor\*.default" />
         </ItemGroup>
-        <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(ArtifactsFilesDir)\bin\%(RecursiveDir)" />
+        <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(ArtifactsFilesDir)\bin\" />
         <Copy SourceFiles="@(Resources)" DestinationFolder="$(ArtifactsFilesDir)\bin\%(RecursiveDir)" />
         <Copy SourceFiles="@(Views)" DestinationFolder="$(ArtifactsFilesDir)\App_Plugins\TeaCommerce\Views\%(RecursiveDir)" />
         <Copy SourceFiles="@(Marketing)" DestinationFolder="$(ArtifactsFilesDir)\App_Plugins\TeaCommerce\Marketing\%(RecursiveDir)" />

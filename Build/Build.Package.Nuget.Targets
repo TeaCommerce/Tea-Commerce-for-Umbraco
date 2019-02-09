@@ -9,18 +9,18 @@
 
     <!-- PROPERTIES -->
     <PropertyGroup>
+		<TeaCommerceCoreVersion Condition="'$(TeaCommerceCoreVersion)'==''">3.1.5</TeaCommerceCoreVersion>
         <ArtifactsNugetFilesDir>$(ArtifactsDir)\NugetFiles</ArtifactsNugetFilesDir>
     </PropertyGroup>
  
     <!-- COPY FILES -->
     <Target Name="CopyFilesToNugetFiles">
         <ItemGroup>
-            <BinFiles Include="$(ArtifactsFilesDir)\bin\**\*" />
-            <ContentFiles Include="$(ArtifactsFilesDir)\**\*" Exclude="$(ArtifactsFilesDir)\bin\**\*" />
+            <NugetBinFiles Include="$(ArtifactsFilesDir)\bin\**\TeaCommerce.Umbraco.*" />
+            <NugetContentFiles Include="$(ArtifactsFilesDir)\**\*" Exclude="$(ArtifactsFilesDir)\bin\**\*" />
         </ItemGroup>
-        <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(ArtifactsNugetFilesDir)\lib\net45\%(RecursiveDir)" 
-            Condition="!$([System.Text.RegularExpressions.Regex]::IsMatch('%(FileName)', `^(TeaCommerce.PaymentProvider|^Autofac$)`))" />
-        <Copy SourceFiles="@(ContentFiles)" DestinationFolder="$(ArtifactsNugetFilesDir)\content\%(RecursiveDir)" />
+        <Copy SourceFiles="@(NugetBinFiles)" DestinationFolder="$(ArtifactsNugetFilesDir)\lib\net45\%(RecursiveDir)" />
+        <Copy SourceFiles="@(NugetContentFiles)" DestinationFolder="$(ArtifactsNugetFilesDir)\content\%(RecursiveDir)" />
     </Target>
   
     <!-- COPY MANIFESTS -->
@@ -43,6 +43,14 @@
 			WorkingDirectory="$(ArtifactsNugetFilesDir)"
 			Files="@(CoreNuGetManifestFiles)" />
 
+        <!-- Update the core dependency version. Have to use XMLUpdate as MSBuild.Nuget doesn't support this yet -->
+		<XmlUpdate
+			Prefix="nu"
+			Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
+			XmlFileName="$(ArtifactsNugetFilesDir)\package.core.nuspec"
+			XPath="/nu:package/nu:metadata/nu:dependencies/nu:dependency[@id='TeaCommerce.Core']/@version"
+			Value="$(TeaCommerceCoreVersion.Replace('+','.'))" />
+
 		<!-- Web -->
 		<MSBuild.NuGet.Tasks.ManifestUpdate
 			ManifestFile="$(ArtifactsNugetFilesDir)\package.nuspec"
@@ -54,8 +62,8 @@
 			Prefix="nu"
 			Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
 			XmlFileName="$(ArtifactsNugetFilesDir)\package.nuspec"
-			XPath="/nu:package/nu:metadata/nu:dependencies/nu:dependency[@id='TeaCommerce.Core']/@version"
-			Value="$(InformationalBuildVersion)" />
+			XPath="/nu:package/nu:metadata/nu:dependencies/nu:dependency[@id='TeaCommerce.Umbraco.Core']/@version"
+			Value="$(BuildInformationalVersion.Replace('+','.'))" />
 
     </Target>
   
@@ -66,7 +74,7 @@
 		<MSBuild.NuGet.Tasks.Pack NuGetExePath="$(MSBuildProjectDirectory)\tools\Nuget\NuGet.exe"
 			ManifestFile="$(ArtifactsNugetFilesDir)\package.core.nuspec"
 			BasePath="$(ArtifactsNugetFilesDir)"
-			Version="$(InformationalBuildVersion.Replace('+','.'))"
+			Version="$(BuildInformationalVersion.Replace('+','.'))"
 			OutputDirectory="$(ArtifactsDir)"
 			Symbols="false"  />
 
@@ -74,7 +82,7 @@
 		<MSBuild.NuGet.Tasks.Pack NuGetExePath="$(MSBuildProjectDirectory)\tools\Nuget\NuGet.exe"
 			ManifestFile="$(ArtifactsNugetFilesDir)\package.nuspec"
 			BasePath="$(ArtifactsNugetFilesDir)"
-			Version="$(InformationalBuildVersion.Replace('+','.'))"
+			Version="$(BuildInformationalVersion.Replace('+','.'))"
 			OutputDirectory="$(ArtifactsDir)"
 			Symbols="false" />
 
