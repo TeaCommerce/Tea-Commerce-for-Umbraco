@@ -9,7 +9,8 @@
 
     <!-- PROPERTIES -->
     <PropertyGroup>
-		<TeaCommerceCoreVersion Condition="'$(TeaCommerceCoreVersion)'==''">3.1.5</TeaCommerceCoreVersion>
+		<MinTeaCommerceCoreVersion Condition="'$(MinTeaCommerceCoreVersion)'==''">3.1.5</MinTeaCommerceCoreVersion>
+        <MinInvoicingPaymentProviderVersion>1.0.0</MinInvoicingPaymentProviderVersion>
         <ArtifactsNugetFilesDir>$(ArtifactsDir)\NugetFiles</ArtifactsNugetFilesDir>
     </PropertyGroup>
  
@@ -49,7 +50,7 @@
 			Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
 			XmlFileName="$(ArtifactsNugetFilesDir)\package.core.nuspec"
 			XPath="/nu:package/nu:metadata/nu:dependencies/nu:dependency[@id='TeaCommerce.Core']/@version"
-			Value="$(TeaCommerceCoreVersion.Replace('+','.'))" />
+			Value="$(MinTeaCommerceCoreVersion.Replace('+','.'))" />
 
 		<!-- Web -->
 		<MSBuild.NuGet.Tasks.ManifestUpdate
@@ -64,6 +65,12 @@
 			XmlFileName="$(ArtifactsNugetFilesDir)\package.nuspec"
 			XPath="/nu:package/nu:metadata/nu:dependencies/nu:dependency[@id='TeaCommerce.Umbraco.Core']/@version"
 			Value="$(BuildInformationalVersion.Replace('+','.'))" />
+		<XmlUpdate
+			Prefix="nu"
+			Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
+			XmlFileName="$(ArtifactsNugetFilesDir)\package.nuspec"
+			XPath="/nu:package/nu:metadata/nu:dependencies/nu:dependency[@id='TeaCommerce.PaymentProviders.Invoicing']/@version"
+			Value="$(MinInvoicingPaymentProviderVersion.Replace('+','.'))" />
 
     </Target>
   

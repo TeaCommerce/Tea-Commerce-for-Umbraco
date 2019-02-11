@@ -14,7 +14,7 @@
     <language>en-GB</language>
     <tags>umbraco ecommerce</tags>
     <dependencies>
-      <dependency id="TeaCommerce.Core" version="3.5.2" />
+      <dependency id="TeaCommerce.Core" version="3.3.0" />
     </dependencies>
   </metadata>
   <files></files>

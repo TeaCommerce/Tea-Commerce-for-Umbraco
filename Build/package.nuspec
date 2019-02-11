@@ -15,6 +15,7 @@
     <tags>umbraco ecommerce</tags>
     <dependencies>
       <dependency id="TeaCommerce.Umbraco.Core" version="1.0.0" />
+      <dependency id="TeaCommerce.PaymentProviders.Invoicing" version="1.0.0" />
     </dependencies>
   </metadata>
   <files></files>
