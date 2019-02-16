@@ -14,6 +14,8 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Templating {
       string basePath = HostingEnvironment.MapPath( "~" );
       templateFiles.AddRange( GetTemplateFilesFromDir( basePath, HostingEnvironment.MapPath( SystemDirectories.MacroScripts ), "*.cshtml" ) );
       templateFiles.AddRange( GetTemplateFilesFromDir( basePath, HostingEnvironment.MapPath( SystemDirectories.MacroScripts ), "*.vbhtml" ) );
+      //Add partial views
+      templateFiles.AddRange( GetTemplateFilesFromDir( basePath, HostingEnvironment.MapPath( SystemDirectories.MvcViews ) + "\\Partials", "*.cshtml"));
 
       return templateFiles;
     }
@@ -45,7 +47,14 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Templating {
 
         if ( templateFile.EndsWith( ".xslt" ) && !templateFile.StartsWith( SystemDirectories.Xslt.Replace( "/", new string( Path.DirectorySeparatorChar, 1 ) ) ) ) {
           templateFile = templateFile.Replace( "~", SystemDirectories.Xslt );
-        } else if ( ( templateFile.EndsWith( ".cshtml" ) || templateFile.EndsWith( ".vbhtml" ) ) && !templateFile.StartsWith( SystemDirectories.MacroScripts.Replace( "/", new string( Path.DirectorySeparatorChar, 1 ) ) ) ) {
+        }
+        else if (templateFile.StartsWith("~\\Partials"))
+        {
+           templateFile = templateFile.Replace("~\\", SystemDirectories.MvcViews + "/");
+                }
+        else if ( ( templateFile.EndsWith( ".cshtml" ) || templateFile.EndsWith( ".vbhtml" ) ) &&
+                    !templateFile.StartsWith( SystemDirectories.MvcViews.Replace("/", new string(Path.DirectorySeparatorChar, 1))) &&
+                    !templateFile.StartsWith( SystemDirectories.MacroScripts.Replace( "/", new string( Path.DirectorySeparatorChar, 1 ) ) ) ) {
           templateFile = templateFile.Replace( "~", SystemDirectories.MacroScripts );
         }
         templateFile = templateFile.Replace( "/", new string( Path.DirectorySeparatorChar, 1 ) );

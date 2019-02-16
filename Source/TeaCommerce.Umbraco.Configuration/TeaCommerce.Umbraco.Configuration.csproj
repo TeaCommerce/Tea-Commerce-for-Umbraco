@@ -115,6 +115,7 @@
     <Compile Include="Infrastructure\Templating\TemplateContext.cs" />
     <Compile Include="Infrastructure\Templating\TemplateFileLocator.cs" />
     <Compile Include="Infrastructure\Templating\TemplateRenderer.cs" />
+    <Compile Include="Infrastructure\Templating\ViewRenderer.cs" />
     <Compile Include="Marketing\AutofacModules\ServicesConfig.cs" />
     <Compile Include="Marketing\Models\Awards\OrderLineAmountAward.cs" />
     <Compile Include="Marketing\Models\Editor.cs" />

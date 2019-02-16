@@ -17,6 +17,7 @@ using umbraco.cms.businesslogic.language;
 using umbraco.cms.businesslogic.macro;
 using umbraco.MacroEngines;
 using umbraco.NodeFactory;
+using Umbraco.Web;
 
 namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Templating {
   public class TemplateRenderer : ITemplateRenderer {
@@ -63,7 +64,23 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Templating {
       templateFile = _templateFileLocator.TranslateTemplateFileLocation( templateFile );
 
       if ( !string.IsNullOrEmpty( templateFile ) && File.Exists( HostingEnvironment.MapPath( templateFile ) ) && ( templateFile.EndsWith( ".cshtml" ) || templateFile.EndsWith( ".vbhtml" ) ) ) {
-        rtnStr = RenderRazorFile( templateFile, pageId, model );
+        if (templateFile.Replace("\\", "/").StartsWith(SystemDirectories.MvcViews))
+        {
+           if(model != null)
+           {
+              rtnStr = ViewRenderer.RenderPartialView(templateFile, model);
+           }
+           else
+           {
+              //If we don't have a model passed in, we pass the current page as model, as this is what happens normally in Umbraco
+              var content = UmbracoContext.Current.ContentCache.GetById(int.Parse(pageId.ToString()));
+              rtnStr = ViewRenderer.RenderPartialView(templateFile, content);
+           }
+         }
+         else
+         {
+             rtnStr = RenderRazorFile(templateFile, pageId, model);
+         }
       }
 
       Thread.CurrentThread.CurrentUICulture = currentUiCulture;
