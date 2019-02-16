@@ -48,10 +48,10 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Templating {
         if ( templateFile.EndsWith( ".xslt" ) && !templateFile.StartsWith( SystemDirectories.Xslt.Replace( "/", new string( Path.DirectorySeparatorChar, 1 ) ) ) ) {
           templateFile = templateFile.Replace( "~", SystemDirectories.Xslt );
         }
-        else if (templateFile.StartsWith("~\\Partials"))
+        else if (templateFile.EndsWith(".cshtml") && templateFile.StartsWith("~\\Partials"))
         {
            templateFile = templateFile.Replace("~\\", SystemDirectories.MvcViews + "/");
-                }
+        }
         else if ( ( templateFile.EndsWith( ".cshtml" ) || templateFile.EndsWith( ".vbhtml" ) ) &&
                     !templateFile.StartsWith( SystemDirectories.MvcViews.Replace("/", new string(Path.DirectorySeparatorChar, 1))) &&
                     !templateFile.StartsWith( SystemDirectories.MacroScripts.Replace( "/", new string( Path.DirectorySeparatorChar, 1 ) ) ) ) {
