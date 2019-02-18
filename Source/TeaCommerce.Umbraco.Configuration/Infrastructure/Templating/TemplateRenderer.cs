@@ -64,7 +64,7 @@ namespace TeaCommerce.Umbraco.Configuration.Infrastructure.Templating {
       templateFile = _templateFileLocator.TranslateTemplateFileLocation( templateFile );
 
       if ( !string.IsNullOrEmpty( templateFile ) && File.Exists( HostingEnvironment.MapPath( templateFile ) ) && ( templateFile.EndsWith( ".cshtml" ) || templateFile.EndsWith( ".vbhtml" ) ) ) {
-        if (templateFile.Replace("\\", "/").StartsWith(SystemDirectories.MvcViews))
+        if (templateFile.Replace("\\", "/").StartsWith(SystemDirectories.MvcViews + "/Partials"))
         {
            if(model != null)
            {
