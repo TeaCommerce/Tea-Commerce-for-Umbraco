@@ -160,6 +160,20 @@
       </umbUIControls:PropertyPanel>
     </umbUIControls:Pane>
   </asp:Panel>
+  <script>
+    var queryString = window.location.getParams();
+    var storeId = queryString["storeId"];
+    var id = queryString["id"];
+    var path = [
+      "-1",
+      "Store_" + storeId + "_" + storeId,
+      "Settings_" + storeId,
+      "SettingsPaymentMethods_" + storeId,
+      "SettingsPaymentMethod_" + storeId + "_" + id
+    ];
+    UmbClientMgr.mainTree().setActiveTreeType("tea-commerce-store-tree");
+    UmbClientMgr.mainTree().syncTree(path.join(","), true);
+  </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="CphHead" runat="server">
   <style type="text/css">
@@ -181,16 +195,16 @@
       width: 300px;
     }
 
-      .propertyItemContent input.button {
-        float: right;
-        margin-left: 5px;
-      }
+    .propertyItemContent input.button {
+      float: right;
+      margin-left: 5px;
+    }
 
-      .propertyItemContent span {
-        float: left;
-        height: 10px;
-        padding: 3px;
-      }
+    .propertyItemContent span {
+      float: left;
+      height: 10px;
+      padding: 3px;
+    }
 
     .notice {
       margin-top: 7px;
@@ -202,6 +216,10 @@
       display: inline-block;
       padding-left: 3px;
       margin-bottom: 5px;
+    }
+
+    label.control-label {
+      word-wrap: break-word;
     }
   </style>
   <script type="text/javascript" src='<%= TeaCommerce.Umbraco.Application.Utils.WebUtils.GetWebResourceUrl(TeaCommerce.Umbraco.Application.Constants.Scripts.Default) %>'></script>

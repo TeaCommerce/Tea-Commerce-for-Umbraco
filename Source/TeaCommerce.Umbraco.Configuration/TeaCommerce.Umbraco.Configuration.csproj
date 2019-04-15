@@ -35,9 +35,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Tea Commerce\Autofac.dll</HintPath>
+    <Reference Include="Autofac">
+      <HintPath>..\Lib\TeaCommerce\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="businesslogic">
       <HintPath>..\Lib\Umbraco\businesslogic.dll</HintPath>
@@ -69,20 +68,19 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Umbraco\System.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages">
+      <HintPath>..\Lib\Umbraco\System.Web.WebPages.dll</HintPath>
+    </Reference>
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TeaCommerce.Api, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Tea Commerce\TeaCommerce.Api.dll</HintPath>
+    <Reference Include="TeaCommerce.Api">
+      <HintPath>..\Lib\TeaCommerce\TeaCommerce.Api.dll</HintPath>
     </Reference>
-    <Reference Include="TeaCommerce.Api.Persistence, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Tea Commerce\TeaCommerce.Api.Persistence.dll</HintPath>
+    <Reference Include="TeaCommerce.Api.Persistence">
+      <HintPath>..\Lib\TeaCommerce\TeaCommerce.Api.Persistence.dll</HintPath>
     </Reference>
-    <Reference Include="TeaCommerce.Api.Web, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Tea Commerce\TeaCommerce.Api.Web.dll</HintPath>
+    <Reference Include="TeaCommerce.Api.Web">
+      <HintPath>..\Lib\TeaCommerce\TeaCommerce.Api.Web.dll</HintPath>
     </Reference>
     <Reference Include="umbraco">
       <HintPath>..\Lib\Umbraco\umbraco.dll</HintPath>
@@ -131,6 +129,7 @@
     <Compile Include="PaymentProviders\PaymentProviderUriResolver.cs" />
     <Compile Include="Persistence\DatabaseFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="PropertyEditors\VariantEditorPropertyEditor.cs" />
     <Compile Include="Variants\Services\AVariantService.cs" />
     <Compile Include="Variants\Services\IVariantService.cs" />

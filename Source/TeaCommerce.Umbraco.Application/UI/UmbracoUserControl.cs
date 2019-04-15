@@ -17,7 +17,7 @@ namespace TeaCommerce.Umbraco.Application.UI {
     }
 
     protected void Redirect( string url) {
-      new ClientTools( Page ).CloseModalWindow().ChangeContentFrameUrl( url );
+      new ClientTools( Page ).ChangeContentFrameUrl( url ).CloseModalWindow();
     }
 
   }
