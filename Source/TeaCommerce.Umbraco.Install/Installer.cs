@@ -54,7 +54,7 @@ namespace TeaCommerce.Umbraco.Install
 
             //Data type definitions
             _installTasks.Add(new DataTypeDefinitionInstallTask(-544300, new Guid("d4537677-950d-42cc-a4f7-6e9f5b2c0d63"), "Tea Commerce: Store picker", "TeaCommerce.StorePicker", DataTypeDatabaseType.Integer));
-            _installTasks.Add(new DataTypeDefinitionInstallTask(-544301, new Guid("6be44a64-f431-472c-b639-0335843ce82d3"), "Tea Commerce: VAT group picker", "TeaCommerce.VatGroupPicker", DataTypeDatabaseType.Nvarchar));
+            _installTasks.Add(new DataTypeDefinitionInstallTask(-544301, new Guid("5438a097-8233-4903-af7a-4a8a2a049381"), "Tea Commerce: VAT group picker", "TeaCommerce.VatGroupPicker", DataTypeDatabaseType.Nvarchar));
             _installTasks.Add(new DataTypeDefinitionInstallTask(-544302, new Guid("bb82164e-20f6-4506-a401-67042cb5e5e8"), "Tea Commerce: Stock management", "TeaCommerce.StockManagement", DataTypeDatabaseType.Nvarchar));
             _installTasks.Add(new DataTypeDefinitionInstallTask(-544303, new Guid("47c336e8-f1c2-4603-b9c2-a96bae156112"), "Tea Commerce: Variant Editor", "TeaCommerce.VariantEditor", DataTypeDatabaseType.Nvarchar));
 
