@@ -5,7 +5,7 @@ using Umbraco.Core.Models;
 
 namespace TeaCommerce.Umbraco.Install.InstallTasks
 {
-    public class DataTypeDefinitionInstallTask : ADbInstallTask
+    public class DataTypeDefinitionInstallTask : AUmbracoDbInstallTask
     {
         private readonly int _id;
         private readonly Guid _key;
@@ -29,15 +29,20 @@ namespace TeaCommerce.Umbraco.Install.InstallTasks
 
             if (!dataTypeDefinitions.Any())
             {
-                WithIdentityInsert("umbracoNode", () =>
+                using (var transaction = Database.GetTransaction())
                 {
-                    Database.Insert("umbracoNode", "id", false, new { id = _id, trashed = false, parentID = -1, nodeUser = 0, level = 0, path = "-1,"+ _id, sortOrder = 0, uniqueID = _key, text = _name, nodeObjectType = new Guid(Constants.ObjectTypes.DataType), createDate = DateTime.Now });
-                });
+                    WithIdentityInsert("umbracoNode", () =>
+                    {
+                        Database.Insert("umbracoNode", "id", false, new { id = _id, trashed = false, parentID = -1, nodeUser = 0, level = 0, path = "-1," + _id, sortOrder = 0, uniqueID = _key, text = _name, nodeObjectType = new Guid(Constants.ObjectTypes.DataType), createDate = DateTime.Now });
+                    });
 
-                WithIdentityInsert("cmsDataType", () =>
-                {
-                    Database.Insert("cmsDataType", "pk", false, new { pk = _id, nodeId = _id, propertyEditorAlias = _propertyEditorAlias, dbType = _dbType.ToString() });
-                });
+                    WithIdentityInsert("cmsDataType", () =>
+                    {
+                        Database.Insert("cmsDataType", "pk", false, new { pk = _id, nodeId = _id, propertyEditorAlias = _propertyEditorAlias, dbType = _dbType.ToString() });
+                    });
+
+                    transaction.Complete();
+                }
             }
         }
 
