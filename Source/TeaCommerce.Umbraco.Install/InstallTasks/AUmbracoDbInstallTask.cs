@@ -5,7 +5,7 @@ using Umbraco.Core.Persistence.SqlSyntax;
 
 namespace TeaCommerce.Umbraco.Install.InstallTasks
 {
-    public abstract class ADbInstallTask : IInstallTask
+    public abstract class AUmbracoDbInstallTask : IInstallTask
     {
         protected UmbracoDatabase Database => ApplicationContext.Current.DatabaseContext.Database;
 
