@@ -1,5 +1,6 @@
 ﻿<div ng-controller="TeaCommerce.VariantEditor.Controller">
-  <div class="teaCommerceVariantEditor">
+  <div class="alert alert-info" style="margin-bottom: 0; font-weight: bold;" ng-if="ui.creating">Product must be saved before variants can be defined</div>
+  <div class="teaCommerceVariantEditor" ng-if="!ui.creating">
     <div class="genericPropertyForm">
       <div class="variantGroupsWrapper">
         <h4 class="propertypaneTitel noSelect pointer" ng-click="variantGroupsOpen=!variantGroupsOpen"><i class="toggle btn btn-mini icon-navigation-down"></i>Add product variants</h4>
