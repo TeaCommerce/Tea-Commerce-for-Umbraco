@@ -26,21 +26,23 @@ namespace TeaCommerce.Umbraco.Configuration.Marketing.Models {
 
         IPublishedContent productContent = umbracoHelper.TypedContent( productIdentifierObj.NodeId );
 
-        //Check the path - it could be a "product category" that was selected
-        if ( productContent.Path.Split( new[] { ',' }, StringSplitOptions.None ).Contains( nodeIdStr ) ) {
-          tempOrderLines.Add( orderLine );
-          continue;
-        }
+        if ( productContent != null ) {
+          //Check the path - it could be a "product category" that was selected
+          if ( productContent.Path.Split( new[] { ',' }, StringSplitOptions.None ).Contains( nodeIdStr ) ) {
+            tempOrderLines.Add( orderLine );
+            continue;
+          }
 
-        //Test if the master relation could be a "product category" that was selected
-        string masterRelationNodeId = productContent.GetPropertyValue<string>( Constants.ProductPropertyAliases.MasterRelationPropertyAlias );
+          //Test if the master relation could be a "product category" that was selected
+          string masterRelationNodeId = productContent.GetPropertyValue<string>( Constants.ProductPropertyAliases.MasterRelationPropertyAlias );
 
-        if ( string.IsNullOrEmpty( masterRelationNodeId ) ) continue;
+          if ( string.IsNullOrEmpty( masterRelationNodeId ) ) continue;
 
-        IPublishedContent masterRelationNode = umbracoHelper.TypedContent( masterRelationNodeId );
+          IPublishedContent masterRelationNode = umbracoHelper.TypedContent( masterRelationNodeId );
 
-        if ( masterRelationNode.Path.Split( new[] { ',' }, StringSplitOptions.None ).Contains( nodeIdStr ) ) {
-          tempOrderLines.Add( orderLine );
+          if ( masterRelationNode.Path.Split( new[] { ',' }, StringSplitOptions.None ).Contains( nodeIdStr ) ) {
+            tempOrderLines.Add( orderLine );
+          }
         }
       }
 
