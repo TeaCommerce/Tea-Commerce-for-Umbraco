@@ -33,7 +33,7 @@
         <ManifestUpdate
 			ManifestFile="$(ArtifactsUmbracoFilesDir)\package.xml"
 			WorkingDirectory="$(ArtifactsUmbracoFilesDir)"
-			PackageVersion="$(InformationalBuildVersion) for Umbraco 7"
+			PackageVersion="$(BuildInformationalVersion) for Umbraco 7"
 			Files="@(UmbracoManifestFiles)" />
     </Target>
   
