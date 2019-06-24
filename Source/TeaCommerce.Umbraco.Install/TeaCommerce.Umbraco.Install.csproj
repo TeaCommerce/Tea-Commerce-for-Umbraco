@@ -84,9 +84,6 @@
     <EmbeddedResource Include="Content\Resources\en_us.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Content Include="package.xml">
-      <SubType>Designer</SubType>
-    </Content>
     <EmbeddedResource Include="Content\Resources\da.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -100,6 +97,7 @@
   <ItemGroup>
     <Compile Include="AutofacModules\InfrastructureConfig.cs" />
     <Compile Include="Installer.cs" />
+    <Compile Include="InstallTasks\AUmbracoDbInstallTask.cs" />
     <Compile Include="InstallTasks\GrantPermissionsInstallTask.cs" />
     <Compile Include="InstallTasks\MoveFileInstallTask.cs" />
     <Compile Include="InstallTasks\UIFileInstallTask.cs" />
@@ -120,7 +118,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

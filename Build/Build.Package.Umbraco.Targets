@@ -1,0 +1,60 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Main" ToolsVersion="14.0">
+
+    <!-- IMPORTS -->
+    <PropertyGroup>
+    	<MSBuildUmbracoTasksPath>$(MSBuildProjectDirectory)\tools\MSBuildUmbracoTasks</MSBuildUmbracoTasksPath>
+    </PropertyGroup>
+  
+    <Import Project="$(MSBuildUmbracoTasksPath)\MSBuild.Umbraco.Tasks.Targets" />
+
+    <!-- PROPERTIES -->
+    <PropertyGroup>
+        <ArtifactsUmbracoFilesDir>$(ArtifactsDir)\UmbracoFiles</ArtifactsUmbracoFilesDir>
+    </PropertyGroup>
+
+    <!-- COPY FILES -->
+    <Target Name="CopyFilesToUmbracoFiles">
+        <ItemGroup> 
+            <CopyFiles Include="$(ArtifactsFilesDir)\**\*" />
+        </ItemGroup>
+        <Copy SourceFiles="@(CopyFiles)" DestinationFolder="$(ArtifactsUmbracoFilesDir)\%(RecursiveDir)" />
+    </Target>
+  
+    <!-- COPY MANIFESTS -->
+    <Target Name="CopyUmbracoPackageManifest" DependsOnTargets="CopyFilesToUmbracoFiles">
+        <Copy SourceFiles="$(MSBuildProjectDirectory)\package.xml" DestinationFolder="$(ArtifactsUmbracoFilesDir)" />
+    </Target>
+  
+    <!-- ADD FILES TO PACKAGE MANIFEST -->
+    <Target Name="UpdateUmbracoPackageManifest" DependsOnTargets="CopyUmbracoPackageManifest">
+        <ItemGroup>
+            <UmbracoManifestFiles Include="$(ArtifactsUmbracoFilesDir)\**\*.*" Exclude="$(ArtifactsUmbracoFilesDir)\package.xml" />
+        </ItemGroup>
+        <ManifestUpdate
+			ManifestFile="$(ArtifactsUmbracoFilesDir)\package.xml"
+			WorkingDirectory="$(ArtifactsUmbracoFilesDir)"
+			PackageVersion="$(BuildInformationalVersion) for Umbraco 7"
+			Files="@(UmbracoManifestFiles)" />
+    </Target>
+  
+    <!-- PACKAGE FILES -->
+    <Target Name="PackageUmbracoFiles" DependsOnTargets="UpdateUmbracoPackageManifest">
+        <ItemGroup>
+			<UmbracoManifestFiles2 Include="$(ArtifactsUmbracoFilesDir)\**\*.*" />
+		</ItemGroup>
+		<!-- Umbraco -->
+		<Package ManifestFile="$(ArtifactsUmbracoFilesDir)\package.xml"
+			WorkingDirectory="$(ArtifactsUmbracoFilesDir)"
+			OutputDirectory="$(ArtifactsDir)"
+			Files="@(UmbracoManifestFiles2)" />
+    </Target>
+  
+    <!-- CLEANUP FILES -->
+    <Target Name="CleanupUmbracoFiles" DependsOnTargets="PackageUmbracoFiles">
+        <RemoveDir Directories="$(ArtifactsUmbracoFilesDir)" />
+    </Target>
+
+    <!-- Main -->
+	<Target Name="PackageUmbraco" DependsOnTargets="CleanupUmbracoFiles"></Target>
+  
+</Project>

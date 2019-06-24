@@ -1,29 +1,11 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Main" ToolsVersion="14.0">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
 
     <!-- IMPORTS -->
     <PropertyGroup>
-        <MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\Tools\MSBuildCommunityTasks</MSBuildCommunityTasksPath>
-		<MSBuildUmbracoTasksPath>$(MSBuildProjectDirectory)\tools\MSBuildUmbracoTasks</MSBuildUmbracoTasksPath>
         <JsCssMinificationTasksPath>$(MSBuildProjectDirectory)\Tools\MSBuildMinifier</JsCssMinificationTasksPath>
     </PropertyGroup>
   
-    <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
-	<Import Project="$(MSBuildUmbracoTasksPath)\MSBuild.Umbraco.Tasks.Targets" />
     <Import Project="$(JsCssMinificationTasksPath)\JsCssMinification.targets" />
-  
-    <!-- PROPERTIES -->
-    <PropertyGroup>
-        <BuildConfig>$(BUILD_CONFIG)</BuildConfig>
-        <BuildConfig Condition="'$(BuildConfig)'==''">Debug</BuildConfig>
-		<BuildTimestamp>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</BuildTimestamp>
-
-		<RootDir>$(MSBuildProjectDirectory)\..</RootDir>
-        <SourceDir>$(RootDir)\Source</SourceDir>
-        <LibDir>$(SourceDir)\Lib</LibDir>
-        <ArtifactsDir>$(RootDir)\Artifacts</ArtifactsDir>
-        <ArtifactsFilesDir>$(ArtifactsDir)\Files</ArtifactsFilesDir>
-        <ArtifactsTempDir>$(ArtifactsDir)\Temp</ArtifactsTempDir>
-    </PropertyGroup>
 
     <ItemGroup>
         <ProjectFiles Include="$(SourceDir)\TeaCommerce.Umbraco.*\*.csproj" />
@@ -38,8 +20,8 @@
 			<BuildVersion>@(Version)</BuildVersion>
 			<BuildVersionMajor>$(BuildVersion.Split('.')[0])</BuildVersionMajor>
 			<BuildVersionMinor>$(BuildVersion.Split('.')[1])</BuildVersionMinor>
-            <InformationalBuildVersion>$(BuildVersion)</InformationalBuildVersion>
-            <InformationalBuildVersion Condition="'$(BuildConfig)'=='Debug'">$(BuildVersion)-alpha+$(BuildTimestamp)</InformationalBuildVersion>
+            <BuildInformationalVersion>$(BuildVersion)</BuildInformationalVersion>
+            <BuildInformationalVersion Condition="'$(BuildConfig)'=='Debug'">$(BuildVersion)-alpha+$(BuildTimestamp)</BuildInformationalVersion>
 		</PropertyGroup>
     </Target> 
 
@@ -53,7 +35,7 @@
 				<_Parameter1>$(BuildVersionMajor).$(BuildVersionMinor).*</_Parameter1>
 			</AssemblyAttributes>
 			<AssemblyAttributes Include="AssemblyInformationalVersion">
-				<_Parameter1>$(InformationalBuildVersion)</_Parameter1>
+				<_Parameter1>$(BuildInformationalVersion)</_Parameter1>
 			</AssemblyAttributes>
 		</ItemGroup>
 		<WriteCodeFragment Language="C#" 
@@ -78,13 +60,8 @@
     <!-- COPY FILES -->
     <Target Name="CopyFiles" DependsOnTargets="Compile">
         <ItemGroup>
-            <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.Application\bin\$(BuildConfig)\TeaCommerce.Umbraco*.dll" />
-            <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.Configuration\bin\$(BuildConfig)\TeaCommerce.Umbraco*.dll" />
-            <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.Install\bin\$(BuildConfig)\TeaCommerce.Umbraco*.dll" />
-            <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.Web\bin\$(BuildConfig)\TeaCommerce.Umbraco*.dll" />
-            <BinFiles Include="$(LibDir)\TeaCommerce\Infralution.Licensing.dll" />
-            <BinFiles Include="$(LibDir)\TeaCommerce\Autofac.dll" />
-            <BinFiles Include="$(LibDir)\TeaCommerce\TeaCommerce*.dll" />
+            <BinFiles Include="$(SourceDir)\TeaCommerce.Umbraco.*\bin\$(BuildConfig)\TeaCommerce.Umbraco*.dll" />
+            <BinFiles Include="$(LibDir)\TeaCommerce\*.dll" />
             <BinFiles Include="$(LibDir)\TeaCommercePaymentProviders\*.dll" />
             <Resources Include="$(SourceDir)\TeaCommerce.Umbraco.Application\bin\$(BuildConfig)\**\TeaCommerce.Umbraco.Application.resources.dll" />
             <Views Include="$(SourceDir)\TeaCommerce.Umbraco.Application\Views\**\*.ascx;$(SourceDir)\TeaCommerce.Umbraco.Application\Views\**\*.aspx;$(SourceDir)\TeaCommerce.Umbraco.Application\Views\**\*.Master" />
@@ -92,7 +69,7 @@
             <Marketing Include="$(SourceDir)\TeaCommerce.Umbraco.Application\Marketing\**\*.*" />
             <MacroScripts Include="$(SourceDir)\TeaCommerce.Umbraco.Install\Content\Razor\*.default" />
         </ItemGroup>
-        <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(ArtifactsFilesDir)\bin\%(RecursiveDir)" />
+        <Copy SourceFiles="@(BinFiles)" DestinationFolder="$(ArtifactsFilesDir)\bin\" />
         <Copy SourceFiles="@(Resources)" DestinationFolder="$(ArtifactsFilesDir)\bin\%(RecursiveDir)" />
         <Copy SourceFiles="@(Views)" DestinationFolder="$(ArtifactsFilesDir)\App_Plugins\TeaCommerce\Views\%(RecursiveDir)" />
         <Copy SourceFiles="@(Marketing)" DestinationFolder="$(ArtifactsFilesDir)\App_Plugins\TeaCommerce\Marketing\%(RecursiveDir)" />
@@ -103,7 +80,7 @@
     </Target>
   
     <!-- PREPAIR JS -->
-    <Target Name="PrepairJs" DependsOnTargets="CopyFiles">
+    <Target Name="PrepareJs" DependsOnTargets="CopyFiles">
         <ItemGroup>
             <TeaCommerceJs Include="$(ArtifactsFilesDir)\App_Plugins\TeaCommerce\Assets\Scripts\tea-commerce.js" />
             <JavascriptInputs Include="@(TeaCommerceJs)" />
@@ -114,49 +91,7 @@
         <Delete Files="@(TeaCommerceJs)" />
     </Target>
 
-     <!-- COPY FILES TO TEMP -->
-    <Target Name="CopyFilesToTemp" DependsOnTargets="PrepairJs">
-        <ItemGroup>
-            <CopyFiles Include="$(ArtifactsFilesDir)\**\*" />
-        </ItemGroup>
-        <Copy SourceFiles="@(CopyFiles)" DestinationFolder="$(ArtifactsTempDir)\%(RecursiveDir)" />
-    </Target>
-  
-    <!-- MOVE RESOURCE FILES -->
-    <Target Name="CopyPackageManifest" DependsOnTargets="CopyFilesToTemp">
-        <Copy SourceFiles="$(SourceDir)\TeaCommerce.Umbraco.Install\package.xml" DestinationFolder="$(ArtifactsTempDir)" />
-    </Target>
-  
-    <!-- ADD FILES TO PACKAGE MANIFEST -->
-    <Target Name="UpdatePackageManifest" DependsOnTargets="CopyPackageManifest">
-        <ItemGroup>
-            <UmbracoManifestFiles Include="$(ArtifactsTempDir)\**\*.*" Exclude="$(ArtifactsTempDir)\package.xml" />
-        </ItemGroup>
-        <ManifestUpdate
-			ManifestFile="$(ArtifactsTempDir)\package.xml"
-			WorkingDirectory="$(ArtifactsTempDir)"
-			PackageVersion="$(InformationalBuildVersion) for Umbraco 7"
-			Files="@(UmbracoManifestFiles)" />
-    </Target>
-  
-    <!-- PACKAGE FILES -->
-    <Target Name="Package" DependsOnTargets="UpdatePackageManifest">
-        <ItemGroup>
-			<UmbracoManifestFiles2 Include="$(ArtifactsTempDir)\**\*.*" />
-		</ItemGroup>
-		<!-- Umbraco -->
-		<Package ManifestFile="$(ArtifactsTempDir)\package.xml"
-			WorkingDirectory="$(ArtifactsTempDir)"
-			OutputDirectory="$(ArtifactsDir)"
-			Files="@(UmbracoManifestFiles2)" />
-    </Target>
-  
-    <!-- CLEANUP TEMP -->
-    <Target Name="CleanupTemp" DependsOnTargets="Package">
-        <RemoveDir Directories="$(ArtifactsTempDir)" />
-    </Target>
-
     <!-- Main -->
-	<Target Name="Main" DependsOnTargets="CleanupTemp"></Target>
+	<Target Name="Prepare" DependsOnTargets="PrepareJs"></Target>
   
 </Project>

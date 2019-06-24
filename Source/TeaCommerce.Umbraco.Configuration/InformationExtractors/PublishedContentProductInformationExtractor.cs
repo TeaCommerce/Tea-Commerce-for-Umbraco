@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using TeaCommerce.Api.Common;
@@ -235,10 +236,18 @@ namespace TeaCommerce.Umbraco.Configuration.InformationExtractors {
           if ( CheckNullOrEmpty( rtnValue ) ) {
 
             //Check if we can find a master relation
-            string masterRelationNodeId = GetPropertyValueInternal<string>( product, Constants.ProductPropertyAliases.MasterRelationPropertyAlias, recursive );
-            if ( !string.IsNullOrEmpty( masterRelationNodeId ) && UmbracoHelper != null ) {
-              rtnValue = GetPropertyValue<T>( UmbracoHelper.TypedContent( masterRelationNodeId ), propertyAlias,
-                variant, func );
+            var masterRelation = this.GetPropertyValueInternal<IEnumerable<IPublishedContent>>(product, Constants.ProductPropertyAliases.MasterRelationPropertyAlias, recursive)?.FirstOrDefault();
+            if (masterRelation == null)
+            {
+              //fall back to string
+              string masterRelationNodeId = GetPropertyValueInternal<string>(product, Constants.ProductPropertyAliases.MasterRelationPropertyAlias, recursive);
+              if (!string.IsNullOrWhiteSpace(masterRelationNodeId))
+              {
+                masterRelation = UmbracoHelper.TypedContent(masterRelationNodeId);
+              }
+            }
+            if (masterRelation != null && UmbracoHelper != null ) {
+              rtnValue = GetPropertyValue<T>(masterRelation, propertyAlias, variant, func );
             }
           }
 

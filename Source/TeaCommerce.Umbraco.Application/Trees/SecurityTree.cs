@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Web;
 using TeaCommerce.Api.Infrastructure.Security;
 using TeaCommerce.Umbraco.Application.Resources;
 using TeaCommerce.Umbraco.Application.Utils;
@@ -21,7 +22,13 @@ namespace TeaCommerce.Umbraco.Application.Trees {
       if ( permissions != null && permissions.HasPermission( GeneralPermissionType.AccessSecurity ) ) {
         AssignNodeValues( rootNode, GetNodeIdentifier( SecurityTreeNodeType.Security ), StoreTerms.Security, Constants.TreeIcons.Lock, "security", GetUsers().Any() );
       } else {
-        rootNode = null;
+        // Issue #86: If we return null during the GetSections request then it causes
+        // backoffice errors due to umbraco not null checking so we only return null
+        // if it's not part of the GetSections request
+        if (!HttpContext.Current.Request.Url.AbsolutePath.EndsWith("/GetSections"))
+        {
+            rootNode = null;
+        }     
       }
     }
 
