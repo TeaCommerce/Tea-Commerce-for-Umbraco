@@ -131,7 +131,6 @@
     <Compile Include="Persistence\DatabaseFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
-    <Compile Include="PropertyEditors\VariantEditorPropertyEditor.cs" />
     <Compile Include="Variants\Services\AVariantService.cs" />
     <Compile Include="Variants\Services\IVariantService.cs" />
     <Compile Include="Services\ILanguageService.cs" />
@@ -148,7 +147,9 @@
     <Compile Include="Variants\Models\VariantPublishedContent.cs" />
     <Compile Include="Variants\Models\VariantPublishedProperty.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="PropertyEditors\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

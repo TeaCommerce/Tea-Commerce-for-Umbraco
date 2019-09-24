@@ -23,10 +23,70 @@
 	    hideLabel: false,
 	    valueType: 'STRING'
 	  }
+  },{
+	alias: 'TeaCommerce.VariantEditor',
+	name: 'Tea Commerce: Variant editor',
+	editor: {
+	  view: '~/App_Plugins/TeaCommerce/PropertyEditors/variant-editor.html',
+	  hideLabel: false,
+	  valueType: 'JSON'
+	},
+	prevalues: {
+	  fields: [
+		{
+			label: 'Variant Attribute Groups XPath Or Node',
+			description: 'Enter an XPath statement to locate node containing all attribute groups or select the node.',
+			key: 'xpathOrNode',
+			view: '~/App_Plugins/TeaCommerce/PropertyEditors/variant-editor-node-type.html'
+		},
+		{
+			label: 'Variant document type',
+			description: '[Optional] A document type that makes it possible to enrich each variant combination with extra information.',
+			key: 'variantDocumentType',
+			view: 'textstring'
+		},
+		{
+			label: 'Extra list information',
+			description: '[Optional] Comma-separated list of property aliases from the ',
+			key: 'extraListInformation',
+			view: 'textstring'
+		},
+		{
+			label: 'Variant group document types',
+			description: '[Optional] Comma-separated list of the variant group document types that can be chosen from. e.g. "Color,Size".',
+			key: 'variantGroupDocumentTypes',
+			view: 'textstring'
+		},
+		{
+			label: 'Variant group name',
+			description: '[Optional] Comma-separated list of the variant group node names that can be chosen from. e.g. "Color,Size".',
+			key: 'variantGroupNodeName',
+			view: 'textstring'
+		},
+		{
+			label: 'Force editor to choose all variant groups',
+			description: 'Editor will be forced to choose at least one variant type from each variant group when creating variants.',
+			key: 'forceEditorToChooseAllVariantGroups',
+			view: 'boolean'
+		},
+		{
+			label: 'Hide Label',
+			description: 'Hide the Umbraco property title and description, making the Variant Editor span the entire page width',
+			key: 'hideLabel',
+			view: 'boolean'
+		}
+	  ]
+	}
   }],
   javascript: [
     '~/App_Plugins/TeaCommerce/PropertyEditors/store-picker.controller.js',
 	  '~/App_Plugins/TeaCommerce/PropertyEditors/vat-group-picker.controller.js',
-	  '~/App_Plugins/TeaCommerce/PropertyEditors/stock-management.controller.js'
+	  '~/App_Plugins/TeaCommerce/PropertyEditors/stock-management.controller.js',
+	  '~/App_Plugins/TeaCommerce/PropertyEditors/js.cookie.js',
+	  '~/App_Plugins/TeaCommerce/PropertyEditors/variant-editor-node-type.js',
+	  '~/App_Plugins/TeaCommerce/PropertyEditors/variant-editor.controller.js'
+  ],
+  css: [
+	  '~/App_Plugins/TeaCommerce/PropertyEditors/variant-editor.css'
   ]
 }

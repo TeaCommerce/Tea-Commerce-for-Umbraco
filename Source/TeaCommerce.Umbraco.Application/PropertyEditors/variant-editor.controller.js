@@ -197,13 +197,16 @@
             if ($scope.variantGroups) {
                 for (var i = 0; i < $scope.variantGroups.length; i++) {
                     var variantGroup = $scope.variantGroups[i];
-                    for (var y = 0; y < variantGroup.items.length; y++) {
-                        var item = variantGroup.items[y];
-                        if (item.checked) {
-                            if (!checkedGroups[variantGroup.id]) {
-                                checkedGroups[variantGroup.id] = [];
+                    // BH: avoid empty attribute groups, issue #91
+                    if (variantGroup.items !== null && variantGroups.items.length > 0) {
+                        for (var y = 0; y < variantGroup.items.length; y++) {
+                            var item = variantGroup.items[y];
+                            if (item.checked) {
+                                if (!checkedGroups[variantGroup.id]) {
+                                    checkedGroups[variantGroup.id] = [];
+                                }
+                                checkedGroups[variantGroup.id].push({ name: item.name, id: item.id, groupName: variantGroup.name, groupId: variantGroup.id });
                             }
-                            checkedGroups[variantGroup.id].push({ name: item.name, id: item.id, groupName: variantGroup.name, groupId: variantGroup.id });
                         }
                     }
                 }
