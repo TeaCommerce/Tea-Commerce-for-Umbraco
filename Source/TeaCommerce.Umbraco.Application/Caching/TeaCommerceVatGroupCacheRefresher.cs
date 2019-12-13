@@ -1,37 +1,18 @@
 ﻿using System;
+using TeaCommerce.Api.Models;
 
 namespace TeaCommerce.Umbraco.Application.Caching
 {
-    public class TeaCommerceVatGroupCacheRefresher : TeaCommerceCacheRefresherBase<TeaCommerceVatGroupCacheRefresher>
+    public class TeaCommerceVatGroupCacheRefresher : TeaCommerceCacheRefresherBase<TeaCommerceVatGroupCacheRefresher, VatGroup, long>
     {
         public override Guid UniqueIdentifier => Constants.DistributedCache.VatGroupCacheRefresherGuid;
 
         public override string Name => "Tea Commerce VAT Group cache refresher";
 
+        public override string CacheKeyFormat => "VatGroups-{0}";
+
+        public override Func<VatGroup, long> IdAccessor => x => x.Id;
+
         protected override TeaCommerceVatGroupCacheRefresher Instance => this;
-
-        public override void Refresh(int Id)
-        {
-            // Id = storeId
-            ClearCache(Id);
-            base.Refresh(Id);
-        }
-
-        public override void RefreshAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Remove(int Id)
-        {
-            // Id = storeId
-            ClearCache(Id);
-            base.Remove(Id);
-        }
-
-        protected void ClearCache(int storeId)
-        {
-            CacheService.Invalidate($"VatGroups-{storeId}");
-        }
     }
 }

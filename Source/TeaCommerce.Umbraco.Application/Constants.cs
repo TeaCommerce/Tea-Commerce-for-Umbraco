@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Web;
+using TeaCommerce.Umbraco.Application.Helpers;
 
 namespace TeaCommerce.Umbraco.Application
 {
     public class Constants
     {
+        public static string InstanceId = NetworkHelper.MachineName + "/" + HttpRuntime.AppDomainAppId;
+
         public class Applications
         {
             public const string TeaCommerce = "teacommerce";
