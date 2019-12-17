@@ -11,8 +11,6 @@ namespace TeaCommerce.Umbraco.Application.Caching
 
         public override string CacheKeyFormat => "ShippingMethods-{0}";
 
-        public override Func<ShippingMethod, long> IdAccessor => x => x.Id;
-
         protected override TeaCommerceShippingMethodCacheRefresher Instance => this;
     }
 }

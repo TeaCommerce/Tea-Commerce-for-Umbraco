@@ -12,8 +12,6 @@ namespace TeaCommerce.Umbraco.Application.Caching
 
         public override string CacheKeyFormat => "Stores";
 
-        public override Func<Store, long> IdAccessor => x => x.Id;
-
         protected override TeaCommerceStoreCacheRefresher Instance => this;
     }
 }

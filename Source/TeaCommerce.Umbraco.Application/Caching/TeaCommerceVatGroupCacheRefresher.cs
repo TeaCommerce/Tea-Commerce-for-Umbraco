@@ -11,8 +11,6 @@ namespace TeaCommerce.Umbraco.Application.Caching
 
         public override string CacheKeyFormat => "VatGroups-{0}";
 
-        public override Func<VatGroup, long> IdAccessor => x => x.Id;
-
         protected override TeaCommerceVatGroupCacheRefresher Instance => this;
     }
 }

@@ -11,8 +11,6 @@ namespace TeaCommerce.Umbraco.Application.Caching
 
         public override string CacheKeyFormat => "Countries-{0}";
 
-        public override Func<Country, long> IdAccessor => x => x.Id;
-
         protected override TeaCommerceCountryCacheRefresher Instance => this;
     }
 }

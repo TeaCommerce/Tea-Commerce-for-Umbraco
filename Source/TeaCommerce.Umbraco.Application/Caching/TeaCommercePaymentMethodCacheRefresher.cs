@@ -11,8 +11,6 @@ namespace TeaCommerce.Umbraco.Application.Caching
 
         public override string CacheKeyFormat => "PaymentMethods-{0}";
 
-        public override Func<PaymentMethod, long> IdAccessor => x => x.Id;
-
         protected override TeaCommercePaymentMethodCacheRefresher Instance => this;
     }
 }

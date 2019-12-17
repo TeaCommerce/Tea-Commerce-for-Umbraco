@@ -11,8 +11,6 @@ namespace TeaCommerce.Umbraco.Application.Caching
 
         public override string CacheKeyFormat => "EmailTemplates-{0}";
 
-        public override Func<EmailTemplate, long> IdAccessor => x => x.Id;
-
         protected override TeaCommerceEmailTemplateCacheRefresher Instance => this;
     }
 }

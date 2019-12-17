@@ -11,8 +11,6 @@ namespace TeaCommerce.Umbraco.Application.Caching
 
         public override string CacheKeyFormat => "Currencies-{0}";
 
-        public override Func<Currency, long> IdAccessor => x => x.Id;
-
         protected override TeaCommerceCurrencyCacheRefresher Instance => this;
     }
 }

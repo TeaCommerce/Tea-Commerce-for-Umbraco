@@ -11,8 +11,6 @@ namespace TeaCommerce.Umbraco.Application.Caching
 
         public override string CacheKeyFormat => "Campaigns-{0}";
 
-        public override Func<Campaign, long> IdAccessor => x => x.Id;
-
         protected override TeaCommerceCampaignCacheRefresher Instance => this;
     }
 }

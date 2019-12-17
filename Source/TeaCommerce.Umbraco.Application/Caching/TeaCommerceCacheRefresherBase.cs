@@ -1,9 +1,7 @@
 ﻿using Autofac;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using TeaCommerce.Api.Common;
+using System.Collections.Concurrent;
 using TeaCommerce.Api.Dependency;
 using TeaCommerce.Api.Infrastructure.Caching;
 using umbraco.interfaces;
@@ -14,13 +12,9 @@ namespace TeaCommerce.Umbraco.Application.Caching
     public abstract class TeaCommerceCacheRefresherBase<TInstanceType, TEntity, TId> : JsonCacheRefresherBase<TInstanceType>
         where TInstanceType : ICacheRefresher
     {
-        private readonly SyncLock<long> _sync = new SyncLock<long>();
-
         protected ICacheService CacheService => DependencyContainer.Instance.Resolve<ICacheService>();
 
         public abstract string CacheKeyFormat { get; }
-
-        public abstract Func<TEntity, TId> IdAccessor { get; }
 
         public override void Refresh(string jsonPayload)
         {
@@ -29,15 +23,11 @@ namespace TeaCommerce.Umbraco.Application.Caching
             // Make sure it wasn't this instance that sent the payload
             if (payload.InstanceId != Constants.InstanceId)
             {
-                using (_sync.Lock(payload.StoreId))
+                var cacheKey = string.Format(CacheKeyFormat, payload.StoreId, payload.Id);
+                var cache = CacheService.GetCacheValue<ConcurrentDictionary<TId, TEntity>>(cacheKey);
+                if (cache.ContainsKey(payload.Id))
                 {
-                    var cacheKey = string.Format(CacheKeyFormat, payload.StoreId, payload.Id);
-                    var cache = CacheService.GetCacheValue<List<TEntity>>(cacheKey);
-                    var entity = cache.FirstOrDefault(x => IdAccessor(x).Equals(payload.Id));
-                    if (entity != null)
-                    {
-                        cache.Remove(entity);
-                    }
+                    cache.TryRemove(payload.Id, out var removed);
                 }
 
                 base.Refresh(jsonPayload);
