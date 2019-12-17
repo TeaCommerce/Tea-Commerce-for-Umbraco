@@ -1,37 +1,18 @@
 ﻿using System;
+using TeaCommerce.Api.Models;
 
 namespace TeaCommerce.Umbraco.Application.Caching
 {
-    public class TeaCommerceCountryCacheRefresher : TeaCommerceCacheRefresherBase<TeaCommerceCountryCacheRefresher>
+    public class TeaCommerceCountryCacheRefresher : TeaCommerceCacheRefresherBase<TeaCommerceCountryCacheRefresher, Country, long>
     {
         public override Guid UniqueIdentifier => Constants.DistributedCache.CountryCacheRefresherGuid;
 
         public override string Name => "Tea Commerce Country cache refresher";
 
+        public override string CacheKeyFormat => "Countries-{0}";
+
+        public override Func<Country, long> IdAccessor => x => x.Id;
+
         protected override TeaCommerceCountryCacheRefresher Instance => this;
-
-        public override void Refresh(int Id)
-        {
-            // Id = storeId
-            ClearCache(Id);
-            base.Refresh(Id);
-        }
-
-        public override void RefreshAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Remove(int Id)
-        {
-            // Id = storeId
-            ClearCache(Id);
-            base.Remove(Id);
-        }
-
-        protected void ClearCache(int storeId)
-        {
-            CacheService.Invalidate($"Countries-{storeId}");
-        }
     }
 }

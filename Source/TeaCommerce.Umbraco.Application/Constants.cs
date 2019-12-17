@@ -4,6 +4,8 @@ namespace TeaCommerce.Umbraco.Application
 {
     public class Constants
     {
+        public static string InstanceId = Guid.NewGuid().ToString("N").ToUpper();
+
         public class Applications
         {
             public const string TeaCommerce = "teacommerce";

@@ -1,37 +1,18 @@
 ﻿using System;
+using TeaCommerce.Api.Models;
 
 namespace TeaCommerce.Umbraco.Application.Caching
 {
-    public class TeaCommerceCurrencyCacheRefresher : TeaCommerceCacheRefresherBase<TeaCommerceCurrencyCacheRefresher>
+    public class TeaCommerceCurrencyCacheRefresher : TeaCommerceCacheRefresherBase<TeaCommerceCurrencyCacheRefresher, Currency, long>
     {
         public override Guid UniqueIdentifier => Constants.DistributedCache.CurrencyCacheRefresherGuid;
 
         public override string Name => "Tea Commerce Currency cache refresher";
 
+        public override string CacheKeyFormat => "Currencies-{0}";
+
+        public override Func<Currency, long> IdAccessor => x => x.Id;
+
         protected override TeaCommerceCurrencyCacheRefresher Instance => this;
-
-        public override void Refresh(int Id)
-        {
-            // Id = storeId
-            ClearCache(Id);
-            base.Refresh(Id);
-        }
-
-        public override void RefreshAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Remove(int Id)
-        {
-            // Id = storeId
-            ClearCache(Id);
-            base.Remove(Id);
-        }
-
-        protected void ClearCache(int storeId)
-        {
-            CacheService.Invalidate($"Currencies-{storeId}");
-        }
     }
 }

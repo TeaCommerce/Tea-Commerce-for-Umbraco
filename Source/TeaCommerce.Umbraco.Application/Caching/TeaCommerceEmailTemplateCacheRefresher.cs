@@ -1,37 +1,18 @@
 ﻿using System;
+using TeaCommerce.Api.Models;
 
 namespace TeaCommerce.Umbraco.Application.Caching
 {
-    public class TeaCommerceEmailTemplateCacheRefresher : TeaCommerceCacheRefresherBase<TeaCommerceEmailTemplateCacheRefresher>
+    public class TeaCommerceEmailTemplateCacheRefresher : TeaCommerceCacheRefresherBase<TeaCommerceEmailTemplateCacheRefresher, EmailTemplate, long>
     {
         public override Guid UniqueIdentifier => Constants.DistributedCache.EmailTemplateCacheRefresherGuid;
 
         public override string Name => "Tea Commerce Email Template cache refresher";
 
+        public override string CacheKeyFormat => "EmailTemplates-{0}";
+
+        public override Func<EmailTemplate, long> IdAccessor => x => x.Id;
+
         protected override TeaCommerceEmailTemplateCacheRefresher Instance => this;
-
-        public override void Refresh(int Id)
-        {
-            // Id = storeId
-            ClearCache(Id);
-            base.Refresh(Id);
-        }
-
-        public override void RefreshAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Remove(int Id)
-        {
-            // Id = storeId
-            ClearCache(Id);
-            base.Remove(Id);
-        }
-
-        protected void ClearCache(int storeId)
-        {
-            CacheService.Invalidate($"EmailTemplates-{storeId}");
-        }
     }
 }
