@@ -1,37 +1,16 @@
 ﻿using System;
+using TeaCommerce.Api.Models;
 
 namespace TeaCommerce.Umbraco.Application.Caching
 {
-    public class TeaCommerceOrderStatusCacheRefresher : TeaCommerceCacheRefresherBase<TeaCommerceOrderStatusCacheRefresher>
+    public class TeaCommerceOrderStatusCacheRefresher : TeaCommerceCacheRefresherBase<TeaCommerceOrderStatusCacheRefresher, OrderStatus, long>
     {
         public override Guid UniqueIdentifier => Constants.DistributedCache.OrderStatusCacheRefresherGuid;
 
         public override string Name => "Tea Commerce Order Status cache refresher";
 
+        public override string CacheKeyFormat => "OrderStatuses-{0}";
+
         protected override TeaCommerceOrderStatusCacheRefresher Instance => this;
-
-        public override void Refresh(int Id)
-        {
-            // Id = storeId
-            ClearCache(Id);
-            base.Refresh(Id);
-        }
-
-        public override void RefreshAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Remove(int Id)
-        {
-            // Id = storeId
-            ClearCache(Id);
-            base.Remove(Id);
-        }
-
-        protected void ClearCache(int storeId)
-        {
-            CacheService.Invalidate($"OrderStatuses-{storeId}");
-        }
     }
 }

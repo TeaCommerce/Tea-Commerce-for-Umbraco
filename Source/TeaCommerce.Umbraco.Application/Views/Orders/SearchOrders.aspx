@@ -110,7 +110,7 @@
               <asp:HiddenField ID="HdnId" runat="server" Value='<%# Eval("Id") %>' />
             </td>
             <td>
-              <asp:HyperLink runat="server" Text='<%# (bool)Eval("IsFinalized" ) ? Eval("OrderNumber" ) : Eval("CartNumber" ) %>' NavigateUrl='<%# WebUtils.GetPageUrl( TeaCommerce.Umbraco.Application.Constants.Pages.EditOrder, false ) + "?storeId=" + StoreId + "&id=" + Eval("Id") %>' />
+              <asp:HyperLink runat="server" Text='<%# (bool)Eval("IsFinalized" ) ? Eval("OrderNumber" ) : Eval("CartNumber" ) %>' Target="_top" NavigateUrl='<%# "/umbraco/#/teacommerce/framed/" + HttpUtility.UrlEncode(HttpUtility.UrlEncode( "/umbraco/" + WebUtils.GetPageUrl( TeaCommerce.Umbraco.Application.Constants.Pages.EditOrder, true ) + "?storeId=" + StoreId + "&id=" + Eval("Id"))) %>' />
               <asp:Image ID="ImgExclamation" runat="server" ImageUrl='<%# WebUtils.GetWebResourceUrl( TeaCommerce.Umbraco.Application.Constants.MiscIcons.Exclamation ) %>' Visible='<%# Eval("TransactionInformation.InconsistentPayment") %>' style="position: relative; margin-left: 4px; top: 2px;"/>
             </td>
             <td>

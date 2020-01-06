@@ -4,6 +4,8 @@ namespace TeaCommerce.Umbraco.Application
 {
     public class Constants
     {
+        public static string InstanceId = Guid.NewGuid().ToString("N").ToUpper();
+
         public class Applications
         {
             public const string TeaCommerce = "teacommerce";
@@ -92,18 +94,18 @@ namespace TeaCommerce.Umbraco.Application
 
         public class DistributedCache
         {
-            public const string StoreCacheRefresherId = "15f51412-8255-446a-aef0-000815895d08";
-            public const string OrderCacheRefresherId = "49134a22-48b1-41d4-aeae-163773c7a348";
-            public const string OrderStatusCacheRefresherId = "3689cc61-f62f-4c5f-8a2d-34d218181b4f";
-            public const string CountryCacheRefresherId = "867e49c4-4f65-42ae-beae-95fe27441d5b";
-            public const string CountryRegionCacheRefresherId = "c6904c5a-9977-4f2d-ab07-28deec610f24";
-            public const string CurrencyCacheRefresherId = "068e852b-242d-4487-9f9d-b54475e623a8";
-            public const string PaymentMethodCacheRefresherId = "e8ade12a-0707-489a-bb3a-9ecda8fa9987";
-            public const string ShippingMethodCacheRefresherId = "b70d2347-416c-43ae-a0d8-84fc69600b49";
-            public const string VatGroupCacheRefresherId = "3c033031-955e-4757-8948-fbe70ae7f6fc";
-            public const string CampaignCacheRefresherId = "8c0b431e-2301-4a39-b822-bc8ce687d210";
-            public const string EmailTemplateCacheRefresherId = "f36575b6-c003-41ea-b842-e6d73a610ea7";
-            public const string PingServiceCacheRefresherId = "5549c944-080a-4c11-98ec-e1dfb3ae54a7";
+            public const string StoreCacheRefresherId = "a0646f66-57bb-4990-a0ea-786883105db1";
+            public const string OrderCacheRefresherId = "a3b1db6a-48f2-4c2c-9114-8ce7922e376e";
+            public const string OrderStatusCacheRefresherId = "b5742f24-bfd7-451c-a841-70e4badaab48";
+            public const string CountryCacheRefresherId = "964cfca6-c2a2-482d-87fb-4ebfaf0a35ac";
+            public const string CountryRegionCacheRefresherId = "13477e30-0889-425d-a66b-b50b3a87c464";
+            public const string CurrencyCacheRefresherId = "3b3e0ab7-5933-4a6d-93a7-6a83fbe727f7";
+            public const string PaymentMethodCacheRefresherId = "0355df34-8dd6-4757-859f-e7d7c0643799";
+            public const string ShippingMethodCacheRefresherId = "d8080850-a586-4ff4-ba2e-08c9945cb739";
+            public const string VatGroupCacheRefresherId = "7cdf4e3b-6f8f-4f2c-8d9e-ee5f160d1fa6";
+            public const string CampaignCacheRefresherId = "a2ab6518-a287-492a-86a8-4c24d7ac0dad";
+            public const string EmailTemplateCacheRefresherId = "cbd44196-a1ba-4e93-9543-f0931d448d75";
+            public const string PingServiceCacheRefresherId = "aa0a1be8-d0f8-4a7a-961f-e2670a1dc666";
 
             public static readonly Guid StoreCacheRefresherGuid = new Guid(StoreCacheRefresherId);
             public static readonly Guid OrderCacheRefresherGuid = new Guid(OrderCacheRefresherId);

@@ -1,37 +1,16 @@
 ﻿using System;
+using TeaCommerce.Api.Models;
 
 namespace TeaCommerce.Umbraco.Application.Caching
 {
-    public class TeaCommerceShippingMethodCacheRefresher : TeaCommerceCacheRefresherBase<TeaCommerceShippingMethodCacheRefresher>
+    public class TeaCommerceShippingMethodCacheRefresher : TeaCommerceCacheRefresherBase<TeaCommerceShippingMethodCacheRefresher, ShippingMethod, long>
     {
         public override Guid UniqueIdentifier => Constants.DistributedCache.ShippingMethodCacheRefresherGuid;
 
         public override string Name => "Tea Commerce Shipping Method cache refresher";
 
+        public override string CacheKeyFormat => "ShippingMethods-{0}";
+
         protected override TeaCommerceShippingMethodCacheRefresher Instance => this;
-
-        public override void Refresh(int Id)
-        {
-            // Id = storeId
-            ClearCache(Id);
-            base.Refresh(Id);
-        }
-
-        public override void RefreshAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Remove(int Id)
-        {
-            // Id = storeId
-            ClearCache(Id);
-            base.Remove(Id);
-        }
-
-        protected void ClearCache(int storeId)
-        {
-            CacheService.Invalidate($"ShippingMethods-{storeId}");
-        }
     }
 }
