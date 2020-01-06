@@ -253,7 +253,6 @@
   <ItemGroup>
     <Compile Include="Caching\TeaCommerceCacheRefresherBase.cs" />
     <Compile Include="Caching\TeaCommerceCacheRefresherPayload.cs" />
-    <Compile Include="Caching\TeaCommercePingServiceCacheRefresher.cs" />
     <Compile Include="Caching\TeaCommerceEmailTemplateCacheRefresher.cs" />
     <Compile Include="Caching\TeaCommerceCountryRegionCacheRefresher.cs" />
     <Compile Include="Caching\TeaCommerceCountryCacheRefresher.cs" />
