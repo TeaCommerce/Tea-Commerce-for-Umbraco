@@ -606,36 +606,59 @@
             variant.combinationDictionary = {};
             variant.combinationName = '';
 
-            //Run through combinations for this variant and collect extra data
-            for (var i = 0; i < variant.combination.length; i++) {
-                var variantGroupItem = variant.combination[i];
-                if (variant.combinationName) {
-                    variant.combinationName += ' | ';
-                }
-                variant.combinationDictionary[variantGroupItem.groupId] = variantGroupItem;
-                variant.combinationName += variantGroupItem.groupName + ': ' + variantGroupItem.name;
-            }
-
-            //Make sure there are no holes in the variant combination dictionary
-            //Holes would make the angular code toss around nullpointer exceptions
-            for (var i = 0; i < $scope.variantGroups.length; i++) {
-
-                var variantGroup = $scope.variantGroups[i],
-                    found = false;
-
-                for (combinationVariantGroupId in variant.combinationDictionary) {
-                    if (combinationVariantGroupId == variantGroup.id) {
-                        found = true;
-                        break;
+            // Ensure combinations in variant are actually allowed
+            // We loop backwards as we are potentially going to remove items
+            for (var i = variant.combination.length - 1; i >= 0; i--)
+            {
+                var combination = variant.combination[i];
+                var variantGroup = _.find($scope.variantGroups, function (vg) {
+                    return vg.id == combination.groupId;
+                });
+                if (variantGroup) {
+                    var item = _.find(variantGroup.items, function (vgi) {
+                        return vgi.id == combination.id;
+                    });
+                    if (item) {
+                        // Extract extra information now we know it's valid
+                        if (variant.combinationName) {
+                            variant.combinationName += ' | ';
+                        }
+                        variant.combinationDictionary[combination.groupId] = combination;
+                        variant.combinationName += combination.groupName + ': ' + combination.name;
+                        continue;
                     }
                 }
-                if (!found) {
-                    variant.combinationDictionary[variantGroup.id] = { id: 0 };
-                }
+                // If we get here, then the variant combo in the variant isn't valid
+                // so we should just remove it
+                variant.combination.splice(i, 1);
             }
 
-            //Push to UI array
-            $scope.variants.push(variant);
+            // Check the variant still has some combinations
+            // if not, don't bother using it
+            if (variant.combination.length > 0) {
+
+                //Make sure there are no holes in the variant combination dictionary
+                //Holes would make the angular code toss around nullpointer exceptions
+                for (var i = 0; i < $scope.variantGroups.length; i++) {
+
+                    var variantGroup = $scope.variantGroups[i],
+                        found = false;
+
+                    for (combinationVariantGroupId in variant.combinationDictionary) {
+                        if (combinationVariantGroupId == variantGroup.id) {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        variant.combinationDictionary[variantGroup.id] = { id: 0 };
+                    }
+                }
+
+                //Push to UI array
+                $scope.variants.push(variant);
+            }
 
         };
 
@@ -933,7 +956,6 @@
             return arr.push.apply(arr, rest);
         };
 
-        // Array Remove - By John Resig (MIT Licensed)
         function splitString(str, delimiter) {
             if (!str) {
                 return [];
@@ -945,5 +967,7 @@
 
             return arr;
         };
+
+        
 
     }]);
