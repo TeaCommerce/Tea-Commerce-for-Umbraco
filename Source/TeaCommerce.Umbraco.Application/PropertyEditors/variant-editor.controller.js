@@ -41,7 +41,7 @@
         $scope.variants = [];
         $scope.model.hideLabel = $scope.settings.hideLabel;
         $scope.variantGroupsClosedCookieName = 'teaCommerceVariantGroupsDisabledDefault' + editorState.current.contentTypeAlias;
-        
+
         //Set which variant groups should be open if it has not been saved on this product node
         if (!$scope.variantGroupsOpenState) {
             //Get settings from cookie
@@ -608,8 +608,7 @@
 
             // Ensure combinations in variant are actually allowed
             // We loop backwards as we are potentially going to remove items
-            for (var i = variant.combination.length - 1; i >= 0; i--)
-            {
+            for (var i = variant.combination.length - 1; i >= 0; i--) {
                 var combination = variant.combination[i];
                 var variantGroup = _.find($scope.variantGroups, function (vg) {
                     return vg.id == combination.groupId;
@@ -633,32 +632,27 @@
                 variant.combination.splice(i, 1);
             }
 
-            // Check the variant still has some combinations
-            // if not, don't bother using it
-            if (variant.combination.length > 0) {
+            //Make sure there are no holes in the variant combination dictionary
+            //Holes would make the angular code toss around nullpointer exceptions
+            for (var i = 0; i < $scope.variantGroups.length; i++) {
 
-                //Make sure there are no holes in the variant combination dictionary
-                //Holes would make the angular code toss around nullpointer exceptions
-                for (var i = 0; i < $scope.variantGroups.length; i++) {
+                var variantGroup = $scope.variantGroups[i],
+                    found = false;
 
-                    var variantGroup = $scope.variantGroups[i],
-                        found = false;
-
-                    for (combinationVariantGroupId in variant.combinationDictionary) {
-                        if (combinationVariantGroupId == variantGroup.id) {
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (!found) {
-                        variant.combinationDictionary[variantGroup.id] = { id: 0 };
+                for (combinationVariantGroupId in variant.combinationDictionary) {
+                    if (combinationVariantGroupId == variantGroup.id) {
+                        found = true;
+                        break;
                     }
                 }
 
-                //Push to UI array
-                $scope.variants.push(variant);
+                if (!found) {
+                    variant.combinationDictionary[variantGroup.id] = { id: 0 };
+                }
             }
+
+            //Push to UI array
+            $scope.variants.push(variant);
 
         };
 
@@ -968,6 +962,6 @@
             return arr;
         };
 
-        
+
 
     }]);
