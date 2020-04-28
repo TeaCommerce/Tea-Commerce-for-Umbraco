@@ -41,7 +41,7 @@
         $scope.variants = [];
         $scope.model.hideLabel = $scope.settings.hideLabel;
         $scope.variantGroupsClosedCookieName = 'teaCommerceVariantGroupsDisabledDefault' + editorState.current.contentTypeAlias;
-        
+
         //Set which variant groups should be open if it has not been saved on this product node
         if (!$scope.variantGroupsOpenState) {
             //Get settings from cookie
@@ -606,14 +606,30 @@
             variant.combinationDictionary = {};
             variant.combinationName = '';
 
-            //Run through combinations for this variant and collect extra data
-            for (var i = 0; i < variant.combination.length; i++) {
-                var variantGroupItem = variant.combination[i];
-                if (variant.combinationName) {
-                    variant.combinationName += ' | ';
+            // Ensure combinations in variant are actually allowed
+            // We loop backwards as we are potentially going to remove items
+            for (var i = variant.combination.length - 1; i >= 0; i--) {
+                var combination = variant.combination[i];
+                var variantGroup = _.find($scope.variantGroups, function (vg) {
+                    return vg.id == combination.groupId;
+                });
+                if (variantGroup) {
+                    var item = _.find(variantGroup.items, function (vgi) {
+                        return vgi.id == combination.id;
+                    });
+                    if (item) {
+                        // Extract extra information now we know it's valid
+                        if (variant.combinationName) {
+                            variant.combinationName += ' | ';
+                        }
+                        variant.combinationDictionary[combination.groupId] = combination;
+                        variant.combinationName += combination.groupName + ': ' + combination.name;
+                        continue;
+                    }
                 }
-                variant.combinationDictionary[variantGroupItem.groupId] = variantGroupItem;
-                variant.combinationName += variantGroupItem.groupName + ': ' + variantGroupItem.name;
+                // If we get here, then the variant combo in the variant isn't valid
+                // so we should just remove it
+                variant.combination.splice(i, 1);
             }
 
             //Make sure there are no holes in the variant combination dictionary
@@ -629,6 +645,7 @@
                         break;
                     }
                 }
+
                 if (!found) {
                     variant.combinationDictionary[variantGroup.id] = { id: 0 };
                 }
@@ -933,7 +950,6 @@
             return arr.push.apply(arr, rest);
         };
 
-        // Array Remove - By John Resig (MIT Licensed)
         function splitString(str, delimiter) {
             if (!str) {
                 return [];
@@ -945,5 +961,7 @@
 
             return arr;
         };
+
+
 
     }]);
