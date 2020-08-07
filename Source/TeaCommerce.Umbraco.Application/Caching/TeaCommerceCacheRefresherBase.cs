@@ -21,11 +21,11 @@ namespace TeaCommerce.Umbraco.Application.Caching
             var payload = JsonConvert.DeserializeObject<TeaCommerceCacheRefresherPayload<TId>>(jsonPayload);
 
             // Make sure it wasn't this instance that sent the payload
-            if (payload.InstanceId != Constants.InstanceId)
+            if (payload != null && payload.InstanceId != Constants.InstanceId)
             {
                 var cacheKey = string.Format(CacheKeyFormat, payload.StoreId, payload.Id);
                 var cache = CacheService.GetCacheValue<ConcurrentDictionary<TId, TEntity>>(cacheKey);
-                if (cache.ContainsKey(payload.Id))
+                if (cache != null && cache.ContainsKey(payload.Id))
                 {
                     cache.TryRemove(payload.Id, out var removed);
                 }
